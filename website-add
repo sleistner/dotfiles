@@ -1,0 +1,86 @@
+#!/usr/bin/env ruby
+
+VHOST_CONF_TPL =<<-MSG
+<VirtualHost *:80>
+    ServerName www.{domain}
+    ServerAdmin webmaster@{domain}
+    ServerAlias {domain}
+
+    DocumentRoot /home/{domain}/web/current/public
+
+    <Directory /home/{domain}/web/current/public>
+        Include conf.d/common/options_and_allows.conf
+    </Directory>
+
+    Include conf.d/common/maintenance.conf
+
+    LogLevel warn
+    CustomLog logs/{domain}.log combined
+</VirtualHost>
+
+# vim:syntax=apache:tw=2:sw=2:
+MSG
+
+HTTP_CONFD_DIR = File.join('/', 'etc', 'httpd', 'conf.d')
+
+@history = []
+@domain = nil
+
+def println(txt); puts "=> #{txt}"; end
+
+def print_hostory(msg)
+  println msg 
+  unless @history.empty?
+    puts "#{"x" * 10} Changes i made #{"x" * 10}"
+    @history.each{ |task| println task}
+    puts "#{"x" * 40}"
+  end
+end
+
+def fail_safe(msg = nil)
+  print_hostory "[ERROR] #{msg || "unexpected error"}"
+  exit
+end
+
+def exit_if_file_exists(file)
+  fail_safe "file #{file} already exists!" if File.file? file
+  file
+end
+
+def system_do(cmd = nil, *args)
+    cmd_str = "#{cmd} #{args.join(' ')}" 
+    println "#{cmd_str}: #{(result = system(cmd, *args))}"
+    fail_safe "executing #{cmd_str} failed" unless result
+    @history << cmd_str
+end
+
+def get_name
+    print 'domain (e.g. enterat.de): '; @domain = STDIN.gets.chomp.strip
+    get_name if @domain.length < 1
+end
+
+get_name
+
+home = "/home/#{@domain}"
+web = "#{home}/web"
+tmp = "#{web}/releases/tmp" 
+pub ="#{tmp}/public"
+
+system_do('useradd', "#{@domain}")
+system_do('mkdir', '-p', pub)
+system_do('ln', '-s', tmp, "#{web}/current")
+system_do('chown', '-R', "#{@domain}:#{@domain}", "#{web}")
+system_do('chmod', 'uga+rwx', "#{home}")
+
+vhost_conf = exit_if_file_exists File.join(HTTP_CONFD_DIR, "#{@domain}.conf") 
+
+system_do('touch', "#{vhost_conf}")
+File.open(vhost_conf, 'w') { |file| file.write VHOST_CONF_TPL.gsub(/\{domain\}/, @domain) }
+
+println "check Apache host configuartion:"
+system('/etc/init.d/httpd', 'configtest')
+
+print_hostory "[Finish]"
+
+print 'should i restart the webserver? { yes/no }: '
+system('/etc/init.d/httpd', 'restart') if gets.chomp == 'yes'
