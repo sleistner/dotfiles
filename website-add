@@ -1,93 +1,111 @@
 #!/usr/bin/env ruby
 
+require "rubygems"
+require "colorize"
+
 VHOST_CONF_TPL =<<-CONF
 <VirtualHost *:80>
-    ServerName www.{domain}
-    ServerAdmin webmaster@{domain}
-    ServerAlias {domain}
+  ServerName www.{domain}
+  ServerAdmin webmaster@{domain}
+  ServerAlias {domain}
 
-    DocumentRoot /home/{domain}/web/current/public
+  DocumentRoot /home/{domain}/web/current/public
 
-    <Directory /home/{domain}/web/current/public>
-        Include conf.d/common/options_and_allows.conf
-    </Directory>
+  <Directory /home/{domain}/web/current/public>
+    Include conf.d/common/options_and_allows.conf
+  </Directory>
 
-    Include conf.d/common/maintenance.conf
+  Include conf.d/common/maintenance.conf
 
-    LogLevel warn
-    CustomLog logs/{domain}.log combined
+  LogLevel warn
+  CustomLog logs/{domain}.log combined
 </VirtualHost>
 
-vim:syntax=apache:tw=2:sw=2:
+# vim:syntax=apache:tw=2:sw=2:
 CONF
 
-HTTP_CONFD_DIR = File.join('/', 'etc', 'httpd', 'conf.d')
-
-@history = []
-@domain = ""
-
-def println(txt)
-  puts "=> #{txt}"
+def out(*msg)
+  puts "", *msg
 end
 
-def print_history(status, msg = '')
-  println "[#{status}] #{msg}" 
-  unless @history.empty?
-    puts "Changes: "
-    @history.each{ |task| println task}
+at_exit { out "*** Done ***".colorize(:color => :yellow) }
+
+def changes
+  @changes ||= []
+end
+
+def resetable?
+  !changes.empty?
+end
+
+def reset_changes
+  changes.each do |cmd| 
+    out "* Undoing: #{cmd[:desc]}"; cmd[:down].call if cmd[:down]
   end
 end
 
 def fail_safe(msg = nil)
-  print_history 'ERROR', "#{msg || "unexpected error"}"
+  out "*** Failure ***".colorize(:red), msg || "unexpected error"
+  reset_changes if resetable? && yes?("Reset changes?")
   exit
 end
 
-def system_do(cmd = nil, *args)
-  cmd_str = "#{cmd} #{args.join(' ')}" 
-  println "#{cmd_str}: #{(result = system(cmd, *args))}"
-  fail_safe "Executing #{cmd_str} failed!" unless result
-  @history << cmd_str
+def execute(cmd = nil, *args)
+  cmd_str = "#{cmd} #{args.join(" ")}" 
+  puts "#{cmd_str.ljust(70, " ")} [#{(result = system(cmd, *args)).to_s.colorize(result ? :green : :red)}]"
+  raise "Executing #{cmd_str} failed!" unless result
 end
 
-def input(msg)
-  print "#{msg}: "
-  STDIN.gets.chomp.strip
-end
-
-def yes?(question)
-  input("#{question} [yes/no]") == 'yes'
-end
-
-while(@domain.length < 1)
-  @domain = input('Please enter a domain name (e.g. example.com)')
-end
-
-home = "/home/#{@domain}"
-web = "#{home}/web"
-release = "#{web}/releases/#{Time.now.to_i}" 
-pub ="#{release}/public"
-
-system_do('useradd', @domain)
-system_do('mkdir', '-p', pub)
-system_do('ln', '-s', release, "#{web}/current")
-system_do('chown', '-R', "#{@domain}:#{@domain}", "#{web}")
-system_do('chmod', 'uga+rx', home)
-
-File.open("#{pub}/index.html", 'w') { |file| file.write "Welcome, #{@domain}" }
-
-vhost_conf = File.join(HTTP_CONFD_DIR, "#{@domain}.conf")
-if !File.file?(vhost_conf) || yes?("Apache VHost configuration file '#{vhost_conf}' exists. Overwrite?") 
-  File.open(vhost_conf, 'w') do |file| 
-    file << VHOST_CONF_TPL.gsub(/\{domain\}/, @domain)
+def create_vhost_config(file, domain)
+  if !File.file?(file) || yes?("Apache VHost configuration file #{vhost_file} exists. Overwrite?") 
+    File.open(file, "w") { |f| f << VHOST_CONF_TPL.gsub(/\{domain\}/, domain) }
   end
 end
 
-println "Check Apache Configuartion:"
-system('service', 'httpd', 'configtest')
-
-if yes?('Restart Apache Webserver?')
-  system('service', 'httpd', 'restart') 
+def input(msg)
+  print "\n#{msg}: ".colorize(:yellow)
+  STDIN.gets.chomp.strip
 end
 
-print_history 'Done'
+def yes?(question, default = :yes)
+  answer = input("#{question} [#{default}]")
+  (answer.length > 0 ? answer : default.to_s) =~ /y/i
+end
+
+def prompt_and_restart_httpd
+  out "Check Apache Configuartion"
+  system("service", "httpd", "configtest")
+  
+  if yes?("Restart Apache Webserver?", :no)
+    system("service", "httpd", "restart") 
+  end
+end
+
+domain = ARGV.shift || ""
+
+while(domain.length < 1)
+  domain = input("Please enter a domain name (e.g. example.com)")
+end
+
+home_dir    = "/home/#{domain}"
+vhost_file  = File.join("/", "etc", "httpd", "conf.d", "#{domain}.conf")
+
+commands = [ 
+
+  { :desc  => "Create user #{domain}.",
+    :up    => lambda { execute("useradd", domain) },
+    :down  => lambda { execute("userdel", domain); execute("rm", "-rf", home_dir) } },
+
+  { :desc  => "Change #{home_dir} directory permissions.",
+    :up    => lambda { execute("chmod", "uga+rx", home_dir) } },
+  
+  { :desc  => "Create Apache vhost entry #{vhost_file}.",
+    :up    => lambda { create_vhost_config(vhost_file, domain); prompt_and_restart_httpd },
+    :down  => lambda { execute("rm", "-rf", vhost_file); prompt_and_restart_httpd } }
+]
+
+commands.each do |cmd| 
+  out "* #{cmd[:desc]}"
+  cmd[:up].call rescue fail_safe($!)
+  changes << cmd
+end
