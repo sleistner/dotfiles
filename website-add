@@ -87,8 +87,8 @@ while(domain.length < 1)
   domain = input("Please enter a domain name (e.g. example.com)")
 end
 
-home_dir    = "/home/#{domain}"
-vhost_file  = File.join("/", "etc", "httpd", "conf.d", "#{domain}.conf")
+home_dir   = "/home/#{domain}"
+vhost_file = File.join("/", "etc", "httpd", "conf.d", "#{domain}.conf")
 
 commands = [ 
 
