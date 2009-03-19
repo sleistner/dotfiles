@@ -6,9 +6,9 @@
 " --- general options -------------- --- --  -
 
 set nocompatible
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 set expandtab
 set cindent
 set foldmethod=marker
@@ -110,118 +110,6 @@ map <leader>l :call JSLint("%")<CR>
 
 " Move complete block one line down or up with <M-Down> and <M-Up> keys
 vmap <silent> <M-Up> :m'<-2<CR>gv
-" .vimrc
-" created by wolfger@spearwolf.de !2002-2009
-" last modified: 05.01.2009
-" extended by sleistner@gmail.com
-
-" --- general options -------------- --- --  -
-
-set nocompatible
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
-set expandtab
-set cindent
-set foldmethod=marker
-set laststatus=2
-set cmdheight=2
-set hlsearch
-set incsearch
-set showcmd
-set ruler
-set nowrap
-set wildmode=full
-set wildmenu
-set ttyfast
-set hidden
-set display=lastline,uhex
-
-set encoding=utf-8
-set termencoding=utf-8
-
-" no backups
-set nobackup 
-set nowritebackup
-
-" allow backspacing over everything in insert mode
-set backspace=indent,eol,start
-
-syntax on
-
-let c_comment_strings=1
-"let mapleader = ","
-
-" --- rcodetools -------------- --- --  -
-
-"set completeopt=menu,preview
-"let g:rct_completion_use_fri=1
-
-" --- fuzzy_finder_textmate --- --  -
-
-let g:fuzzy_ignore = "*.log;*.png;*.jpg;*.gif;vendor/rails/**;coverage/**;tmp/**;.git/**;.svn/**"
-let g:fuzzy_matching_limit = 30
-
-" --- auto commands -------------- --- --  -
-
-if has("autocmd")
-
-    " Enable file type detection.
-    filetype plugin indent on
-
-    autocmd FileType text setlocal textwidth=78
-
-    autocmd FileType html,rhtml,xml setlocal ai nosi sw=2 ts=2 sts=2 et
-
-    autocmd FileType ruby,eruby setlocal sw=2 ts=2 sts=2
-
-    " When editing a file, always jump to the last known cursor position.
-    " Don't do it when the position is invalid or when inside an event handler
-    " (happens when dropping a file on gvim).
-    autocmd BufReadPost *
-                \ if line("'\"") > 0 && line("'\"") <= line("$") |
-                \   exe "normal g`\"" |
-                \ endif
-
-else
-
-    set autoindent
-
-endif
-
-
-" --- viminfo -------------- --- --  -
-
-" The idea of "viminfo" is to save info from one editing session for the
-" next by saving the data in an viminfo file". So next time I satrt up Vim I
-" can use the search patterns from the search history and the commands from
-" the command line again. I can also load files again with a simple ":b
-" bufname". And Vim also remember where the cursor was in the files I
-" edited. See ":help viminfo" for more info on Vim's "viminfo". :-}
-
-set viminfo=%,'50,\"100,:100,n~/.viminfo
-
-set dir=~/.tmp
-
-set grepprg=egrep\ -HErn\ --mmap\ --no-messages\ --colour=auto\ --exclude=tags\ --exclude=.*.swp\ --exclude=*.tmp\ --exclude=entries\ --exclude=*.pot\ --exclude=*.po\ --exclude=*.log\ --exclude=/tmp/*\ --exclude=*.svn-base\ --exclude=.svn\ --exclude=.git\ $*\ .
-
-function! GrepCurrentWord()
-   exec("grep \"" . expand("<cword>") . "\"")
-   exec("copen")
-endfunction
-
-" SVN Mappings
-map <leader>r :!svn resolved "%"<CR>
-
-map <leader>f :call GrepCurrentWord()<CR>
-map <leader>l :JSLint<CR>
-
-" ======== mappings ========================== === ==  =
-
-" --- visual mode -------------- --- --  -
-
-" Move complete block one line down or up with <M-Down> and <M-Up> keys
-vmap <silent> <M-Up> :m'<-2<CR>gv
 vmap <silent> <M-Down> :m'>+1<CR>gv
 
 " Make p in Visual mode replace the selected text with the "" register.
@@ -293,26 +181,6 @@ map <leader>v :!ruby -c %:.<CR>
 
 " Textmate(ruby) like insert ' => '
 imap <silent> <C-l> <Space>=> 
-
-"function ShowSpaces(...)
- "let @/="\\v(\\s+$)|( +\\ze\\t)"
- "let oldhlsearch=&hlsearch
- "if !a:0
-   "let &hlsearch=!&hlsearch
- "else
-   "let &hlsearch=a:1
- "end
- "return oldhlsearch
-"endfunction
-
-"function TrimSpaces() range
- "let oldhlsearch=ShowSpaces(1)
- "execute a:firstline.",".a:lastline."substitute ///gec"
- "let &hlsearch=oldhlsearch
-"endfunction
-
-"imap <leader>ts :%:TrimSpaces<CR> 
-"autocmd BufWritePre * :%:TrimSpaces
 
 " -- abbreviations -------------------------- --- --  - 
 
@@ -429,26 +297,6 @@ map <leader>v :!ruby -c %:.<CR>
 
 " Textmate(ruby) like insert ' => '
 imap <silent> <C-l> <Space>=> 
-
-"function ShowSpaces(...)
- "let @/="\\v(\\s+$)|( +\\ze\\t)"
- "let oldhlsearch=&hlsearch
- "if !a:0
-   "let &hlsearch=!&hlsearch
- "else
-   "let &hlsearch=a:1
- "end
- "return oldhlsearch
-"endfunction
-
-"function TrimSpaces() range
- "let oldhlsearch=ShowSpaces(1)
- "execute a:firstline.",".a:lastline."substitute ///gec"
- "let &hlsearch=oldhlsearch
-"endfunction
-
-"imap <leader>ts :%:TrimSpaces<CR> 
-"autocmd BufWritePre * :%:TrimSpaces
 
 " -- abbreviations -------------------------- --- --  - 
 

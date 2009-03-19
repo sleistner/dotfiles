@@ -21,15 +21,15 @@ endfunction
 let head = "<head><CR><meta http-equiv=\"Content-type\" content=\"text/html; charset=utf-8\" /><CR><title>".st.et."</title><CR>".st.et."<CR></head><CR>".st.et
 let body = "<body><CR>".st.et."<CR></body><CR>".st.et 
 
-exec "Snippet xhtml <?xml version=\"1.0\" encoding=\"UTF-8\"?><CR><!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\"<CR>\"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\"><CR><html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\"><CR><head><CR><title>" .st.et. "</title><CR></head><CR><body><CR>" .st.et. "<CR></body><CR></html><CR>"
+exec "Snippet xhtml <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"<CR>\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><CR><html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\"><CR><head><CR><title>" .st.et. "</title><CR></head><CR><body><CR>" .st.et. "<CR></body><CR></html><CR>"
 exec "Snippet doct ``SelectDoctype()``"
 exec "Snippet docxs <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML Strict//EN\"<CR>\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><CR>".st.et
 exec "Snippet docxt <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML Transitional//EN\"<CR>\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><CR>".st.et
 exec "Snippet head " . head
-exec "Snippet script <script type=\"text/javascript\" language=\"javascript\" charset=\"utf-8\"><CR>".st.et."<CR></script><CR>".st.et
+exec "Snippet script <script type=\"text/javascript\" charset=\"utf-8\"><CR>".st.et."<CR></script><CR>".st.et
 exec "Snippet title <title>".st.et."</title>"
 exec "Snippet body " . body
-exec "Snippet scriptsrc <script src=\"".st.et."\" type=\"text/javascript\" language=\"".st.et."\" charset=\"".st.et."\"></script><CR>".st.et
+exec "Snippet scriptsrc <script src=\"".st.et."\" type=\"text/javascript\" charset=\"utf-8\"></script><CR>".st.et
 exec "Snippet textarea <textarea name=\"".st.et."\" rows=\"".st.et."\" cols=\"".st.et."\">".st.et."</textarea><CR>".st.et
 exec "Snippet meta <meta name=\"".st.et."\" content=\"".st.et."\" /><CR>".st.et
 exec "Snippet movie <object width=\"".st.et."\" height=\"".st.et."\"<CR>classid=\"clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B\"<CR>codebase=\"http://www.apple.com/qtactivex/qtplugin.cab\"><CR><param name=\"src\"<CR>value=\"".st.et."\" /><CR><param name=\"controller\" value=\"".st.et."\" /><CR><param name=\"autoplay\" value=\"".st.et."\" /><CR><embed src=\"".st.et."\"<CR>width=\"".st.et."\" height=\"".st.et."\"<CR>controller=\"".st.et."\" autoplay=\"".st.et."\"<CR>scale=\"tofit\" cache=\"true\"<CR>pluginspage=\"http://www.apple.com/quicktime/download/\"<CR>/><CR></object><CR>".st.et
