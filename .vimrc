@@ -198,15 +198,14 @@ if has("gui_running")
     
 	if has("gui_macvim")
 
-        set transp=5 
-	    let macvim_skip_cmd_opt_movement=1
+    set transp=20 
+	  let macvim_skip_cmd_opt_movement=1
 
-        if has("autocmd")
-            "autocmd GUIEnter * set guifont="Panic Sans":h12
-            autocmd GUIEnter * set guifont=Monaco:h12
-            "autocmd GUIEnter * set guifont=Courier:h14
-        endif
+    if has("autocmd")
+      autocmd GUIEnter * set guifont=Monaco:h12
     endif
+
+  endif
 
 " --- window size and fonts -------------- --- --  -
 
