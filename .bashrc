@@ -15,7 +15,7 @@ function parse_git_branch {
 PS1="\e[31m\u\e[m@\e[36m\h\e[m \e[33m\w\e[m\$(parse_git_branch)\n\$ "
  
 if [ "$TERM" != "dumb" ]; then
-    eval `/opt/local/bin/dircolors ~/.dircolors`
+  eval `dircolors ~/.dircolors`
 fi
 
 LS='/opt/local/bin/gls'
