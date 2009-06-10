@@ -12,7 +12,9 @@ function parse_git_branch {
   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 
-PS1="\e[31m\u\e[m@\e[36m\h\e[m \e[33m\w\e[m\$(parse_git_branch)\n\$ "
+#PS1="\e[31m\u\e[m@\e[36m\h\e[m \e[33m\w\e[m\$(parse_git_branch)\n\$ "
+PS1="[\u: \w]\$(parse_git_branch)\n> "
+
  
 if [ "$TERM" != "dumb" ]; then
   eval `dircolors ~/.dircolors`

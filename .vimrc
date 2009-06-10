@@ -29,7 +29,7 @@ set encoding=utf-8
 set termencoding=utf-8
 
 " no backups
-set nobackup 
+set nobackup
 set nowritebackup
 
 " allow backspacing over everything in insert mode
@@ -93,6 +93,9 @@ set dir=~/.tmp
 
 set grepprg=egrep\ -HErn\ --mmap\ --no-messages\ --colour=auto\ --exclude=tags\ --exclude=.*.swp\ --exclude=*.tmp\ --exclude=entries\ --exclude=*.pot\ --exclude=*.po\ --exclude=*.log\ --exclude=/tmp/*\ --exclude=*.svn-base\ --exclude=.svn\ --exclude=.git\ $*\ .
 
+set list
+set list listchars=tab:»·,trail:·
+
 function! GrepCurrentWord()
    exec("grep \"" . expand("<cword>") . "\"")
    exec("copen")
@@ -121,6 +124,7 @@ map <silent> <C-c> ,ci
 " --- normal mode -------------- --- --  -
 
 map <leader>i :set invlist<CR>
+map <leader>w :set nowrap!<CR>
 
 map <S-Insert> <MiddleMouse>
 map! <S-Insert> <MiddleMouse>
@@ -169,10 +173,12 @@ map <silent> <A-F7> <Esc>:tabnew\|r!script/runner #<CR>
 augroup RubyTests
   au!
   autocmd BufRead,BufNewFile *_test.rb,test_*.rb
-    \ :nmap gt V:<C-U>!$HOME/.vim/bin/ruby-run-focused-unit-test 
+    \ :nmap gt V:<C-U>!$HOME/.vim/bin/ruby-run-focused-unit-test
     \ % <C-R>=line("'<")<CR>p <CR>|
     \ :nmap gT :<C-U>!ruby %<CR>
 augroup END
+
+autocmd BufWritePre * %s/\s\+$//eg
 
 " Check ruby syntax
 map <leader>v :!ruby -c %:.<CR>
@@ -180,28 +186,29 @@ map <leader>v :!ruby -c %:.<CR>
 " --- insert mode -------------- --- --  -
 
 " Textmate(ruby) like insert ' => '
-imap <silent> <C-l> <Space>=> 
+imap <silent> <C-l> <Space>=><Space>
 
-" -- abbreviations -------------------------- --- --  - 
+" -- abbreviations -------------------------- --- --  -
 
 "iabbr <% <% %><Esc>hhi
 iabbr <%- <%- -%><Esc>hhhi
 iabbr <%= <%= %><Esc>hhi
 iabbr <%# <%= %><Esc>hhi
 
-" === gui settings =========================== === ==  = 
+" === gui settings =========================== === ==  =
 
 if has("gui_running")
 
 " --- MacVim -------------- --- --  -
-	set guioptions=egmrt
-    
-	if has("gui_macvim")
+  set guioptions=egmrt
 
-    set transp=20 
-	  let macvim_skip_cmd_opt_movement=1
+  if has("gui_macvim")
+
+    set transp=5
+    let macvim_skip_cmd_opt_movement=1
 
     if has("autocmd")
+      autocmd GUIEnter * winsize 140 45
       autocmd GUIEnter * set guifont=Monaco:h12
     endif
 
@@ -211,9 +218,9 @@ if has("gui_running")
 
     if has("autocmd")
 
-        autocmd GUIEnter * winsize 110 40
 
         if ! has("gui_macvim")
+          autocmd GUIEnter * winsize 110 40
           autocmd GUIEnter * set guifont=Monospace\ 10
         endif
     endif
@@ -222,6 +229,7 @@ if has("gui_running")
 " === colors/ colorscheme ============== === ==  =
 
     colorscheme railscast
+    "colorscheme github
 
 endif " gui_running
 
