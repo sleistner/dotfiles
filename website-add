@@ -87,21 +87,21 @@ while(domain.length < 1)
   domain = input("Please enter a domain name (e.g. example.com)")
 end
 
-home_dir   = "/home/#{domain}"
-vhost_file = File.join("/", "etc", "httpd", "conf.d", "#{domain}.conf")
+home_dir    = "/home/#{domain}"
+vhost_file  = File.join("/", "etc", "httpd", "conf.d", "#{domain}.conf")
 
 commands = [ 
 
-  { :desc => "Create user #{domain}.",
-    :up   => lambda { execute("useradd", domain) },
-    :down => lambda { execute("userdel", domain); execute("rm", "-rf", home_dir) } },
+  { :desc  => "Create user #{domain}.",
+    :up    => lambda { execute("/usr/sbin/useradd", domain) },
+    :down  => lambda { execute("/usr/sbin/userdel", domain); execute("rm", "-rf", home_dir) } },
 
-  { :desc => "Change #{home_dir} directory permissions.",
-    :up   => lambda { execute("chmod", "uga+rx", home_dir) } },
+  { :desc  => "Change #{home_dir} directory permissions.",
+    :up    => lambda { execute("chmod", "uga+rx", home_dir) } },
   
-  { :desc => "Create Apache vhost entry #{vhost_file}.",
-    :up   => lambda { create_vhost_config(vhost_file, domain); prompt_and_restart_httpd },
-    :down => lambda { execute("rm", "-rf", vhost_file); prompt_and_restart_httpd } }
+  { :desc  => "Create Apache vhost entry #{vhost_file}.",
+    :up    => lambda { create_vhost_config(vhost_file, domain); prompt_and_restart_httpd },
+    :down  => lambda { execute("rm", "-rf", vhost_file); prompt_and_restart_httpd } }
 ]
 
 commands.each do |cmd| 
