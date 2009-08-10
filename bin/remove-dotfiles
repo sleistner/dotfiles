@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+
+Dir.glob("#{Dir.pwd}/**/.#{ARGV[0]}").each do |filename|
+  FileUtils.rm_rf(filename, :verbose => true)
+end
+

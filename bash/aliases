@@ -1,0 +1,47 @@
+LS='/opt/local/bin/gls'
+if [ -x $LS ] ; then
+  alias ls='gls'
+  alias l='ls --color -C -F'
+  else
+  alias l='ls -CF'
+fi
+alias ll='l -lh'
+alias la='l -a'
+alias l1='ls -1'
+alias lla='ll -a'
+
+# Rails
+alias kl='killall -9 ruby'
+alias ss='script/server'
+alias sc='script/console'
+alias log_db='tail -F log/development_database.log | egrep -v "(CACHE|SHOW FIELDS)"'
+
+# Rake
+alias tt="autotask 'rake test:recent' app test"
+alias rc='rake compile'
+alias rt='rake test'
+alias mig='rake db:migrate'
+
+# Subversion
+alias sup='svn update'
+alias sst='svn status'
+alias sdel='svn-force-delete'
+alias sad='svn add --force .'
+alias cmate='mate `svn status | grep ^C | awk "{print $2}"`'
+alias cvim='mvim -p `sst | grep ^C | awk "{print $2}"`'
+
+# Textmate
+alias et='mate . &'
+alias ett='mate app config lib db public test &'
+
+# Bash
+alias hgrep='history | grep'
+alias @='sudo '
+alias g='egrep -rHn --colour=auto --exclude=*.tmp --exclude=entries --exclude=*.log --exclude=/tmp/* --exclude=*.svn-base'
+
+alias restart-tunnelblick='sudo killall -9 openvpn; open /Applications/Tunnelblick.app'
+
+# Fast Ri
+alias fri='fri -L'
+
+# vim:syntax=sh

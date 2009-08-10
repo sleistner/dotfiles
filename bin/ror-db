@@ -1,0 +1,30 @@
+#! /usr/bin/env ruby
+
+DATABASE_NAME_MAX_CHARS = 53
+USER_NAME_MAX_CHARS = 16
+
+def valid? value, max
+  (1..max).include? value.length
+end
+
+def system_do *commands
+  puts "#{commands.join(' ')} => #{system(*commands)}" rescue nil
+end
+
+@name = ARGV.shift || ''
+until valid? @name, DATABASE_NAME_MAX_CHARS
+  print "Database Name (max. #{DATABASE_NAME_MAX_CHARS} chars): "
+  @name = gets.chomp
+end
+
+@user = ARGV.shift || @name
+until valid? @user, USER_NAME_MAX_CHARS
+  print "User Name (max. #{USER_NAME_MAX_CHARS} chars): "
+  @user = gets.chomp
+end
+
+%w{development test}.each do |environment|
+  db = "#{@name}_#{environment}"
+  system_do 'mysqladmin', '-u', 'root', 'create', db
+  system_do 'mysql', '-u', 'root', '-e', "grant all on #{db}.* to #{@user}@localhost identified by '#{@user}'"
+end

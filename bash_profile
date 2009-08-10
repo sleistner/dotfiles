@@ -1,0 +1,3 @@
+. ~/.bashrc
+
+# vim:syntax=sh

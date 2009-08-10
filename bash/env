@@ -1,0 +1,29 @@
+##
+# DELUXE-USR-LOCAL-BIN-INSERT
+# (do not remove this comment)
+##
+echo $PATH | grep -q -s "/usr/local/bin"
+if [ $? -eq 1 ] ; then
+  PATH=$PATH:/usr/local/bin
+  export PATH
+fi
+
+export PATH=$PATH:~/bin
+
+export PATH=$PATH:/opt/local/bin
+export PATH=$PATH:/opt/railsbench/bin
+export PATH=$PATH:/opt/jruby/bin
+
+export PATH=$PATH:/Developer/SDKs/AIR
+export PATH=$PATH:/Developer/SDKs/Flex
+export PATH=$PATH:/Developer/SDKs/Android/android-sdk-mac_x86-1.1_r1/tools
+
+export MANPATH=$MANPATH:/opt/local/share/man/
+export WLDOMAIN=steffenleistner
+export EDITOR=vim
+export LANG=C
+export CONNECT=~/Projects/Work/2008/connect
+
+# vim:syntax=sh
+
+

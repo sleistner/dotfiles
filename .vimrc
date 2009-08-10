@@ -178,7 +178,14 @@ augroup RubyTests
     \ :nmap gT :<C-U>!ruby %<CR>
 augroup END
 
-autocmd BufWritePre * %s/\s\+$//eg
+function! RmTrailingWhitespaces()
+  let pos = getpos('.')
+  :%s/\s*$//ge
+  call setpos('.', pos)
+endf
+
+" When editing a file, always jump to the last cursor position
+autocmd BufWritePre * call RmTrailingWhitespaces()
 
 " Check ruby syntax
 map <leader>v :!ruby -c %:.<CR>
@@ -204,7 +211,7 @@ if has("gui_running")
 
   if has("gui_macvim")
 
-    set transp=5
+    set transp=8
     let macvim_skip_cmd_opt_movement=1
 
     if has("autocmd")
@@ -228,9 +235,7 @@ if has("gui_running")
 
 " === colors/ colorscheme ============== === ==  =
 
-    colorscheme railscast
-    "colorscheme github
+    "colorscheme railscast
+    colorscheme macvim
 
 endif " gui_running
-
-

@@ -1,0 +1,6 @@
+#!/bin/bash
+if [ `whoami` = 'root' ]; then
+    WLDOMAIN=steffenleistner apachectl $*
+else
+    sudo $0 $*
+fi

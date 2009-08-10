@@ -1,0 +1,41 @@
+#!/bin/bash
+
+start(){
+ if [ `whoami` = 'root' ]; then
+  echo -n $"Starting nginx service: "
+  WLDOMAIN=steffenleistner /opt/nginx/sbin/nginx
+  echo
+ else
+  sudo $0 start
+ fi
+}
+
+stop(){
+ echo -n $"Stopping nginx service: " 
+ sudo killall nginx
+ echo
+}
+
+restart(){
+  stop
+  start
+}
+
+# See how we were called.
+case "$1" in
+start)
+ start
+ ;;
+stop)
+ stop
+ ;;
+restart)
+ restart
+ ;;
+*)
+ echo $"Usage: $0 {start|stop|restart}"
+ exit 1
+esac
+
+exit 0
+
