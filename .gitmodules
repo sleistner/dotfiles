@@ -1,0 +1,6 @@
+[submodule "vim/colors/wolfcrystal.vim"]
+	path = vim/colors/wolfcrystal.vim
+	url = git://gist.github.com/143538.git
+[submodule "vim/colors/wolfcrystal"]
+	path = vim/colors/wolfcrystal
+	url = git://gist.github.com/143538.git

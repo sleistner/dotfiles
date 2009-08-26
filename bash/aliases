@@ -37,7 +37,13 @@ alias ett='mate app config lib db public test &'
 # Bash
 alias hgrep='history | grep'
 alias @='sudo '
-alias g='egrep -rHn --colour=auto --exclude=*.tmp --exclude=entries --exclude=*.log --exclude=/tmp/* --exclude=*.svn-base'
+alias g='egrep -rHn --colour auto --exclude *.tmp --exclude entries --exclude *.log --exclude-dir build --exclude-dir *.xcodeproj --exclude-dir /tmp --exclude=*.svn-base --no-messages * -e'
+#alias g='egrep --color=auto -H -E --mmap -r -n --exclude=*.log --no-messages * -e'
+alias g-css='egrep --color=auto -H -E --mmap -r -n --include=*.css --include=*.sass --no-messages * -e'
+alias g-html='egrep --color=auto -H -E --mmap -r -n --include=*.html --include=*.html.erb --no-messages * -e'
+alias g-js='egrep --color=auto -H -E --mmap -r -n --include=*.js --no-messages * -e'
+alias g-rake='egrep --color=auto -H -E --mmap -r -n --include=rakefile --include=*.rake --include=Rakefile --no-messages * -e'
+alias g-ruby='egrep --color=auto -H -E --mmap -r -n --include=*.rb --no-messages * -e'
 
 alias restart-tunnelblick='sudo killall -9 openvpn; open /Applications/Tunnelblick.app'
 

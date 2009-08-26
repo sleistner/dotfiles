@@ -1,9 +1,9 @@
 function vimwhich() {
-  vim `which $1`;
+  vim `which $*`
 }
 
 function mvimwhich() {
-  mvim `which $1`;
+  mvim `which $*`
 }
 
 function clean-git() {
@@ -27,11 +27,11 @@ function clean-svn() {
 
 # SSH Tunnel
 
-function mysql_tunnel() {
+function mysql-tunnel() {
   autossh -f -M 11000 -l $1 -L 11980:127.0.0.1:3306 -N $2
 }
 
-function mysql_tunnel_kill_all() {
+function mysql-tunnel-kill-all() {
   killall autossh
 }
 

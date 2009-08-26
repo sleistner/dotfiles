@@ -28,6 +28,8 @@ set display=lastline,uhex
 set encoding=utf-8
 set termencoding=utf-8
 
+"set background=dark
+
 " no backups
 set nobackup
 set nowritebackup
@@ -38,7 +40,6 @@ set backspace=indent,eol,start
 syntax on
 
 let c_comment_strings=1
-"let mapleader = ","
 
 " --- rcodetools -------------- --- --  -
 
@@ -91,25 +92,36 @@ set viminfo=%,'50,\"100,:100,n~/.viminfo
 
 set dir=~/.tmp
 
-set grepprg=egrep\ -HErn\ --mmap\ --no-messages\ --colour=auto\ --exclude=tags\ --exclude=.*.swp\ --exclude=*.tmp\ --exclude=entries\ --exclude=*.pot\ --exclude=*.po\ --exclude=*.log\ --exclude=/tmp/*\ --exclude=*.svn-base\ --exclude=.svn\ --exclude=.git\ $*\ .
+set grepprg=egrep\ -Hrn\ --mmap\ --no-messages\ --colour=auto\ --exclude=tags\ --exclude=*.o\ --exclude=.*.swp\ --exclude=*.tmp\ --exclude=entries\ --exclude=*.pot\ --exclude=*.po\ --exclude=*.log\ --exclude-dir=tmp\ --exclude=*.svn-base\ --exclude-dir=.svn\ --exclude-dir=build\ --exclude-dir=.git\ $*\ .
 
 set list
 set list listchars=tab:»·,trail:·
+
+" Snippets are activated by Shift+Tab
+let g:snippetsEmu_key = "<S-Tab>"
+
+" Tab completion options
+" (only complete to the longest unambiguous match, and show a menu)
+set completeopt=longest,menu
+set wildmode=list:longest,list:full
+set complete=.,t
+
+" case only matters with mixed case expressions
+set ignorecase
+set smartcase
+
+" Tags
+let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
 
 function! GrepCurrentWord()
    exec("grep \"" . expand("<cword>") . "\"")
    exec("copen")
 endfunction
 
-" SVN Mappings
-map <leader>r :!svn resolved "%"<CR>
+" ======== mappings ========================== === ==  =
 
 map <leader>f :call GrepCurrentWord()<CR>
 map <leader>l :call JSLint("%")<CR>
-
-" ======== mappings ========================== === ==  =
-
-" --- visual mode -------------- --- --  -
 
 " Move complete block one line down or up with <M-Down> and <M-Up> keys
 vmap <silent> <M-Up> :m'<-2<CR>gv
@@ -119,7 +131,7 @@ vmap <silent> <M-Down> :m'>+1<CR>gv
 vnoremap p <Esc>:let current_reg = @"<CR>gvs<C-R>=current_reg<CR><Esc>
 
 "NERD_Commenter
-map <silent> <C-c> ,ci
+map <leader>\ ,ci
 
 " --- normal mode -------------- --- --  -
 
@@ -140,14 +152,11 @@ map <silent> <M-Left> <C-T>
 map <leader>t :FuzzyFinderTextMate<CR>
 
 " Shortcut to the NERD_tree (plugin)
-map <silent> <S-F2> <Esc>:NERDTreeToggle<CR>
 map <leader>e :execute 'NERDTreeToggle ' . getcwd()<CR>
 
 " Shortcut to the BufExplorer (plugin)
 map <silent> <F5> <Esc>\be
 map <leader>b :FuzzyFinderBuffer<CR>
-
-"map <silent> <S-F4> :FilesystemExplorer<CR>
 
 " Switch between tabs (vim7 only!)
 map <silent> <A-D-Left> :tabprevious<cr>
@@ -224,8 +233,6 @@ if has("gui_running")
 " --- window size and fonts -------------- --- --  -
 
     if has("autocmd")
-
-
         if ! has("gui_macvim")
           autocmd GUIEnter * winsize 110 40
           autocmd GUIEnter * set guifont=Monospace\ 10
@@ -235,7 +242,8 @@ if has("gui_running")
 
 " === colors/ colorscheme ============== === ==  =
 
-    "colorscheme railscast
-    colorscheme macvim
+  colorscheme vividchalk
+  highlight NonText guibg=#060606
+  highlight Folded  guibg=#0A0A0A guifg=#9090D0
 
 endif " gui_running

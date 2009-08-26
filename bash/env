@@ -8,20 +8,22 @@ if [ $? -eq 1 ] ; then
   export PATH
 fi
 
-export PATH=$PATH:~/bin
+export PATH=~/bin:$PATH
 
-export PATH=$PATH:/opt/local/bin
+export PATH=/opt/local/bin:$PATH
 export PATH=$PATH:/opt/railsbench/bin
 export PATH=$PATH:/opt/jruby/bin
 
 export PATH=$PATH:/Developer/SDKs/AIR
 export PATH=$PATH:/Developer/SDKs/Flex
-export PATH=$PATH:/Developer/SDKs/Android/android-sdk-mac_x86-1.1_r1/tools
+export PATH=$PATH:/Developer/SDKs/Android/Current/tools
 
 export MANPATH=$MANPATH:/opt/local/share/man/
-export WLDOMAIN=steffenleistner
 export EDITOR=vim
 export LANG=C
+
+# wl
+export WLDOMAIN=steffenleistner
 export CONNECT=~/Projects/Work/2008/connect
 
 # vim:syntax=sh
