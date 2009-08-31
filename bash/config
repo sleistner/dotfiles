@@ -39,7 +39,7 @@ BCYAN='\e[46m'
 BWHITE='\e[47m'
 
 # Update the command prompt to be <user>:<current_directory>(git_branch) >
-PS1="\n\u:\w \[$EBLACK\]\$(vcprompt)\[$NO_COLOR\] \n> "
+PS1="\n\u:\w \[$EBLACK\]\$(vcprompt)\[$NO_COLOR\] \n$ "
 
 # Make bash check its window size after a process completes
 shopt -s checkwinsize

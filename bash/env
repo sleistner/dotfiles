@@ -8,7 +8,7 @@ if [ $? -eq 1 ] ; then
   export PATH
 fi
 
-export PATH=~/bin:$PATH
+export PATH=~/.bin:$PATH
 
 export PATH=/opt/local/bin:$PATH
 export PATH=$PATH:/opt/railsbench/bin
