@@ -1,5 +1,7 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_cnt =5
 let g:netrw_dirhist_1='/Users/sleistner/Projects/Work/2008/connect/pilot-0.0.9-mata-bond/rails/wunderloop'
 let g:netrw_dirhist_2='/Users/sleistner/Projects/Work/2008/connect/pilot-0.0.9-mata-bond/rails/wunderloop/app'
 let g:netrw_dirhist_3='/opt/local/lib/ruby/gems/1.8/gems/spawn-0.1.2'
+let g:netrw_dirhist_4='/Users/sleistner/Projects/Lab/vim/vim-cucumber'
+let g:netrw_dirhist_5='/Users/sleistner/Projects/Lab/vim/vim-surround'
