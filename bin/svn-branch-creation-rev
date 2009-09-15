@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require "rexml/document"
+
+doc = REXML::Document.new(`svn log --stop-on-copy --xml`)
+puts REXML::XPath.match(doc, "/log/logentry").last.attributes['revision'].chomp

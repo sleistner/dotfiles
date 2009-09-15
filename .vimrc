@@ -222,12 +222,12 @@ if has("gui_running")
 
   if has("gui_macvim")
 
-    set transp=8
+    set transp=0
     let macvim_skip_cmd_opt_movement=1
 
     if has("autocmd")
-      autocmd GUIEnter * winsize 140 45
-      autocmd GUIEnter * set guifont=Monaco:h12
+      autocmd GUIEnter * winsize 155 55
+      autocmd GUIEnter * set guifont=Menlo\ Regular:h12
     endif
 
   endif
@@ -244,8 +244,6 @@ if has("gui_running")
 
 " === colors/ colorscheme ============== === ==  =
 
-  colorscheme vividchalk
-  highlight NonText guibg=#060606
-  highlight Folded  guibg=#0A0A0A guifg=#9090D0
+  colorscheme wolfcrystal
 
 endif " gui_running

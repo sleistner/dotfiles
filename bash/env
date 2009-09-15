@@ -8,17 +8,18 @@ if [ $? -eq 1 ] ; then
   export PATH
 fi
 
-export PATH=~/.bin:$PATH
+PATH=~/.bin:$PATH
+PATH=/usr/local/mysql/bin:$PATH
+PATH=/opt/local/bin:$PATH
+PATH=$PATH:/opt/railsbench/bin
+PATH=$PATH:/opt/jruby/bin
 
-export PATH=/opt/local/bin:$PATH
-export PATH=$PATH:/opt/railsbench/bin
-export PATH=$PATH:/opt/jruby/bin
+PATH=$PATH:/Developer/SDKs/AIR
+PATH=$PATH:/Developer/SDKs/Flex
+PATH=$PATH:/Developer/SDKs/Android/Current/tools
+export PATH
 
-export PATH=$PATH:/Developer/SDKs/AIR
-export PATH=$PATH:/Developer/SDKs/Flex
-export PATH=$PATH:/Developer/SDKs/Android/Current/tools
-
-export MANPATH=$MANPATH:/opt/local/share/man/
+export tMANPATH=$MANPATH:/opt/local/share/man/
 export EDITOR=vim
 export LANG=C
 

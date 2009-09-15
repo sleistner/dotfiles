@@ -89,12 +89,21 @@ end
 
 home_dir    = "/home/#{domain}"
 vhost_file  = File.join('/', 'etc', 'httpd', 'conf.d', "#{domain}.conf")
+release_dir = "/home/#{domain}/web/releases/#{Time.now.to_i}"
 
 commands = [
 
   { :desc  => "Create user #{domain}.",
     :up    => lambda { execute('/usr/sbin/useradd', domain) },
     :down  => lambda { execute('/usr/sbin/userdel', domain); execute('rm', '-rf', home_dir) } },
+
+  { :desc  => "Create #{release_dir}.",
+    :up    => lambda { execute('mkdir', '-p', release_dir) },
+    :down  => lambda { execute('rm', '-rf', release_dir) } },
+
+  #{ :desc  => "Create #{release_dir}.",
+    #:up    => lambda { execute('mkdir', '-p', release_dir) },
+    #:down  => lambda { execute('rm', '-rf', release_dir) } },
 
   { :desc  => "Change #{home_dir} directory permissions.",
     :up    => lambda { execute('chmod', 'uga+rx', home_dir) } },
