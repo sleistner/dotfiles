@@ -13,6 +13,7 @@ hi Normal       gui=NONE    guibg=#ffffff  guifg=#000000
 hi Comment      gui=italic  guibg=#e5fff3  guifg=#006010
 hi Constant     gui=NONE    guibg=#e0f5f5  guifg=#102050
 hi String       gui=NONE    guibg=#efefce  guifg=#604010
+"hi String       gui=NONE                   guifg=#A400C1
 hi Character    gui=NONE    guibg=#efdcce  guifg=#502010
 hi Special      gui=NONE    guibg=#deecff  guifg=#3f0900
 hi Identifier   gui=NONE                   guifg=#002a67
