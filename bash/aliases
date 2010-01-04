@@ -30,6 +30,16 @@ alias sad='svn add --force .'
 alias cmate='mate `svn status | grep ^C | awk "{print $2}"`'
 alias cvim='mvim -p `sst | grep ^C | awk "{print $2}"`'
 
+# Git
+alias gst='git status'
+alias gl='git pull'
+alias gp='git push'
+alias gd='git diff | mate'
+alias gc='git commit -v'
+alias gca='git commit -v -a'
+alias gb='git branch'
+alias gba='git branch -a'
+
 # Textmate
 alias et='mate . &'
 alias ett='mate app config lib db public test &'
@@ -37,7 +47,7 @@ alias ett='mate app config lib db public test &'
 # Bash
 alias hgrep='history | grep'
 alias @='sudo '
-alias g='egrep -rHn --colour auto --exclude *.tmp --exclude entries --exclude *.log --exclude-dir build --exclude-dir *.xcodeproj --exclude-dir /tmp --exclude=*.svn-base --no-messages * -e'
+alias g='egrep -rHn --colour auto --exclude *.tmp --exclude entries --exclude *.log --exclude-dir build --exclude-dir *.xcodeproj --exclude-dir /tmp --exclude-dir .svn-base --exclude-dir .svn --no-messages * -e'
 #alias g='egrep --color=auto -H -E --mmap -r -n --exclude=*.log --no-messages * -e'
 alias g-css='egrep --color=auto -H -E --mmap -r -n --include=*.css --include=*.sass --no-messages * -e'
 alias g-html='egrep --color=auto -H -E --mmap -r -n --include=*.html --include=*.html.erb --no-messages * -e'
@@ -45,9 +55,14 @@ alias g-js='egrep --color=auto -H -E --mmap -r -n --include=*.js --no-messages *
 alias g-rake='egrep --color=auto -H -E --mmap -r -n --include=rakefile --include=*.rake --include=Rakefile --no-messages * -e'
 alias g-ruby='egrep --color=auto -H -E --mmap -r -n --include=*.rb --no-messages * -e'
 
+# Palm
+alias p='novacom -t open tty://'
+
 alias restart-tunnelblick='sudo killall -9 openvpn; open /Applications/Tunnelblick.app'
 
 # Fast Ri
 alias fri='fri -L'
 
+# spec
+alias spec='spec -c'
 # vim:syntax=sh

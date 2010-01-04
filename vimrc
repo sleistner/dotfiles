@@ -227,7 +227,7 @@ if has("gui_running")
 
     if has("autocmd")
       autocmd GUIEnter * winsize 155 55
-      autocmd GUIEnter * set guifont=Menlo\ Regular:h12
+      autocmd GUIEnter * set guifont=Monaco:h12
     endif
 
   endif
@@ -244,6 +244,6 @@ if has("gui_running")
 
 " === colors/ colorscheme ============== === ==  =
 
-  colorscheme wolfcrystal
+  colorscheme railscast
 
 endif " gui_running
