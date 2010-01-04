@@ -4,3 +4,24 @@
 [submodule "vim/colors/wolfcrystal"]
 	path = vim/colors/wolfcrystal
 	url = git://gist.github.com/143538.git
+[submodule "vim-plugins/vim-rails"]
+	path = vim-plugins/vim-rails
+	url = git://github.com/tpope/vim-rails.git
+[submodule "vim-plugins/vim-git"]
+	path = vim-plugins/vim-git
+	url = git://github.com/tpope/vim-git.git
+[submodule "vim-plugins/vim-cucumber"]
+	path = vim-plugins/vim-cucumber
+	url = git://github.com/tpope/vim-cucumber.git
+[submodule "vim-plugins/vim-haml"]
+	path = vim-plugins/vim-haml
+	url = git://github.com/tpope/vim-haml.git
+[submodule "vim-plugins/vim-fugitive"]
+	path = vim-plugins/vim-fugitive
+	url = git://github.com/tpope/vim-fugitive.git
+[submodule "vim-plugins/vim-endwise"]
+	path = vim-plugins/vim-endwise
+	url = git://github.com/tpope/vim-endwise.git
+[submodule "vim-plugins/vim-surround"]
+	path = vim-plugins/vim-surround
+	url = git://github.com/tpope/vim-surround.git
