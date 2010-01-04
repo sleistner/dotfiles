@@ -1,8 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =6
-let g:netrw_dirhist_1='/Users/sleistner/Downloads/flot/examples'
-let g:netrw_dirhist_2='/opt/nova/bin'
-let g:netrw_dirhist_3='/opt/PalmSDK/0.1/share/samplecode/tutorial/HelloWorld'
-let g:netrw_dirhist_4='/Users/sleistner/Downloads/agenda'
-let g:netrw_dirhist_5='/Users/sleistner/Dropbox/Lab/bankdata-import'
-let g:netrw_dirhist_6='/opt/PalmSDK/0.1/share/samplecode/stylematters'
