@@ -13,15 +13,12 @@
 [submodule "vim-plugins/vim-cucumber"]
 	path = vim-plugins/vim-cucumber
 	url = git://github.com/tpope/vim-cucumber.git
-[submodule "vim-plugins/vim-haml"]
-	path = vim-plugins/vim-haml
-	url = git://github.com/tpope/vim-haml.git
 [submodule "vim-plugins/vim-fugitive"]
 	path = vim-plugins/vim-fugitive
 	url = git://github.com/tpope/vim-fugitive.git
-[submodule "vim-plugins/vim-endwise"]
-	path = vim-plugins/vim-endwise
-	url = git://github.com/tpope/vim-endwise.git
 [submodule "vim-plugins/vim-surround"]
 	path = vim-plugins/vim-surround
 	url = git://github.com/tpope/vim-surround.git
+[submodule "vim-plugins/vim-haml"]
+	path = vim-plugins/vim-haml
+	url = git://github.com/tpope/vim-haml.git
