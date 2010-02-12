@@ -6,9 +6,9 @@
 " --- general options -------------- --- --  -
 
 set nocompatible
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
 set expandtab
 set cindent
 set foldmethod=marker
@@ -40,11 +40,6 @@ set backspace=indent,eol,start
 syntax on
 
 let c_comment_strings=1
-
-" --- rcodetools -------------- --- --  -
-
-"set completeopt=menu,preview
-"let g:rct_completion_use_fri=1
 
 " --- fuzzy_finder_textmate --- --  -
 
