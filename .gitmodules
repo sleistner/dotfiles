@@ -1,9 +1,3 @@
-[submodule "vim/colors/wolfcrystal.vim"]
-	path = vim/colors/wolfcrystal.vim
-	url = git://gist.github.com/143538.git
-[submodule "vim/colors/wolfcrystal"]
-	path = vim/colors/wolfcrystal
-	url = git://gist.github.com/143538.git
 [submodule "vim-plugins/vim-rails"]
 	path = vim-plugins/vim-rails
 	url = git://github.com/tpope/vim-rails.git
@@ -22,3 +16,6 @@
 [submodule "vim-plugins/vim-surround"]
 	path = vim-plugins/vim-surround
 	url = git://github.com/tpope/vim-surround.git
+[submodule "vim-plugins/nerdtree"]
+	path = vim-plugins/nerdtree
+	url = git://github.com/scrooloose/nerdtree.git

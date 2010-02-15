@@ -129,6 +129,10 @@ vnoremap p <Esc>:let current_reg = @"<CR>gvs<C-R>=current_reg<CR><Esc>
 
 "NERD_Commenter
 map <leader>\ ,ci
+if ("autocmd")
+    autocmd VimEnter * NERDTree
+    autocmd VimEnter * wincmd p
+endif
 
 " --- normal mode -------------- --- --  -
 
@@ -203,7 +207,6 @@ imap <silent> <C-l> <Space>=><Space>
 
 " -- abbreviations -------------------------- --- --  -
 
-"iabbr <% <% %><Esc>hhi
 iabbr <%- <%- -%><Esc>hhhi
 iabbr <%= <%= %><Esc>hhi
 iabbr <%# <%= %><Esc>hhi
@@ -221,7 +224,6 @@ if has("gui_running")
     let macvim_skip_cmd_opt_movement=1
 
     if has("autocmd")
-      autocmd GUIEnter * winsize 155 55
       autocmd GUIEnter * set guifont=Monaco:h12
     endif
 
@@ -230,8 +232,9 @@ if has("gui_running")
 " --- window size and fonts -------------- --- --  -
 
     if has("autocmd")
+        autocmd GUIEnter * winsize 165 44
+
         if ! has("gui_macvim")
-          autocmd GUIEnter * winsize 110 40
           autocmd GUIEnter * set guifont=Monospace\ 10
         endif
     endif

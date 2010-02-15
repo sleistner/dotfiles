@@ -10,12 +10,12 @@ namespace :dotfiles do
   end
 
   namespace :vim do
-    desc "Initializes vim plugins as git submodules"
+    desc "Initialize vim plugins as git submodules"
     task :initialize do
       `git submodule update && git submodule init`
     end
 
-    desc "Update tpope's vim plugins."
+    desc "Update tpope's vim plugins"
     task :update => ['vim:initialize'] do
       vimfiles = File.expand_path('~/.vim')
       Dir.glob("#{File.dirname(__FILE__)}/vim-plugins/*").each do |plugin_path|
