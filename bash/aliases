@@ -31,14 +31,7 @@ alias cmate='mate `svn status | grep ^C | awk "{print $2}"`'
 alias cvim='mvim -p `sst | grep ^C | awk "{print $2}"`'
 
 # Git
-alias gst='git status'
-alias gl='git pull'
-alias gp='git push'
-alias gd='git diff | mate'
-alias gc='git commit -v'
-alias gca='git commit -v -a'
-alias gb='git branch'
-alias gba='git branch -a'
+alias gom='git push origin master'
 
 # Textmate
 alias et='mate . &'
