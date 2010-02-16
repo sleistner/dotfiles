@@ -43,5 +43,4 @@ namespace :dotfiles do
   end
 end
 
-task :default => 'dotfiles:install'
-
+task :default => 'dotfiles:setup'
