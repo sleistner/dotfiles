@@ -1,4 +1,6 @@
 namespace :dotfiles do
+  pwd = File.dirname(__FILE__)
+
   files = %w{gitconfig vim vimrc bashrc bash_profile dircolors bin}
   desc "Create #{files.join(', ')} symlinks in #{File.expand_path('~')}"
   task :setup do
@@ -15,24 +17,28 @@ namespace :dotfiles do
       `git submodule update && git submodule init`
     end
 
-    desc "Update tpope's vim plugins"
+    desc "Update vim plugins"
     task :update => ['vim:initialize'] do
-      vimfiles = File.expand_path('~/.vim')
-      Dir.glob("#{File.dirname(__FILE__)}/vim-plugins/*").each do |plugin_path|
+      puts %x[git submodule foreach 'rake dotfiles:vim:update_plugin[`pwd`] -f #{__FILE__}']
+    end
+
+    task :update_plugin, :path do |t, args|
+      if (plugin_path = args.path) =~ /vim-plugins/
         Dir.chdir(plugin_path) do
           if `git pull origin master`
-            Dir.glob("#{plugin_path}/*/*").each do |file|
-              target_file = File.join(vimfiles, file.gsub(plugin_path, ''))
+            Dir.glob("#{plugin_path}/*/**/*").each do |file|
+              next if File.directory?(file)
+              target_file = File.join(File.expand_path('~/.vim'), file.gsub(plugin_path, ''))
               FileUtils.mkdir_p(File.dirname(target_file))
-              FileUtils.cp(file, target_file)
-              puts "Copied #{file} to #{target_file}"
+              FileUtils.cp_r(file, target_file, :remove_destination => true)
+              puts "- #{file.sub(pwd, '')} => #{target_file}"
             end
           end
         end
       end
     end
-  end
 
+  end
 end
 
 task :default => 'dotfiles:install'
