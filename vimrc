@@ -6,9 +6,9 @@
 " --- general options -------------- --- --  -
 
 set nocompatible
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
 set expandtab
 set cindent
 set foldmethod=marker
@@ -40,11 +40,6 @@ set backspace=indent,eol,start
 syntax on
 
 let c_comment_strings=1
-
-" --- rcodetools -------------- --- --  -
-
-"set completeopt=menu,preview
-"let g:rct_completion_use_fri=1
 
 " --- fuzzy_finder_textmate --- --  -
 
@@ -133,7 +128,7 @@ vmap <silent> <M-Down> :m'>+1<CR>gv
 vnoremap p <Esc>:let current_reg = @"<CR>gvs<C-R>=current_reg<CR><Esc>
 
 "NERD_Commenter
-map <leader>\ ,ci
+nmap <silent> <leader>\ ,ci
 
 " --- normal mode -------------- --- --  -
 
@@ -153,8 +148,10 @@ map <silent> <M-Left> <C-T>
 " Shortcut to the FuzzyFinderTextMate (plugin)
 map <leader>t :FuzzyFinderTextMate<CR>
 
-" Shortcut to the NERD_tree (plugin)
-map <leader>e :execute 'NERDTreeToggle ' . getcwd()<CR>
+" NERDTree settings (launch with \nt or \\)
+let g:NERDTreeQuitOnOpen = 0
+map <silent> <leader>e :NERDTreeToggle<CR>
+map <silent> <leader>` :NERDTreeFind <CR>
 
 " Shortcut to the BufExplorer (plugin)
 map <silent> <F5> <Esc>\be
@@ -170,24 +167,6 @@ map <silent> <M-t> :tabnew<CR>
 
 map <silent> <S-O-t> :tabnew<CR>:e\ .<CR>
 map <silent> <S-M-t> :tabnew<CR>:e\ .<CR>
-
-" Execute file as ruby
-map <silent> <F7> <Esc>:tabnew\|r!ruby #<CR>
-map <D-1> <Esc>:!ruby "%"<CR>
-
-" Execute file as ./script/console
-map <silent> <D-F7> <Esc>:tabnew\|r!script/runner #<CR>
-map <silent> <A-F7> <Esc>:tabnew\|r!script/runner #<CR>
-
-" Run Ruby unit tests with gT (for all) or gt (only test under
-" cursor) in command mode
-augroup RubyTests
-  au!
-  autocmd BufRead,BufNewFile *_test.rb,test_*.rb
-    \ :nmap gt V:<C-U>!$HOME/.vim/bin/ruby-run-focused-unit-test
-    \ % <C-R>=line("'<")<CR>p <CR>|
-    \ :nmap gT :<C-U>!ruby %<CR>
-augroup END
 
 function! RmTrailingWhitespaces()
   let pos = getpos('.')
@@ -208,7 +187,6 @@ imap <silent> <C-l> <Space>=><Space>
 
 " -- abbreviations -------------------------- --- --  -
 
-"iabbr <% <% %><Esc>hhi
 iabbr <%- <%- -%><Esc>hhhi
 iabbr <%= <%= %><Esc>hhi
 iabbr <%# <%= %><Esc>hhi
@@ -226,7 +204,6 @@ if has("gui_running")
     let macvim_skip_cmd_opt_movement=1
 
     if has("autocmd")
-      autocmd GUIEnter * winsize 155 55
       autocmd GUIEnter * set guifont=Monaco:h12
     endif
 
@@ -235,8 +212,9 @@ if has("gui_running")
 " --- window size and fonts -------------- --- --  -
 
     if has("autocmd")
+        autocmd GUIEnter * winsize 165 44
+
         if ! has("gui_macvim")
-          autocmd GUIEnter * winsize 110 40
           autocmd GUIEnter * set guifont=Monospace\ 10
         endif
     endif
