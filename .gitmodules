@@ -13,11 +13,9 @@
 [submodule "vim-plugins/vim-surround"]
 	path = vim-plugins/vim-surround
 	url = git://github.com/tpope/vim-surround.git
-<<<<<<< HEAD
 [submodule "vim-plugins/vim-haml"]
 	path = vim-plugins/vim-haml
 	url = git://github.com/tpope/vim-haml.git
-=======
 [submodule "vim-plugins/nerdtree"]
 	path = vim-plugins/nerdtree
 	url = git://github.com/scrooloose/nerdtree.git
@@ -27,4 +25,3 @@
 [submodule "vim-plugins/snipmate"]
 	path = vim-plugins/snipmate
 	url = git://github.com/msanders/snipmate.vim.git
->>>>>>> 6d7fe0b5e95f2141e1f79cf4bd8a68b08533cd14
