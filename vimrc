@@ -39,7 +39,7 @@ set backspace=indent,eol,start
 
 syntax on
 
-let c_comment_strings=1
+let c_comment_strings = 1
 
 " --- fuzzy_finder_textmate --- --  -
 
@@ -222,6 +222,6 @@ if has("gui_running")
 
 " === colors/ colorscheme ============== === ==  =
 
-  colorscheme railscast
+  colorscheme github
 
 endif " gui_running
