@@ -43,7 +43,7 @@ let c_comment_strings=1
 
 " --- fuzzy_finder_textmate --- --  -
 
-let g:fuzzy_ignore = "*.log;*.png;*.jpg;*.gif;vendor/rails/**;coverage/**;tmp/**;.git/**;.svn/**"
+let g:fuzzy_ignore = "*.log;*.png;*.jpg;*.gif;vendor/rails/**;coverage/**;tmp/**;.git/**;.svn/**;javascripts-cc/**"
 let g:fuzzy_matching_limit = 30
 
 " --- auto commands -------------- --- --  -
@@ -128,7 +128,7 @@ vmap <silent> <M-Down> :m'>+1<CR>gv
 vnoremap p <Esc>:let current_reg = @"<CR>gvs<C-R>=current_reg<CR><Esc>
 
 "NERD_Commenter
-nmap <silent> <leader>\ ,ci
+map <leader>\ ,ci
 
 " --- normal mode -------------- --- --  -
 
