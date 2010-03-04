@@ -1,3 +1,5 @@
+# vim:syntax=sh
+
 # Colors from http://wiki.archlinux.org/index.php/Color_Bash_Prompt
 # misc
 NO_COLOR='\e[0m' #disable any colors
@@ -45,8 +47,9 @@ PS1="\n\u:\w \[$EBLACK\]\$(vcprompt)\[$NO_COLOR\] \n$ "
 shopt -s checkwinsize
 
 if [ "$TERM" != "dumb" ]; then
-    eval `/opt/local/bin/dircolors ~/.dircolors`
+    if [ -x /usr/local/bin/dircolors ]; then
+        eval `/usr/local/bin/dircolors ~/.dircolors`
+    fi
 fi
 
-# vim:syntax=sh
 

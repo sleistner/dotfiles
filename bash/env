@@ -1,7 +1,5 @@
-##
-# DELUXE-USR-LOCAL-BIN-INSERT
-# (do not remove this comment)
-##
+# vim:syntax=sh
+
 echo $PATH | grep -q -s "/usr/local/bin"
 if [ $? -eq 1 ] ; then
   PATH=$PATH:/usr/local/bin
@@ -9,24 +7,13 @@ if [ $? -eq 1 ] ; then
 fi
 
 PATH=~/.bin:$PATH
-PATH=/usr/local/mysql/bin:$PATH
-PATH=/opt/local/bin:$PATH
-PATH=$PATH:/opt/railsbench/bin
-PATH=$PATH:/opt/jruby/bin
-
 PATH=$PATH:/Developer/SDKs/AIR
 PATH=$PATH:/Developer/SDKs/Flex
 PATH=$PATH:/Developer/SDKs/Android/Current/tools
 export PATH
 
-export tMANPATH=$MANPATH:/opt/local/share/man/
 export EDITOR=vim
 export LANG=C
 
-# wl
-export WLDOMAIN=steffenleistner
-export CONNECT=~/Projects/Work/2008/connect
-
-# vim:syntax=sh
 
 
