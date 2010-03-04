@@ -1,9 +1,14 @@
-LS='/opt/local/bin/gls'
-if [ -x $LS ] ; then
-  alias ls='gls'
-  alias l='ls --color -C -F'
-  else
-  alias l='ls -CF'
+# vim:syntax=sh
+
+# Homebrew
+for i in /usr/local/bin/*; do
+    alias `basename $i`=$i
+done
+
+if [ -x /usr/local/bin/ls ] ; then
+    alias l='ls --color -C -F'
+else
+    alias l='ls -CF'
 fi
 alias ll='l -lh'
 alias la='l -a'
@@ -12,8 +17,6 @@ alias lla='ll -a'
 
 # Rails
 alias kl='killall -9 ruby'
-alias ss='script/server'
-alias sc='script/console'
 alias log_db='tail -F log/development_database.log | egrep -v "(CACHE|SHOW FIELDS)"'
 
 # Rake
@@ -30,23 +33,18 @@ alias sad='svn add --force .'
 alias cmate='mate `svn status | grep ^C | awk "{print $2}"`'
 alias cvim='mvim -p `sst | grep ^C | awk "{print $2}"`'
 
-# Git
-alias gom='git push origin master'
-
 # Textmate
 alias et='mate . &'
 alias ett='mate app config lib db public test &'
 
 # Bash
-alias hgrep='history | grep'
-alias @='sudo '
-alias g='egrep -rHn --colour auto --exclude *.tmp --exclude entries --exclude *.log --exclude-dir build --exclude-dir *.xcodeproj --exclude-dir /tmp --exclude-dir .svn-base --exclude-dir .svn --no-messages * -e'
-#alias g='egrep --color=auto -H -E --mmap -r -n --exclude=*.log --no-messages * -e'
-alias g-css='egrep --color=auto -H -E --mmap -r -n --include=*.css --include=*.sass --no-messages * -e'
-alias g-html='egrep --color=auto -H -E --mmap -r -n --include=*.html --include=*.html.erb --no-messages * -e'
-alias g-js='egrep --color=auto -H -E --mmap -r -n --include=*.js --no-messages * -e'
-alias g-rake='egrep --color=auto -H -E --mmap -r -n --include=rakefile --include=*.rake --include=Rakefile --no-messages * -e'
-alias g-ruby='egrep --color=auto -H -E --mmap -r -n --include=*.rb --no-messages * -e'
+alias 'egrep-with-excludes'='egrep -rHn --colour auto --exclude *.tmp --exclude entries --exclude *.log --exclude-dir build --exclude-dir *.xcodeproj --exclude-dir /tmp --exclude-dir .svn-base --exclude-dir .svn --no-messages *'
+alias 'g'='egrep-with-excludes -e'
+alias 'g-css'='egrep-with-excludes --include *.css --include *.sass --no-messages -e'
+alias 'g-html'='egrep-with-excludes --include *.html --include *.html.erb --no-messages -e'
+alias 'g-js'='egrep-with-excludes --include *.js --no-messages -e'
+alias 'g-rake'='egrep-with-excludes --include rakefile --include Rakefile --include *.rake --no-messages -e'
+alias 'g-ruby'='egrep-with-excludes --include *.rb --no-messages -e'
 
 # Palm
 alias p='novacom -t open tty://'
@@ -58,4 +56,3 @@ alias fri='fri -L'
 
 # spec
 alias spec='spec -c'
-# vim:syntax=sh

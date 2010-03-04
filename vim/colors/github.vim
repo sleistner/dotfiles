@@ -15,7 +15,7 @@ if version > 580
     " complaining
     hi clear
     if exists("syntax_on")
-	syntax reset
+    syntax reset
     endif
 endif
 let g:colors_name="github"
@@ -23,9 +23,9 @@ let g:colors_name="github"
 hi Normal       guifg=#000000 guibg=#F8F8FF
 
 " {{{ Cursor
-hi Cursor		guibg=#444454 guifg=#F8F8FF
-hi CursorLine	guibg=#D8D8DD
-hi CursorColumn	guibg=#E8E8EE
+hi Cursor       guibg=#444454 guifg=#F8F8FF
+hi CursorLine   guibg=#D8D8DD
+hi CursorColumn guibg=#E8E8EE
 " }}}
 
 " {{{ Diff
@@ -36,54 +36,71 @@ hi DiffDelete      guifg=#DDCCCC guibg=#FFDDDD gui=none
 " }}}
 
 " {{{ Folding / Line Numbering / Status Lines
-hi Folded		guibg=#ECECEC guifg=#808080 gui=bold
-hi vimFold		guibg=#ECECEC guifg=#808080 gui=bold
-hi FoldColumn	guibg=#ECECEC guifg=#808080 gui=bold
+hi Folded       guibg=#ECECEC guifg=#808080 gui=bold
+hi vimFold      guibg=#ECECEC guifg=#808080 gui=bold
+hi FoldColumn   guibg=#ECECEC guifg=#808080 gui=bold
 
-hi LineNr		guifg=#959595 guibg=#ECECEC gui=bold
-hi NonText		guifg=#808080 guibg=#ECECEC
-hi Folded		guifg=#808080 guibg=#ECECEC gui=bold
+hi LineNr       guifg=#959595 guibg=#ECECEC gui=bold
+hi NonText      guifg=#808080 guibg=#ECECEC
+hi Folded       guifg=#808080 guibg=#ECECEC gui=bold
 hi FoldeColumn  guifg=#808080 guibg=#ECECEC gui=bold
 
-hi VertSplit	guibg=#bbbbbb guifg=#bbbbbb gui=none
+hi VertSplit    guibg=#bbbbbb guifg=#bbbbbb gui=none
 hi StatusLine   guibg=#bbbbbb guifg=#404040 gui=bold
 hi StatusLineNC guibg=#d4d4d4 guifg=#404040 gui=italic
 " }}}
 
 " {{{ Misc
-hi ModeMsg		guifg=#990000
-hi MoreMsg		guifg=#990000
+hi ModeMsg      guifg=#990000
+hi MoreMsg      guifg=#990000
 
-hi Title		guifg=#ef5939
-hi WarningMsg	guifg=#ef5939
+hi Title        guifg=#ef5939
+hi WarningMsg   guifg=#ef5939
 hi SpecialKey   guifg=#177F80 gui=italic
 
-hi MatchParen	guibg=#cdcdfd guifg=#000000
-hi Underlined	guifg=#000000 gui=underline
-hi Directory	guifg=#990000
+hi MatchParen   guibg=#cdcdfd guifg=#000000
+hi Underlined   guifg=#000000 gui=underline
+hi Directory    guifg=#990000
 " }}}
 
 " {{{ Search, Visual, etc
-hi Visual		guifg=#FFFFFF guibg=#3465a4 gui=none
+hi Visual       guifg=#FFFFFF guibg=#3465a4 gui=none
 hi VisualNOS    guifg=#FFFFFF guibg=#204a87 gui=none
-hi IncSearch	guibg=#cdcdfd guifg=#000000 gui=italic
-hi Search		guibg=#cdcdfd guifg=#000000 gui=italic
+hi IncSearch    guibg=#cdcdfd guifg=#000000 gui=italic
+hi Search       guibg=#cdcdfd guifg=#000000 gui=italic
 " }}}
 
 " {{{ Syntax groups
-hi Ignore		guifg=#808080
-hi Identifier	guifg=#0086B3
-hi PreProc		guifg=#A0A0A0 gui=bold
-hi Comment		guifg=#999988
-hi Constant		guifg=#177F80 gui=none
-hi String		guifg=#D81745
-hi Function		guifg=#990000 gui=bold
-hi Statement	guifg=#000000 gui=bold
-hi Type			guifg=#445588 gui=bold
-hi Number		guifg=#1C9898
-hi Todo			guifg=#FFFFFF guibg=#990000 gui=bold
-hi Special		guifg=#159828 gui=bold
-hi rubySymbol   guifg=#960B73
+hi Ignore       guifg=#808080
+hi Identifier   guifg=#0086B3
+hi PreProc      guifg=#000000 gui=bold
+hi Comment      guifg=#999988
+hi Constant     guifg=#177F80 gui=none
+hi String       guifg=#D81745
+hi Function     guifg=#990000 gui=bold
+hi Statement    guifg=#000000 gui=bold
+hi Type         guifg=#445588 gui=bold
+hi Number       guifg=#1C9898
+hi Todo         guifg=#FFFFFF guibg=#990000 gui=bold
+hi Special      guifg=#159828 gui=bold
+
+hi rubySymbol                   guifg=#960B73
+hi rubyModule                   guifg=#000000 gui=bold
+hi rubyClass                    guifg=#000000 gui=bold
+hi rubyConstant                 guifg=#008080
+hi rubyInstanceVariable         guifg=#008080
+"hi rubyClassVariable            guifg=#ff0000
+hi rubyLocalVariableOrMethod    guifg=#ff0000
+hi rubyKeyword                  guifg=#ff0000
+hi rubyPseudoVariable           guifg=#445588 gui=bold
+hi rubyString                   guifg=#DD1144
+hi rubyStringSpecial            guifg=#DD1144
+hi rubyRegexp                   guifg=#009926
+hi rubyInterpolationDelimiter   guifg=#DD1144
+hi rubyNoInterpolation          guifg=#DD1144
+hi rubyInterpolation            guifg=#000000 ctermfg=107
+hi rubyPredefinedConstant       guifg=#DA4939 ctermfg=167
+
 hi Error        guibg=#f8f8ff guifg=#ff1100 gui=undercurl
 hi Todo         guibg=#f8f8ff guifg=#ff1100 gui=underline
 hi Label        guifg=#000000 gui=bold
@@ -111,30 +128,29 @@ hi spellLocal   guisp=#729fcf
 " {{{ Aliases
 hi link cppSTL          Function
 hi link cppSTLType      Type
-hi link Character		Number
-hi link htmlTag			htmlEndTag
+hi link Character       Number
+hi link htmlTag         htmlEndTag
 "hi link htmlTagName     htmlTag
-hi link htmlLink		Underlined
-hi link pythonFunction	Identifier
-hi link Question		Type
-hi link CursorIM		Cursor
-hi link VisualNOS		Visual
-hi link xmlTag			Identifier
-hi link xmlTagName		Identifier
-hi link shDeref			Identifier
-hi link shVariable		Function
-hi link rubySharpBang	Special
-hi link perlSharpBang	Special
+hi link htmlLink        Underlined
+hi link pythonFunction  Identifier
+hi link Question        Type
+hi link CursorIM        Cursor
+hi link VisualNOS       Visual
+hi link xmlTag          Identifier
+hi link xmlTagName      Identifier
+hi link shDeref         Identifier
+hi link shVariable      Function
+hi link rubySharpBang   Special
+hi link perlSharpBang   Special
 hi link schemeFunc      Statement
 "hi link shSpecialVariables Constant
 "hi link bashSpecialVariables Constant
 " }}}
 
 " {{{ Tabs (non-gui0
-hi TabLine		guifg=#404040 guibg=#dddddd gui=none
-hi TabLineFill	guifg=#404040 guibg=#dddddd gui=none
-hi TabLineSel	guifg=#404040 gui=bold
+hi TabLine      guifg=#404040 guibg=#dddddd gui=none
+hi TabLineFill  guifg=#404040 guibg=#dddddd gui=none
+hi TabLineSel   guifg=#404040 gui=bold
 " }}}
 "
 " vim: sw=4 ts=4 foldmethod=marker
-

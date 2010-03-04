@@ -1,3 +1,5 @@
+# vim:syntax=sh
+
 function vimwhich() {
   vim `which $*`
 }
@@ -35,5 +37,3 @@ function mysql-tunnel-kill-all() {
   killall autossh
 }
 
-
-# vim:syntax=sh

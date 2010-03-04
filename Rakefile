@@ -1,7 +1,7 @@
 namespace :dotfiles do
   PWD = File.dirname(__FILE__)
   VIM = File.expand_path('~/.vim')
-  
+
   files = %w{gitconfig vim vimrc bashrc bash_profile dircolors bin}
   desc "Create #{files.join(', ')} symlinks in #{File.expand_path('~')}"
   task :setup do
