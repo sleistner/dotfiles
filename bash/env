@@ -6,11 +6,16 @@ if [ $? -eq 1 ] ; then
   export PATH
 fi
 
-PATH=~/.bin:$PATH
+PATH=$HOME/.bin:$PATH
 PATH=$PATH:/Developer/SDKs/AIR
 PATH=$PATH:/Developer/SDKs/Flex
 PATH=$PATH:/Developer/SDKs/Android/Current/tools
 export PATH
+
+# Ruby Version Manager
+if [[ -s $HOME/.rvm/scripts/rvm ]]; then
+    source $HOME/.rvm/scripts/rvm
+fi
 
 export EDITOR=vim
 export LANG=C
