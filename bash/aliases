@@ -20,9 +20,6 @@ alias kl='killall -9 ruby'
 alias log_db='tail -F log/development_database.log | egrep -v "(CACHE|SHOW FIELDS)"'
 
 # Rake
-alias tt="autotask 'rake test:recent' app test"
-alias rc='rake compile'
-alias rt='rake test'
 alias mig='rake db:migrate'
 
 # Subversion
@@ -38,18 +35,18 @@ alias et='mate . &'
 alias ett='mate app config lib db public test &'
 
 # Bash
-alias 'egrep-with-excludes'='egrep -rHn --colour auto --exclude *.tmp --exclude entries --exclude *.log --exclude-dir build --exclude-dir *.xcodeproj --exclude-dir /tmp --exclude-dir .svn-base --exclude-dir .svn --no-messages *'
-alias 'g'='egrep-with-excludes -e'
-alias 'g-css'='egrep-with-excludes --include *.css --include *.sass --no-messages -e'
-alias 'g-html'='egrep-with-excludes --include *.html --include *.html.erb --no-messages -e'
-alias 'g-js'='egrep-with-excludes --include *.js --no-messages -e'
-alias 'g-rake'='egrep-with-excludes --include rakefile --include Rakefile --include *.rake --no-messages -e'
-alias 'g-ruby'='egrep-with-excludes --include *.rb --no-messages -e'
+ewx='egrep -rHn --colour auto --exclude *.tmp --exclude entries --exclude *.log --exclude-dir build --exclude-dir *.xcodeproj --exclude-dir /tmp --exclude-dir .svn-base --exclude-dir .svn --no-messages *'
+alias g="$ewx -e"
+alias gcss="$ewx --include *.css --include *.sass --no-messages -e"
+alias ghtml="$ewx --include *.html --include *.html.erb --no-messages -e"
+alias gjs="$ewx --include *.js --no-messages -e"
+alias grake="$ewx --include rakefile --include Rakefile --include *.rake --no-messages -e"
+alias gruby="$ewx --include *.rb --no-messages -e"
 
 # Palm
 alias p='novacom -t open tty://'
 
-alias restart-tunnelblick='sudo killall -9 openvpn; open /Applications/Tunnelblick.app'
+alias 'restart-tunnelblick'='sudo killall -9 openvpn; open /Applications/Tunnelblick.app'
 
 # Fast Ri
 alias fri='fri -L'

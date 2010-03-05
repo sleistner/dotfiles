@@ -1,15 +1,10 @@
 # vim:syntax=sh
 
-# System-wide .bashrc file for interactive bash(1) shells.
-if [ -z "$PS1" ]; then
-   return
-fi
-
-BASH_DIR=`readlink ~/.bashrc | xargs dirname`/bash
-. $BASH_DIR/env
-. $BASH_DIR/config
-. $BASH_DIR/aliases
-. $BASH_DIR/completions/git
-. $BASH_DIR/completions/rake
-. $BASH_DIR/functions
+BASH_DIR=`readlink $HOME/.bashrc | xargs dirname`/bash
+source $BASH_DIR/env
+source $BASH_DIR/config
+source $BASH_DIR/aliases
+source $BASH_DIR/completions/git
+source $BASH_DIR/completions/rake
+source $BASH_DIR/functions
 
