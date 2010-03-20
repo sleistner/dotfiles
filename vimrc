@@ -55,7 +55,7 @@ if has("autocmd")
 
     autocmd FileType text setlocal textwidth=78
 
-    autocmd FileType html,rhtml,xml setlocal ai nosi sw=2 ts=2 sts=2 et
+    autocmd FileType html,rhtml,xml,feature,cucumber setlocal ai nosi sw=2 ts=2 sts=2 et
 
     autocmd FileType ruby,eruby setlocal sw=2 ts=2 sts=2
 
@@ -222,6 +222,6 @@ if has("gui_running")
 
 " === colors/ colorscheme ============== === ==  =
 
-  colorscheme github
+  colorscheme railscast
 
 endif " gui_running
