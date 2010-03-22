@@ -9,11 +9,10 @@ function mvimwhich() {
 }
 
 function clean-git() {
-  echo log >> .gitignore
-  echo tmp/cache >> .gitignore
-  echo tmp/pids >> .gitignore
-  echo tmp/sessions >> .gitignore
-  echo tmp/sockets >> .gitignore
+  echo log/* >> .gitignore
+  echo .DS_Store >> .gitignore
+  echo tmp/**/* >> .gitignore
+  echo db/schema.rb >> .gitignore
   git add .gitignore
   git commit .gitignore -m "Set various ignores"
 }
