@@ -1,0 +1,21 @@
+snippet fore value
+  foreach ($${1:variable} as $${2:value})
+  {
+    ${3}
+  }
+
+snippet fore key => value
+  foreach ($${1:variable} as $${2:key} => $${3:value})
+  {
+    ${4}
+  }
+
+snippet fore value (template)
+  <?php foreach ($${1:variable} as $${2:value}): ?>
+    ${3}
+  <?php endforeach ?>
+
+snippet fore key => value (template)
+  <?php foreach ($${1:variable} as $${2:key} => $${3:value}): ?>
+    ${4}
+  <?php endforeach ?>
