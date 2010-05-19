@@ -26,32 +26,33 @@ if !exists("jslint_parser")
     let jslint_parser = jslint_plugin_path . '/parser.js'
 endif
 
-if !exists("jslint_command")
-    let sep = ' '
-    if has('win32')
-        let js_interpreter = 'cscript /NoLogo '
-    else
-        let jsc = '/System/Library/Frameworks/JavaScriptCore.framework/Resources/jsc'
-        if executable(jsc)
-            let js_interpreter = jsc
-            let sep = ' -- '
-        elseif executable('js')
-            let js_interpreter = 'js'
-        endif
-    endif
-    let jslint_command = js_interpreter . ' ' . jslint_parser . sep . '"' . jslint_plugin_path . '/fulljslint.js"'
+if !exists("fulljslint")
+    let fulljslint = jslint_plugin_path . '/fulljslint.js'
 endif
 
-if !exists('cat_cmd')
-    if has('win32')
-        let cat_cmd = 'type'
-    else
-        let cat_cmd = 'cat'
-    end
+if !exists("jslint_command")
+    let jsc = '/System/Library/Frameworks/JavaScriptCore.framework/Resources/jsc'
+    if executable(jsc)
+        let js_interpreter = jsc
+        let sep = ' -- '
+    elseif executable('js')
+        let js_interpreter = 'js'
+        let sep = ' '
+    endif
+    let jslint_command = js_interpreter . ' ' . jslint_parser . sep . fulljslint
 endif
 
 if !exists("jslint_highlight_color")
   let jslint_highlight_color = 'DarkMagenta'
+endif
+
+if !exists("jslintrc")
+    let jslintrc_file = expand('~/.jslintrc')
+    if filereadable(jslintrc_file)
+        let jslintrc = readfile(jslintrc_file)
+    else
+        let s:jslintrc = []
+    end
 endif
 
 " set up auto commands
@@ -63,7 +64,7 @@ autocmd BufWinLeave * call s:MaybeClearCursorLineColor()
 function! s:JSLint()
   " run javascript lint on the current file
   let current_file = shellescape(expand('%:p'))
-  let cmd_output = system(g:jslint_command . ' ' . current_file . ' ' . '"' . system(g:cat_cmd . ' ' . current_file) . '"')
+  let cmd_output = system(g:jslint_command . ' ' . current_file, join(g:jslintrc + getline(1, line("$")), "\n") . "\n")
   let &errorformat='%f(%l): %m'
   " if some warnings were found, we process them
   if strlen(cmd_output) > 0

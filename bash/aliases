@@ -4,6 +4,7 @@
 for i in /usr/local/bin/*; do
     alias `basename $i`=$i
 done
+alias brew-update-outdated='brew outdated | xargs brew install'
 
 if [ -x /usr/local/bin/ls ] ; then
     alias l='ls --color -C -F'
@@ -35,18 +36,14 @@ alias et='mate . &'
 alias ett='mate app config lib db public test &'
 
 # Bash
-ewx='egrep -rHn --colour auto --exclude *.tmp --exclude entries --exclude *.log --exclude-dir build --exclude-dir *.xcodeproj --exclude-dir /tmp --exclude-dir .svn-base --exclude-dir .svn --no-messages *'
-alias g="$ewx -e"
-alias gcss="$ewx --include *.css --include *.sass --no-messages -e"
-alias ghtml="$ewx --include *.html --include *.html.erb --no-messages -e"
-alias gjs="$ewx --include *.js --no-messages -e"
-alias grake="$ewx --include rakefile --include Rakefile --include *.rake --no-messages -e"
-alias gruby="$ewx --include *.rb --no-messages -e"
+alias a='ack -e'
+for ext in 'css' 'html' 'ruby' 'rake' 'js'
+do
+    eval "alias a$ext='ack --$ext'"
+done
 
 # Palm
 alias p='novacom -t open tty://'
-
-alias 'restart-tunnelblick'='sudo killall -9 openvpn; open /Applications/Tunnelblick.app'
 
 # Fast Ri
 alias fri='fri -L'
