@@ -35,11 +35,16 @@ alias cvim='mvim -p `sst | grep ^C | awk "{print $2}"`'
 alias et='mate . &'
 alias ett='mate app config lib db public test &'
 
-# Bash
-alias a='ack'
-for ext in 'css' 'html' 'ruby' 'rake' 'js'
+# Ack
+for ext in '' 'css' 'html' 'ruby' 'rake' 'js'
 do
-    eval "alias a$ext='ack --$ext'"
+    if [ "$ext" = '' ]
+    then
+        param=""
+    else
+        param="--$ext"
+    fi
+    eval "alias a$ext='ack --ignore-dir=build $param'"
 done
 
 # Palm
