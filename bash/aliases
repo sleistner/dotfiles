@@ -36,7 +36,7 @@ alias et='mate . &'
 alias ett='mate app config lib db public test &'
 
 # Bash
-alias a='ack -e'
+alias a='ack'
 for ext in 'css' 'html' 'ruby' 'rake' 'js'
 do
     eval "alias a$ext='ack --$ext'"
