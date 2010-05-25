@@ -1,1 +1,2 @@
-/usr/local/Cellar/mysql/5.1.45/share/mysql/mysql.server
+MYSQL_PATH=/usr/local/Cellar/mysql
+source $MYSQL_PATH/$(ls -t $MYSQL_PATH | head -n1)/share/mysql/mysql.server
