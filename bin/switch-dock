@@ -1,7 +1,5 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env sh
 
-entry = 'com.apple.dock no-glass -boolean'
-default = `defaults read #{entry}`
-`defaults write #{entry} #{default < '1'} && killall Dock`
-
+entry="com.apple.dock no-glass -int"
+defaults write $entry $((! `defaults read $entry`)) && killall Dock
 
