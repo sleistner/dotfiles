@@ -44,7 +44,7 @@ do
     else
         param="--$ext"
     fi
-    eval "alias a$ext='ack --ignore-dir=build $param'"
+    eval "alias a$ext='ack --ignore-dir=build --ignore-dir=*dist $param'"
 done
 
 # Palm

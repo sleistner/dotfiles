@@ -200,7 +200,7 @@ if has("gui_running")
 
   if has("gui_macvim")
 
-    set transp=0
+    set transp=15
     let macvim_skip_cmd_opt_movement=1
 
     if has("autocmd")
@@ -222,6 +222,6 @@ if has("gui_running")
 
 " === colors/ colorscheme ============== === ==  =
 
-  colorscheme railscast
+  colorscheme macvim
 
 endif " gui_running
