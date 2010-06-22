@@ -43,8 +43,9 @@ let c_comment_strings = 1
 
 " --- fuzzy_finder_textmate --- --  -
 
-let g:fuzzy_ignore = "*.log;*.png;*.jpg;*.gif;vendor/rails/**;coverage/**;tmp/**;.git/**;.svn/**;javascripts-cc/**"
-let g:fuzzy_matching_limit = 30
+let g:fuzzy_ignore = "*.log;*.png;*.jpg;*.gif;vendor/rails/**;coverage/**;tmp/**;.git/**;.svn/**;javascripts-cc/**;build/**;dist/**"
+let g:fuzzy_matching_limit = 50
+let g:fuzzy_path_display = 'path'
 
 " --- auto commands -------------- --- --  -
 
@@ -200,19 +201,19 @@ if has("gui_running")
 
   if has("gui_macvim")
 
-    set transp=15
+    "set transp=10
     let macvim_skip_cmd_opt_movement=1
 
-    if has("autocmd")
-      autocmd GUIEnter * set guifont=Monaco:h12
-    endif
+    "if has("autocmd")
+      "autocmd GUIEnter * set guifont=Monaco:h12
+    "endif
 
   endif
 
 " --- window size and fonts -------------- --- --  -
 
     if has("autocmd")
-        autocmd GUIEnter * winsize 140 45
+        autocmd GUIEnter * winsize 155 55
 
         if ! has("gui_macvim")
           autocmd GUIEnter * set guifont=Monospace\ 10
