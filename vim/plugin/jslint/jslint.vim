@@ -51,7 +51,7 @@ if !exists("jslintrc")
     if filereadable(jslintrc_file)
         let jslintrc = readfile(jslintrc_file)
     else
-        let s:jslintrc = []
+        let jslintrc = []
     end
 endif
 

@@ -1,37 +1,31 @@
-(function() {
-    load(arguments[0]);
+load(arguments[0]);
 
-    function readlines() {
-        var line = readline(),
-            input = [],
+function readSTDIN() {
+    var line,
+        input = [],
+        emptyCount = 0,
+        i;
+
+    line = readline();
+    while (emptyCount < 25) {
+        input.push(line);
+        if (line) {
             emptyCount = 0;
-
-        while (emptyCount < 25) {
-            input.push(line);
-            if (line) {
-                emptyCount = 0;
-            } else {
-                emptyCount += 1;
-            }
-            line = readline();
+        } else {
+            emptyCount += 1;
         }
-
-        input.splice(-emptyCount);
-        return input.join("\n");
+        line = readline();
     }
 
-    if (!JSLINT(readlines() || arguments[2])) {
-        var file = arguments[1],
-            len = JSLINT.errors.length,
-            error,
-            sillyReason = /expected an assignment or function call and instead saw an expression/i;
+    input.splice(-emptyCount);
+    return input.join("\n");
+}
 
-        for (var i = 0; i < len; i++) {
-            error = JSLINT.errors[i];
-            if (!sillyReason.test(error.reason)) {
-                print(file + '(' + error.line + '): ' + error.id.replace(/\(|\)/g, '') + ': ' + error.reason.toLowerCase());
-            }
-        }
+var body = readSTDIN() || arguments[2];
+if (!JSLINT(body)) {
+    var file = arguments[1], len = JSLINT.errors.length, error;
+    for (var i = 0; i < len; i++) {
+        error = JSLINT.errors[i];
+        print(file + '(' + error.line + '): ' + error.id.replace(/\(|\)/g, '') + ': ' + error.reason.toLowerCase());
     }
-
-}).apply(null, arguments);
+}
