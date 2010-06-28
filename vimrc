@@ -148,6 +148,7 @@ map <silent> <M-Left> <C-T>
 
 " Shortcut to the FuzzyFinderTextMate (plugin)
 map <leader>t :FuzzyFinderTextMate<CR>
+map <leader>r :FuzzyFinderTextMateRefreshFiles<CR>
 
 " NERDTree settings (launch with \nt or \\)
 let g:NERDTreeQuitOnOpen = 0

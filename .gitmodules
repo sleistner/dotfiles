@@ -27,7 +27,7 @@
 	url = git://github.com/msanders/snipmate.vim.git
 [submodule "vim-plugins/snipmate-snippets"]
 	path = vim-plugins/snipmate-snippets
-	url = git://github.com/kfl62/snipmate-snippets.git
+	url = git://github.com/scrooloose/snipmate-snippets.git
 [submodule "vim-plugins/jslint"]
 	path = vim-plugins/jslint
 	url = git://github.com/sleistner/jslint.git
