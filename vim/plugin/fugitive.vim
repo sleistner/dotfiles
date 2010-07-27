@@ -1653,6 +1653,13 @@ function! s:GF(mode) abort
       elseif getline('.') =~# '^diff --git \%(a/.*\|/dev/null\) \%(b/.*\|/dev/null\)'
         let dref = matchstr(getline('.'),'\Cdiff --git \zs\%(a/.*\|/dev/null\)\ze \%(b/.*\|/dev/null\)')
         let ref = matchstr(getline('.'),'\Cdiff --git \%(a/.*\|/dev/null\) \zs\%(b/.*\|/dev/null\)')
+        let dcmd = 'Gdiff'
+
+      elseif getline('.') =~# '^index ' && getline(line('.')-1) =~# '^diff --git \%(a/.*\|/dev/null\) \%(b/.*\|/dev/null\)'
+        let line = getline(line('.')-1)
+        let dref = matchstr(line,'\Cdiff --git \zs\%(a/.*\|/dev/null\)\ze \%(b/.*\|/dev/null\)')
+        let ref = matchstr(line,'\Cdiff --git \%(a/.*\|/dev/null\) \zs\%(b/.*\|/dev/null\)')
+        let dcmd = 'Gdiff!'
 
       elseif line('$') == 1 && getline('.') =~ '^\x\{40\}$'
         let ref = getline('.')
@@ -1680,7 +1687,7 @@ function! s:GF(mode) abort
       endif
 
       if exists('dref')
-        return s:Edit(a:mode,ref) . '|Gdiff '.s:fnameescape(dref)
+        return s:Edit(a:mode,ref) . '|'.dcmd.' '.s:fnameescape(dref)
       elseif ref != ""
         return s:Edit(a:mode,ref)
       endif
@@ -1721,6 +1728,18 @@ function! fugitive#statusline(...)
     return '[Git'.status.']'
   endif
 endfunction
+
+function! s:repo_config(conf) dict abort
+  return matchstr(system(s:repo().git_command('config').' '.a:conf),"[^\r\n]*")
+endfun
+
+function! s:repo_user() dict abort
+  let username=s:repo().config('user.name')
+  let useremail=s:repo().config('user.email')
+  return username.' <'.useremail.'>'
+endfun
+
+call s:add_methods('repo',['config', 'user'])
 
 " }}}1
 
