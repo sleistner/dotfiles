@@ -6,6 +6,7 @@ if [ $? -eq 1 ] ; then
   export PATH
 fi
 
+PATH=/usr/local/bin:/usr/local/sbin:$PATH
 PATH=$HOME/.bin:$PATH
 PATH=$PATH:/Developer/SDKs/AIR
 PATH=$PATH:/Developer/SDKs/Flex
