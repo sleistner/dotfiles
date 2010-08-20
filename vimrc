@@ -150,7 +150,7 @@ map <leader>r :FuzzyFinderTextMateRefreshFiles<CR>
 " NERDTree settings (launch with \nt or \\)
 let g:NERDTreeQuitOnOpen = 0
 map <silent> <leader>e :NERDTreeToggle<CR>
-map <silent> <leader>` :NERDTreeFind <CR>
+map <silent> <leader>` :NERDTreeFind<CR>
 
 " Shortcut to the BufExplorer (plugin)
 map <silent> <F5> <Esc>\be
@@ -160,12 +160,10 @@ map <leader>b :FuzzyFinderBuffer<CR>
 map <silent> <A-D-Left> :tabprevious<cr>
 map <silent> <A-D-Right> :tabnext<cr>
 
-" Create new tab (after current tab)
-map <silent> <O-t> :tabnew<CR>
-map <silent> <M-t> :tabnew<CR>
+"Create new tab (after current tab)
+"map <silent> <M-t> :tabnew<CR>
 
-map <silent> <S-O-t> :tabnew<CR>:e\ .<CR>
-map <silent> <S-M-t> :tabnew<CR>:e\ .<CR>
+"map <silent> <S-M-t> :tabnew<CR>:FuzzyFinderTextMate<CR>
 
 function! RmTrailingWhitespaces()
   let pos = getpos('.')
@@ -202,9 +200,9 @@ if has("gui_running")
     "set transp=10
     let macvim_skip_cmd_opt_movement=1
 
-    "if has("autocmd")
-      "autocmd GUIEnter * set guifont=Monaco:h12
-    "endif
+    if has("autocmd")
+      autocmd GUIEnter * set guifont=Monaco:h12
+    endif
 
   endif
 
@@ -221,6 +219,6 @@ if has("gui_running")
 
 " === colors/ colorscheme ============== === ==  =
 
-  colorscheme macvim
+  colorscheme railscast
 
 endif " gui_running
