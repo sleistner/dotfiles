@@ -1,10 +1,10 @@
 # vim:syntax=sh
 
 # Homebrew
-for i in /usr/local/bin/*; do
-    alias `basename $i`=$i
-done
-alias brew-update-outdated='brew outdated | xargs brew install'
+#for i in /usr/local/bin/*; do
+    #alias `basename $i`=$i
+#done
+alias brew-update-outdated='brew outdated | xargs brew install -f'
 
 if [ -x /usr/local/bin/ls ] ; then
     alias l='ls --color -C -F'
