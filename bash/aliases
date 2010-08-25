@@ -6,7 +6,8 @@
 #done
 alias brew-update-outdated='brew outdated | xargs brew install -f'
 
-if [ -x /usr/local/bin/ls ] ; then
+if [ -x /usr/local/bin/gls ] ; then
+    alias ls='gls'
     alias l='ls --color -C -F'
 else
     alias l='ls -CF'
