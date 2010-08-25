@@ -36,8 +36,9 @@ alias et='mate . &'
 alias ett='mate app config lib db public test &'
 
 # Ack
-for ext in '' 'css' 'html' 'ruby' 'rake' 'js'; do
-    eval "alias a$ext='ack --ignore-dir=build --ignore-dir=dist --$ext'"
+for name in '' 'css' 'html' 'ruby' 'rake' 'js'; do
+    if [ $name ]; then ext=" --$name"; fi
+    eval "alias a$name='ack --ignore-dir=build --ignore-dir=dist$ext'"
 done
 
 # Palm
