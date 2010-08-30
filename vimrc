@@ -219,6 +219,6 @@ if has("gui_running")
 
 " === colors/ colorscheme ============== === ==  =
 
-  colorscheme railscast
+  colorscheme coda
 
 endif " gui_running
