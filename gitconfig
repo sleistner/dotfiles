@@ -26,3 +26,5 @@
 
 [github]
 	user = sleistner
+[core]
+	excludesfile = /Users/sleistner/.gitignore

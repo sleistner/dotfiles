@@ -194,6 +194,7 @@ if has("gui_running")
 
 " --- MacVim -------------- --- --  -
   set guioptions=egmrt
+  set guioptions-=r
 
   if has("gui_macvim")
 
@@ -219,6 +220,6 @@ if has("gui_running")
 
 " === colors/ colorscheme ============== === ==  =
 
-  colorscheme coda
+  colorscheme dawn
 
 endif " gui_running
