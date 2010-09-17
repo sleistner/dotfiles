@@ -220,6 +220,6 @@ if has("gui_running")
 
 " === colors/ colorscheme ============== === ==  =
 
-  colorscheme dawn
+  colorscheme slate
 
 endif " gui_running
