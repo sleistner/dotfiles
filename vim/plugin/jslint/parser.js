@@ -21,7 +21,7 @@ function readSTDIN() {
     return input.join("\n");
 }
 
-var body = arguments[2] || readSTDIN();
+var body = readSTDIN() || arguments[2];
 if (!JSLINT(body)) {
     var file = arguments[1], len = JSLINT.errors.length, error;
     for (var i = 0; i < len; i++) {

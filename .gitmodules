@@ -22,9 +22,6 @@
 [submodule "vim-plugins/nerdcommenter"]
 	path = vim-plugins/nerdcommenter
 	url = git://github.com/scrooloose/nerdcommenter.git
-[submodule "vim-plugins/snipmate"]
-	path = vim-plugins/snipmate
-	url = git://github.com/msanders/snipmate.vim.git
 [submodule "vim-plugins/jslint"]
 	path = vim-plugins/jslint
 	url = git://github.com/sleistner/jslint.git

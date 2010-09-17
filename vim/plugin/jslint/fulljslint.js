@@ -1,5 +1,5 @@
 // jslint.js
-// 2010-06-27
+// 2010-09-16
 
 /*
 Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
@@ -147,8 +147,8 @@ SOFTWARE.
 /*members "\b", "\t", "\n", "\f", "\r", "!=", "!==", "\"", "%",
     "(begin)", "(breakage)", "(context)", "(error)", "(global)",
     "(identifier)", "(last)", "(line)", "(loopage)", "(name)", "(onevar)",
-    "(params)", "(scope)", "(verb)", "*", "+", "++", "-", "--", "\/",
-    "<", "<=", "==", "===", ">", ">=", ADSAFE, ActiveXObject,
+    "(params)", "(scope)", "(statement)", "(verb)", "*", "+", "++", "-",
+    "--", "\/", "<", "<=", "==", "===", ">", ">=", ADSAFE, ActiveXObject,
     Array, Boolean, COM, CScript, Canvas, CustomAnimation, Date, Debug, E,
     Enumerator, Error, EvalError, FadeAnimation, Flash, FormField, Frame,
     Function, HotKey, Image, JSON, LN10, LN2, LOG10E, LOG2E, MAX_VALUE,
@@ -237,8 +237,8 @@ SOFTWARE.
     seashell, section, select, serialize, setInterval, setTimeout, shift,
     showWidgetPreferences, sienna, silver, skyblue, slateblue, slategray,
     sleep, slice, small, snow, sort, source, span, spawn, speak, split,
-    springgreen, src, stack, status, steelblue, strict, strong, style,
-    styleproperty, sub, substr, sup, supplant, suppressUpdates, sync,
+    springgreen, src, stack, statement, status, steelblue, strict, strong,
+    style, styleproperty, sub, substr, sup, supplant, suppressUpdates, sync,
     system, table, "table-layout", tan, tbody, td, teal, tellWidget, test,
     "text-align", "text-decoration", "text-indent", "text-shadow",
     "text-transform", textarea, tfoot, th, thead, thistle, time, title,
@@ -902,7 +902,7 @@ var JSLINT = (function () {
 // unsafe characters that are silently deleted by one or more browsers
         cx = /[\u0000-\u001f\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/,
 // token
-        tx = /^\s*([(){}\[.,:;'"~\?\]#@]|==?=?|\/(\*(jslint|members?|global)?|=|\/)?|\*[\/=]?|\+[+=]?|-[\-=]?|%=?|&[&=]?|\|[|=]?|>>?>?=?|<([\/=!]|\!(\[|--)?|<=?)?|\^=?|\!=?=?|[a-zA-Z_$][a-zA-Z0-9_$]*|[0-9]+([xX][0-9a-fA-F]+|\.[0-9]*)?([eE][+\-]?[0-9]+)?)/,
+        tx = /^\s*([(){}\[.,:;'"~\?\]#@]|==?=?|\/(\*(jslint|members?|global)?|=|\/)?|\*[\/=]?|\+(?:=|\++)?|-(?:=|-+)?|%=?|&[&=]?|\|[|=]?|>>?>?=?|<([\/=!]|\!(\[|--)?|<=?)?|\^=?|\!=?=?|[a-zA-Z_$][a-zA-Z0-9_$]*|[0-9]+([xX][0-9a-fA-F]+|\.[0-9]*)?([eE][+\-]?[0-9]+)?)/,
 // html token
         hx = /^\s*(['"=>\/&#]|<(?:\/|\!(?:--)?)?|[a-zA-Z][a-zA-Z0-9_\-:]*|[0-9]+|--)/,
 // characters in strings that need escapement
@@ -958,10 +958,10 @@ var JSLINT = (function () {
     }
 
     String.prototype.entityify = function () {
-        return this.
-            replace(/&/g, '&amp;').
-            replace(/</g, '&lt;').
-            replace(/>/g, '&gt;');
+        return this
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
     };
 
     String.prototype.isAlpha = function () {
@@ -1169,10 +1169,10 @@ var JSLINT = (function () {
         return {
             init: function (source) {
                 if (typeof source === 'string') {
-                    lines = source.
-                        replace(/\r\n/g, '\n').
-                        replace(/\r/g, '\n').
-                        split('\n');
+                    lines = source
+                        .replace(/\r\n/g, '\n')
+                        .replace(/\r/g, '\n')
+                        .split('\n');
                 } else {
                     lines = source;
                 }
@@ -2120,6 +2120,14 @@ loop:   for (;;) {
         }
     }
 
+    function nobreak(left, right) {
+        left = left || token;
+        right = right || nexttoken;
+        if (left.character !== right.from || left.line !== right.line) {
+            warning("Unexpected space before '{a}'.", right, right.value);
+        }
+    }
+
     function nospace(left, right) {
         left = left || token;
         right = right || nexttoken;
@@ -2272,13 +2280,8 @@ loop:   for (;;) {
 
     function reservevar(s, v) {
         return reserve(s, function () {
-            if (this.id === 'this' || this.id === 'arguments' ||
-                    this.id === 'eval') {
-                if (strict_mode && funct['(global)']) {
-                    warning("Strict violation.", this);
-                } else if (option.safe) {
-                    warning("ADsafe violation.", this);
-                }
+            if (typeof v === 'function') {
+                v(this);
             }
             return this;
         });
@@ -2333,7 +2336,7 @@ loop:   for (;;) {
     function isPoorRelation(node) {
         return node &&
               ((node.type === '(number)' && +node.value === 0) ||
-               (node.type === '(string)' && node.value === ' ') ||
+               (node.type === '(string)' && node.value === '') ||
                 node.type === 'true' ||
                 node.type === 'false' ||
                 node.type === 'undefined' ||
@@ -2348,7 +2351,9 @@ loop:   for (;;) {
             that.left = left;
             if (predefined[left.value] === false &&
                     scope[left.value]['(global)'] === true) {
-                warning('Read only.', left);
+                warning("Read only.", left);
+            } else if (left['function']) {
+                warning("'{a}' is a function.", left, left.value);
             }
             if (option.safe) {
                 l = left;
@@ -2560,6 +2565,8 @@ loop:   for (;;) {
             advance();
             advance(';');
             strict_mode = true;
+            option.newcap = true;
+            option.undef = true;
             return true;
         } else {
             return false;
@@ -2674,13 +2681,6 @@ loop:   for (;;) {
         scope = s;
         inblock = b;
         return a;
-    }
-
-
-// An identity function, used by string and number tokens.
-
-    function idValue() {
-        return this;
     }
 
 
@@ -3923,13 +3923,13 @@ loop:   for (;;) {
                         break;
                     }
                     if (nexttoken.value.indexOf('--') >= 0) {
-                        warning("Unexpected --.");
+                        error("Unexpected --.");
                     }
                     if (nexttoken.value.indexOf('<') >= 0) {
-                        warning("Unexpected <.");
+                        error("Unexpected <.");
                     }
                     if (nexttoken.value.indexOf('>') >= 0) {
-                        warning("Unexpected >.");
+                        error("Unexpected >.");
                     }
                 }
                 xmode = 'outer';
@@ -3958,8 +3958,12 @@ loop:   for (;;) {
 
 // Build the syntax table by declaring the syntactic elements of the language.
 
-    type('(number)', idValue);
-    type('(string)', idValue);
+    type('(number)', function () {
+        return this;
+    });
+    type('(string)', function () {
+        return this;
+    });
 
     syntax['(identifier)'] = {
         type: '(identifier)',
@@ -3970,6 +3974,9 @@ loop:   for (;;) {
                 s = scope[v],
                 f;
             if (typeof s === 'function') {
+
+// Protection against accidental inheritance.
+
                 s = undefined;
             } else if (typeof s === 'boolean') {
                 f = funct;
@@ -3988,6 +3995,13 @@ loop:   for (;;) {
                 switch (funct[v]) {
                 case 'unused':
                     funct[v] = 'var';
+                    break;
+                case 'unction':
+                    funct[v] = 'function';
+                    this['function'] = true;
+                    break;
+                case 'function':
+                    this['function'] = true;
                     break;
                 case 'label':
                     warning("'{a}' is a statement label.", token, v);
@@ -4040,6 +4054,11 @@ loop:   for (;;) {
                     } else {
                         switch (s[v]) {
                         case 'function':
+                        case 'unction':
+                            this['function'] = true;
+                            s[v] = 'closure';
+                            funct[v] = s['(global)'] ? 'global' : 'outer';
+                            break;
                         case 'var':
                         case 'unused':
                             s[v] = 'closure';
@@ -4059,7 +4078,7 @@ loop:   for (;;) {
         },
         led: function () {
             error("Expected an operator and instead saw '{a}'.",
-                    nexttoken, nexttoken.value);
+                nexttoken, nexttoken.value);
         }
     };
 
@@ -4093,13 +4112,30 @@ loop:   for (;;) {
     reserve('catch');
     reserve('default').reach = true;
     reserve('finally');
-    reservevar('arguments');
-    reservevar('eval');
+    reservevar('arguments', function (x) {
+        if (strict_mode && funct['(global)']) {
+            warning("Strict violation.", x);
+        } else if (option.safe) {
+            warning("ADsafe violation.", x);
+        }
+    });
+    reservevar('eval', function (x) {
+        if (option.safe) {
+            warning("ADsafe violation.", x);
+        }
+    });
     reservevar('false');
     reservevar('Infinity');
     reservevar('NaN');
     reservevar('null');
-    reservevar('this');
+    reservevar('this', function (x) {
+        if (strict_mode && ((funct['(statement)'] &&
+                funct['(name)'].charAt(0) > 'Z') || funct['(global)'])) {
+            warning("Strict violation.", x);
+        } else if (option.safe) {
+            warning("ADsafe violation.", x);
+        }
+    });
     reservevar('true');
     reservevar('undefined');
     assignop('=', 'assign', 20);
@@ -4181,8 +4217,32 @@ loop:   for (;;) {
         return that;
     }, 130);
     prefix('+', 'num');
+    prefix('+++', function () {
+        warning("Confusing pluses.");
+        this.right = parse(150);
+        this.arity = 'unary';
+        return this;
+    });
+    infix('+++', function (left) {
+        warning("Confusing pluses.");
+        this.left = left;
+        this.right = parse(130);
+        return this;
+    }, 130);
     infix('-', 'sub', 130);
     prefix('-', 'neg');
+    prefix('---', function () {
+        warning("Confusing minuses.");
+        this.right = parse(150);
+        this.arity = 'unary';
+        return this;
+    });
+    infix('---', function (left) {
+        warning("Confusing minuses.");
+        this.left = left;
+        this.right = parse(130);
+        return this;
+    }, 130);
     infix('*', 'mult', 140);
     infix('/', 'div', 140);
     infix('%', 'mod', 140);
@@ -4197,8 +4257,7 @@ loop:   for (;;) {
     prefix('delete', function () {
         var p = parse(0);
         if (!p || (p.id !== '.' && p.id !== '[')) {
-            warning("Expected '{a}' and instead saw '{b}'.",
-                    nexttoken, '.', nexttoken.value);
+            warning("Variables should not be deleted.");
         }
         this.first = p;
         return this;
@@ -4301,13 +4360,17 @@ loop:   for (;;) {
 
     infix('.', function (left, that) {
         adjacent(prevtoken, token);
+        nobreak();
         var m = identifier();
         if (typeof m === 'string') {
             countMember(m);
         }
         that.left = left;
         that.right = m;
-        if (!option.evil && left && left.value === 'document' &&
+        if (left && left.value === 'arguments' &&
+                (m === 'callee' || m === 'caller')) {
+            warning("Avoid arguments.{a}.", left, m);
+        } else if (!option.evil && left && left.value === 'document' &&
                 (m === 'write' || m === 'writeln')) {
             warning("document.write can be a form of eval.", left);
         } else if (option.adsafe) {
@@ -4365,6 +4428,11 @@ loop:   for (;;) {
     infix('(', function (left, that) {
         adjacent(prevtoken, token);
         nospace();
+        if (option.immed && !left.immed && left.id === 'function') {
+            warning("Wrap an immediate function invocation in parentheses " +
+                "to assist the reader in understanding that the expression " +
+                "is the result of a function, and not the function itself.");
+        }
         var n = 0,
             p = [];
         if (left) {
@@ -4399,10 +4467,6 @@ loop:   for (;;) {
             }
         }
         advance(')');
-        if (option.immed && left.id === 'function' && nexttoken.id !== ')') {
-            warning("Wrap the entire immediate function invocation in parens.",
-                that);
-        }
         nospace(prevtoken, token);
         if (typeof left === 'object') {
             if (left.value === 'parseInt' && n === 1) {
@@ -4431,6 +4495,9 @@ loop:   for (;;) {
 
     prefix('(', function () {
         nospace();
+        if (nexttoken.id === 'function') {
+            nexttoken.immed = true;
+        }
         var v = parse(0);
         advance(')', this);
         nospace(prevtoken, token);
@@ -4521,17 +4588,23 @@ loop:   for (;;) {
 
 
     function property_name() {
-        var i = optionalidentifier(true);
-        if (!i) {
+        var id = optionalidentifier(true);
+        if (!id) {
             if (nexttoken.id === '(string)') {
-                i = nexttoken.value;
+                id = nexttoken.value;
+                if (option.adsafe &&
+                        (id.charAt(0) === '_' ||
+                         id.charAt(id.length - 1) === '_')) {
+                    warning("Unexpected {a} in '{b}'.", token,
+                        "dangling '_'", id);
+                }
                 advance();
             } else if (nexttoken.id === '(number)') {
-                i = nexttoken.value.toString();
+                id = nexttoken.value.toString();
                 advance();
             }
         }
-        return i;
+        return id;
     }
 
 
@@ -4559,16 +4632,17 @@ loop:   for (;;) {
     }
 
 
-    function doFunction(i) {
+    function doFunction(i, statement) {
         var f, s = scope;
         scope = Object.create(s);
         funct = {
-            '(name)'    : i || '"' + anonname + '"',
-            '(line)'    : nexttoken.line,
-            '(context)' : funct,
-            '(breakage)': 0,
-            '(loopage)' : 0,
-            '(scope)'   : scope
+            '(name)'     : i || '"' + anonname + '"',
+            '(line)'     : nexttoken.line,
+            '(context)'  : funct,
+            '(breakage)' : 0,
+            '(loopage)'  : 0,
+            '(scope)'    : scope,
+            '(statement)': statement
         };
         f = funct;
         token.funct = funct;
@@ -4675,7 +4749,7 @@ loop:   for (;;) {
     }(delim('{')));
 
 
-    function varstatement(prefix) {
+    var varstatement = function varstatement(prefix) {
 
 // JavaScript does not have block scope. It only has function scope. So,
 // declaring a variable in a block can have unexpected consequences.
@@ -4720,7 +4794,7 @@ loop:   for (;;) {
             comma();
         }
         return this;
-    }
+    };
 
 
     stmt('var', varstatement).exps = true;
@@ -4734,8 +4808,8 @@ loop:   for (;;) {
         }
         var i = identifier();
         adjacent(token, nexttoken);
-        addlabel(i, 'unused');
-        doFunction(i);
+        addlabel(i, 'unction');
+        doFunction(i, true);
         if (nexttoken.id === '(' && nexttoken.line === token.line) {
             error(
 "Function statements are not invocable. Wrap the whole function invocation in parens.");
@@ -5252,27 +5326,30 @@ loop:   for (;;) {
                 o.safe = true;
             }
             if (o.safe) {
-                o.browser = false;
-                o.css     = false;
-                o.debug   = false;
-                o.devel   = false;
-                o.eqeqeq  = true;
-                o.evil    = false;
-                o.forin   = false;
-                o.nomen   = true;
-                o.on      = false;
-                o.rhino   = false;
-                o.safe    = true;
-                o.windows = false;
-                o.strict  = true;
-                o.sub     = false;
-                o.undef   = true;
+                o.browser =
+                o.css     =
+                o.debug   =
+                o.devel   =
+                o.evil    =
+                o.forin   =
+                o.on      =
+                o.rhino   =
+                o.windows =
+                o.sub     =
                 o.widget  = false;
-                predefined.Date = null;
-                predefined['eval'] = null;
-                predefined.Function = null;
+
+                o.eqeqeq  =
+                o.nomen   =
+                o.safe    =
+                o.strict  =
+                o.undef   = true;
+
+                predefined.Date =
+                predefined['eval'] =
+                predefined.Function =
                 predefined.Object = null;
-                predefined.ADSAFE = false;
+
+                predefined.ADSAFE =
                 predefined.lib = false;
             }
             option = o;
@@ -5443,6 +5520,9 @@ loop:   for (;;) {
             for (n in f) {
                 if (is_own(f, n) && n.charAt(0) !== '(') {
                     v = f[n];
+                    if (v === 'unction') {
+                        v = 'unused';
+                    }
                     if (is_array(fu[v])) {
                         fu[v].push(n);
                         if (v === 'unused') {
@@ -5612,8 +5692,9 @@ loop:   for (;;) {
     };
     itself.jslint = itself;
 
-    itself.edition = '2010-06-27';
+    itself.edition = '2010-09-16';
 
     return itself;
 
 }());
+
