@@ -8,9 +8,8 @@ fi
 
 PATH=/usr/local/bin:/usr/local/sbin:$PATH
 PATH=$HOME/.bin:$PATH
-PATH=$PATH:/Developer/SDKs/AIR
-PATH=$PATH:/Developer/SDKs/Flex
-PATH=$PATH:/Developer/SDKs/Android/Current/tools
+PATH=$PATH:/usr/local/share/npm/bin
+PATH=$PATH:$HOME/Projects/lab/JavaScript/UglifyJS/bin
 export PATH
 
 # Ruby Version Manager
