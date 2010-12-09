@@ -44,7 +44,7 @@ let c_comment_strings = 1
 " --- fuzzy_finder_textmate --- --  -
 
 let g:fuzzy_ignore = "*.log;*.png;*.jpg;*.gif;vendor/rails/**;coverage/**;tmp/**;.git/**;.svn/**;javascripts-cc/**;build/**;dist/**"
-let g:fuzzy_matching_limit = 50
+let g:fuzzy_matching_limit = 40
 let g:fuzzy_path_display = 'path'
 
 " --- auto commands -------------- --- --  -
@@ -125,8 +125,8 @@ vmap <silent> <M-Down> :m'>+1<CR>gv
 " Make p in Visual mode replace the selected text with the "" register.
 vnoremap p <Esc>:let current_reg = @"<CR>gvs<C-R>=current_reg<CR><Esc>
 
-"NERD_Commenter
-map <leader>\ ,ci
+"NERD_Commenter Toggle
+map <leader>\ <leader>c<space>
 
 " --- normal mode -------------- --- --  -
 
@@ -188,11 +188,27 @@ iabbr <%- <%- -%><Esc>hhhi
 iabbr <%= <%= %><Esc>hhi
 iabbr <%# <%= %><Esc>hhi
 
+"if has("statusline")
+  "set statusline=
+  "set statusline+=%<\                       " cut at start
+  "set statusline+=%2*[%n%H%M%R%W]%*\        " buffer number, and flags
+  "set statusline+=%-40f\                    " relative path
+  "set statusline+=%=                        " seperate between right- and left-aligned
+  "set statusline+=%1*%y%*%*\                " file type
+  "set statusline+=%10((%l/%L)%)\            " line and column
+  "set statusline+=%P                        " percentage of file
+  "set statusline+=%#warningmsg#
+  "set statusline+=%*
+  "set statusline+=%{fugitive#statusline()}
+"endif
+
 " === gui settings =========================== === ==  =
 
 if has("gui_running")
 
+
 " --- MacVim -------------- --- --  -
+
   set guioptions=egmrt
   set guioptions-=r
 
