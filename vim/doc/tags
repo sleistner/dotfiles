@@ -55,12 +55,12 @@ NERDComComment	NERD_commenter.txt	/*NERDComComment*
 NERDComCredits	NERD_commenter.txt	/*NERDComCredits*
 NERDComDefaultDelims	NERD_commenter.txt	/*NERDComDefaultDelims*
 NERDComEOLComment	NERD_commenter.txt	/*NERDComEOLComment*
-NERDComFiletypes	NERD_commenter.txt	/*NERDComFiletypes*
 NERDComFunctionality	NERD_commenter.txt	/*NERDComFunctionality*
 NERDComFunctionalityDetails	NERD_commenter.txt	/*NERDComFunctionalityDetails*
 NERDComFunctionalitySummary	NERD_commenter.txt	/*NERDComFunctionalitySummary*
 NERDComHeuristics	NERD_commenter.txt	/*NERDComHeuristics*
 NERDComInsertComment	NERD_commenter.txt	/*NERDComInsertComment*
+NERDComInstallation	NERD_commenter.txt	/*NERDComInstallation*
 NERDComInvertComment	NERD_commenter.txt	/*NERDComInvertComment*
 NERDComIssues	NERD_commenter.txt	/*NERDComIssues*
 NERDComLicense	NERD_commenter.txt	/*NERDComLicense*
@@ -242,6 +242,7 @@ fugitive-:Gblame	fugitive.txt	/*fugitive-:Gblame*
 fugitive-:Gcd	fugitive.txt	/*fugitive-:Gcd*
 fugitive-:Gcommit	fugitive.txt	/*fugitive-:Gcommit*
 fugitive-:Gdiff	fugitive.txt	/*fugitive-:Gdiff*
+fugitive-:Gdiff!	fugitive.txt	/*fugitive-:Gdiff!*
 fugitive-:Ge	fugitive.txt	/*fugitive-:Ge*
 fugitive-:Gedit	fugitive.txt	/*fugitive-:Gedit*
 fugitive-:Ggrep	fugitive.txt	/*fugitive-:Ggrep*
@@ -471,6 +472,7 @@ snipMate-expandtab	snipMate.txt	/*snipMate-expandtab*
 snipMate-features	snipMate.txt	/*snipMate-features*
 snipMate-filename	snipMate.txt	/*snipMate-filename*
 snipMate-indenting	snipMate.txt	/*snipMate-indenting*
+snipMate-license	snipMate.txt	/*snipMate-license*
 snipMate-placeholders	snipMate.txt	/*snipMate-placeholders*
 snipMate-remap	snipMate.txt	/*snipMate-remap*
 snipMate-settings	snipMate.txt	/*snipMate-settings*
@@ -490,6 +492,8 @@ surround-mappings	surround.txt	/*surround-mappings*
 surround-replacements	surround.txt	/*surround-replacements*
 surround-targets	surround.txt	/*surround-targets*
 surround.txt	surround.txt	/*surround.txt*
+vS	surround.txt	/*vS*
+vgS	surround.txt	/*vgS*
 vs	surround.txt	/*vs*
 yS	surround.txt	/*yS*
 ySS	surround.txt	/*ySS*

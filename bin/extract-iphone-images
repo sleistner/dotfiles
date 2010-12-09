@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+workspace = ARGV.shift || '.'
+
+Dir.glob("#{workspace}/*.png").each do |file|
+  `iPhonePNG #{file}`
+end

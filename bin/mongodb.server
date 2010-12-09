@@ -6,7 +6,7 @@ NAME="mongodb ($VERSION) service"
 
 start(){
     echo -n $"Starting $NAME: "
-    mongod run --quiet --config $MONGO_PATH/$VERSION/mongod.conf &
+    mongod run --quiet --rest --config $MONGO_PATH/$VERSION/mongod.conf &
 }
 
 stop(){

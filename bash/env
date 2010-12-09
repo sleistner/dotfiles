@@ -9,8 +9,15 @@ fi
 PATH=/usr/local/bin:/usr/local/sbin:$PATH
 PATH=$HOME/.bin:$PATH
 PATH=$PATH:/usr/local/share/npm/bin
-PATH=$PATH:$HOME/Projects/lab/JavaScript/UglifyJS/bin
+
+#for sdk in $HOME/Projects/Developer/SDKs/*; do
+    #PATH=$sdk:$PATH
+#done
+
 export PATH
+
+# Node JS
+export NODE_PATH=/usr/local/Cellar/npm/`npm -v`/lib/node/
 
 # Ruby Version Manager
 if [[ -s $HOME/.rvm/scripts/rvm ]]; then

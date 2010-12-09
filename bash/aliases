@@ -1,32 +1,17 @@
 # vim:syntax=sh
 
-# Homebrew
-#for i in /usr/local/bin/*; do
-    #alias `basename $i`=$i
-#done
 alias brew-update-outdated='brew outdated | xargs brew install -f'
 
-if [ -x /usr/local/bin/gls ] ; then
-    alias ls='gls'
-    alias l='ls --color -C -F'
-else
-    alias l='ls -CF'
-fi
+COREUTILS_PATH=/usr/local/Cellar/coreutils
+source $COREUTILS_PATH/$(ls -t $COREUTILS_PATH | head -n1)/aliases
+
+alias l='ls --color -C -F'
 alias ll='l -lh'
 alias la='l -a'
 alias l1='ls -1'
 alias lla='ll -a'
 
-# Rails
-alias kl='killall -9 ruby'
-alias log_db='tail -F log/development_database.log | egrep -v "(CACHE|SHOW FIELDS)"'
-
-# Rake
-alias mig='rake db:migrate'
-
 # Subversion
-alias sup='svn update'
-alias sst='svn status'
 alias sdel='svn-force-delete'
 alias sad='svn add --force .'
 alias cmate='mate `svn status | grep ^C | awk "{print $2}"`'
@@ -37,9 +22,14 @@ alias et='mate . &'
 alias ett='mate app config lib db public test &'
 
 # Ack
-for name in '' 'css' 'html' 'ruby' 'rake' 'js'; do
-    if [ $name ]; then ext=" --$name"; fi
-    eval "alias a$name='ack --ignore-dir=build --ignore-dir=dist$ext'"
+alias a='ack --ignore-dir=build --ignore-dir=dist'
+
+for extension in 'css' 'html' 'ruby' 'rake' 'js'; do
+    eval "alias a$extension='a --$extension'"
+done
+
+for extension in 'jade'; do
+    eval "alias a$extension='a --type-add TYPE=.$extension'"
 done
 
 # Palm
