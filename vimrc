@@ -41,12 +41,6 @@ syntax on
 
 let c_comment_strings = 1
 
-" --- fuzzy_finder_textmate --- --  -
-
-let g:fuzzy_ignore = "*.log;*.png;*.jpg;*.gif;vendor/rails/**;coverage/**;tmp/**;.git/**;.svn/**;javascripts-cc/**;build/**;dist/**"
-let g:fuzzy_matching_limit = 40
-let g:fuzzy_path_display = 'path'
-
 " --- auto commands -------------- --- --  -
 
 if has("autocmd")
@@ -119,8 +113,8 @@ map <leader>f :call GrepCurrentWord()<CR>
 map <leader>l :call JSLint("%")<CR>
 
 " Move complete block one line down or up with <M-Down> and <M-Up> keys
-vmap <silent> <M-Up> :m'<-2<CR>gv
-vmap <silent> <M-Down> :m'>+1<CR>gv
+vmap <silent> <C-M-Up> :m'<-2<CR>gv
+vmap <silent> <C-M-Down> :m'>+1<CR>gv
 
 " Make p in Visual mode replace the selected text with the "" register.
 vnoremap p <Esc>:let current_reg = @"<CR>gvs<C-R>=current_reg<CR><Esc>
@@ -143,10 +137,6 @@ map <leader>c :copen<CR>
 map <silent> <F3> <C-]>
 map <silent> <M-Left> <C-T>
 
-" Shortcut to the FuzzyFinderTextMate (plugin)
-map <leader>t :FuzzyFinderTextMate<CR>
-map <leader>r :FuzzyFinderTextMateRefreshFiles<CR>
-
 " NERDTree settings (launch with \nt or \\)
 let g:NERDTreeQuitOnOpen = 0
 map <silent> <leader>e :NERDTreeToggle<CR>
@@ -154,16 +144,10 @@ map <silent> <leader>` :NERDTreeFind<CR>
 
 " Shortcut to the BufExplorer (plugin)
 map <silent> <F5> <Esc>\be
-map <leader>b :FuzzyFinderBuffer<CR>
 
 " Switch between tabs (vim7 only!)
 map <silent> <A-D-Left> :tabprevious<cr>
 map <silent> <A-D-Right> :tabnext<cr>
-
-"Create new tab (after current tab)
-"map <silent> <M-t> :tabnew<CR>
-
-"map <silent> <S-M-t> :tabnew<CR>:FuzzyFinderTextMate<CR>
 
 function! RmTrailingWhitespaces()
   let pos = getpos('.')
@@ -187,55 +171,3 @@ imap <silent> <C-l> <Space>=><Space>
 iabbr <%- <%- -%><Esc>hhhi
 iabbr <%= <%= %><Esc>hhi
 iabbr <%# <%= %><Esc>hhi
-
-"if has("statusline")
-  "set statusline=
-  "set statusline+=%<\                       " cut at start
-  "set statusline+=%2*[%n%H%M%R%W]%*\        " buffer number, and flags
-  "set statusline+=%-40f\                    " relative path
-  "set statusline+=%=                        " seperate between right- and left-aligned
-  "set statusline+=%1*%y%*%*\                " file type
-  "set statusline+=%10((%l/%L)%)\            " line and column
-  "set statusline+=%P                        " percentage of file
-  "set statusline+=%#warningmsg#
-  "set statusline+=%*
-  "set statusline+=%{fugitive#statusline()}
-"endif
-
-" === gui settings =========================== === ==  =
-
-if has("gui_running")
-
-
-" --- MacVim -------------- --- --  -
-
-  set guioptions=egmrt
-  set guioptions-=r
-
-  if has("gui_macvim")
-
-    "set transp=10
-    let macvim_skip_cmd_opt_movement=1
-
-    if has("autocmd")
-      autocmd GUIEnter * set guifont=Monaco:h12
-    endif
-
-  endif
-
-" --- window size and fonts -------------- --- --  -
-
-    if has("autocmd")
-        autocmd GUIEnter * winsize 155 55
-
-        if ! has("gui_macvim")
-          autocmd GUIEnter * set guifont=Monospace\ 10
-        endif
-    endif
-
-
-" === colors/ colorscheme ============== === ==  =
-
-  colorscheme slate
-
-endif " gui_running

@@ -1,13 +1,14 @@
 namespace :dotfiles do
+  HOME = File.expand_path(ENV['HOME'])
   PWD = File.dirname(__FILE__)
-  VIM = File.expand_path('~/.vim')
+  VIM = File.join(HOME, '.vim')
 
-  files = %w{gitconfig vim vimrc bashrc bash_profile dircolors bin}
-  desc "Create #{files.join(', ')} symlinks in #{File.expand_path('~')}"
+  files = %w{gitconfig vim vimrc gvimrc bashrc bash_profile dircolors bin autotest}
+  desc "Create #{files.join(', ')} symlinks in #{HOME}"
   task :setup do
     path = File.dirname(__FILE__)
     files.each do |file|
-      cmd = "ln -sfn #{path}/#{file} ~/.#{file}"
+      cmd = "ln -sfn #{path}/#{file} #{File.join(HOME, ".#{file}")}"
       puts "#{cmd} => #{system cmd}"
     end
   end
@@ -30,7 +31,7 @@ namespace :dotfiles do
           if `git pull origin master`
             if plugin_path =~ /snipmate-snippets$/
               `rake deploy_local`
-            else 
+            else
               Dir.glob("#{plugin_path}/*/**/*").each do |file|
                 next if File.directory?(file)
                 target_file = File.join(VIM, file.gsub(plugin_path, ''))
