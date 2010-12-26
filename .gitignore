@@ -2,3 +2,5 @@
 *.swp
 .VimballRecord
 vim/.netrwhist
+.redcar
+bin/redcar
