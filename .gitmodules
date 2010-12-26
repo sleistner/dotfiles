@@ -28,3 +28,6 @@
 [submodule "vim-plugins/snipmate"]
 	path = vim-plugins/snipmate
 	url = git://github.com/MarcWeber/snipmate.vim.git
+[submodule "vim-plugins/vim-pathogen"]
+	path = vim-plugins/vim-pathogen
+	url = https://github.com/tpope/vim-pathogen.git
