@@ -28,8 +28,6 @@ set display=lastline,uhex
 set encoding=utf-8
 set termencoding=utf-8
 
-"set background=dark
-
 " no backups
 set nobackup
 set nowritebackup
@@ -49,6 +47,8 @@ if has("autocmd")
     filetype plugin indent on
 
     autocmd FileType text setlocal textwidth=78
+
+    autocmd FileType js,scss,sass,css setlocal ai nosi sw=4 ts=4 sts=4
 
     autocmd FileType html,rhtml,xml,feature,cucumber setlocal ai nosi sw=2 ts=2 sts=2 et
 
@@ -82,8 +82,6 @@ set viminfo=%,'50,\"100,:100,n~/.viminfo
 
 set dir=~/.tmp
 
-set grepprg=egrep\ -Hrn\ --mmap\ --no-messages\ --colour=auto\ --exclude=tags\ --exclude=*.o\ --exclude=.*.swp\ --exclude=*.tmp\ --exclude=entries\ --exclude=*.pot\ --exclude=*.po\ --exclude=*.log\ --exclude-dir=tmp\ --exclude=*.svn-base\ --exclude-dir=.svn\ --exclude-dir=build\ --exclude-dir=.git\ $*\ .
-
 set list
 set list listchars=tab:»·,trail:·
 
@@ -102,15 +100,26 @@ set smartcase
 " Tags
 let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
 
-function! GrepCurrentWord()
-   exec("grep \"" . expand("<cword>") . "\"")
-   exec("copen")
+" ack
+function! AckGrep(command)
+    cexpr system("ack " . a:command)
+    cw " show quickfix window already
 endfunction
+
+function! AckGrepCurrentWord()
+   call AckGrep("\"" . expand("<cword>") . "\"")
+endfunction
+
+command! -nargs=+ -complete=file Ack call AckGrep(<q-args>)
+
+" /ack
 
 " ======== mappings ========================== === ==  =
 
-map <leader>f :call GrepCurrentWord()<CR>
+map <leader>a :Ack<space>
+map <leader>f :call AckGrepCurrentWord()<CR>
 map <leader>l :call JSLint("%")<CR>
+map <leader>r :Rename<space>
 
 " Move complete block one line down or up with <M-Down> and <M-Up> keys
 vmap <silent> <C-M-Up> :m'<-2<CR>gv
