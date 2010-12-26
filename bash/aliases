@@ -3,7 +3,9 @@
 alias brew-update-outdated='brew outdated | xargs brew install -f'
 
 COREUTILS_PATH=/usr/local/Cellar/coreutils
-source $COREUTILS_PATH/$(ls -t $COREUTILS_PATH | head -n1)/aliases
+if [ -d COREUTILS_PATH ]; then
+    source $COREUTILS_PATH/$(ls -t $COREUTILS_PATH | head -n1)/aliases
+fi
 
 alias l='ls --color -C -F'
 alias ll='l -lh'
@@ -22,6 +24,10 @@ alias et='mate . &'
 alias ett='mate app config lib db public test &'
 
 # Ack
+if [ ! -x ack ];then
+    alias ack='ack-grep'
+fi
+
 alias a='ack --ignore-dir=build --ignore-dir=dist'
 
 for extension in 'css' 'html' 'ruby' 'rake' 'js'; do
