@@ -35,7 +35,7 @@ if has("gui_running")
 
 " === colors/ colorscheme ============== === ==  =
 
-  colorscheme slate
+  colorscheme railscast
 
 endif " gui_running
 
