@@ -4,6 +4,8 @@
 " extended by sleistner@gmail.com
 
 " --- general options -------------- --- --  -
+filetype off
+call pathogen#runtime_append_all_bundles()
 
 set nocompatible
 set tabstop=4
@@ -180,3 +182,4 @@ imap <silent> <C-l> <Space>=><Space>
 iabbr <%- <%- -%><Esc>hhhi
 iabbr <%= <%= %><Esc>hhi
 iabbr <%# <%= %><Esc>hhi
+
