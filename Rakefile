@@ -26,20 +26,21 @@ namespace :dotfiles do
     end
 
     task :update_plugin, :path do |t, args|
-      plugin_path = args.path
-      Dir.chdir(plugin_path) do
-        if `git pull origin master`
-          unless plugin_path =~ /vim\/bundle/
-            Dir.glob("#{plugin_path}/*/**/*").each do |file|
-              next if File.directory?(file)
-              target_file = File.join(VIM, file.gsub(plugin_path, ''))
-              FileUtils.mkdir_p(File.dirname(target_file))
-              FileUtils.cp_r(file, target_file, :remove_destination => true)
-              puts "- #{file.sub(PWD, '')} => #{target_file}"
-            end
-          end
-        end
-      end
+      puts args.path
+      #plugin_path = args.path
+      #Dir.chdir(plugin_path) do
+        #if `git pull origin master`
+          #unless plugin_path =~ /vim\/bundle/
+            #Dir.glob("#{plugin_path}/*/**/*").each do |file|
+              #next if File.directory?(file)
+              #target_file = File.join(VIM, file.gsub(plugin_path, ''))
+              #FileUtils.mkdir_p(File.dirname(target_file))
+              #FileUtils.cp_r(file, target_file, :remove_destination => true)
+              #puts "- #{file.sub(PWD, '')} => #{target_file}"
+            #end
+          #end
+        #end
+      #end
     end
 
   end
