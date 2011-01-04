@@ -1,3 +1,7 @@
+[submodule "vim/bundle/vim-coffee-script"]
+	path = vim/bundle/vim-coffee-script
+	url = https://github.com/kchmck/vim-coffee-script.git
+
 [submodule "vim/bundle/vim-rails"]
 	path = vim/bundle/vim-rails
 	url = git://github.com/tpope/vim-rails.git
@@ -25,12 +29,9 @@
 [submodule "vim/bundle/jslint"]
 	path = vim/bundle/jslint
 	url = git://github.com/sleistner/jslint.git
-[submodule "vim/bundle/snipmate"]
-	path = vim/bundle/snipmate
+[submodule "vim/bundle/snipmate.vim"]
+	path = vim/bundle/snipmate.vim
 	url = git://github.com/MarcWeber/snipmate.vim.git
-[submodule "vim/bundle/vim-pathogen"]
-	path = vim/bundle/vim-pathogen
-	url = https://github.com/tpope/vim-pathogen.git
-[submodule "vim/bundle/vim-coffee-script"]
-	path = vim/bundle/vim-coffee-script
-	url = https://github.com/kchmck/vim-coffee-script.git
+[submodule "vim/bundle/command-T"]
+	path = vim/bundle/command-T
+	url = git://github.com/wincent/Command-T.git
