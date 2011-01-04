@@ -40,6 +40,7 @@ set backspace=indent,eol,start
 syntax on
 
 let c_comment_strings = 1
+let mapleader = ","
 
 " --- auto commands -------------- --- --  -
 
@@ -119,9 +120,24 @@ command! -nargs=+ -complete=file Ack call AckGrep(<q-args>)
 " ======== mappings ========================== === ==  =
 
 map <leader>a :Ack<space>
-map <leader>f :call AckGrepCurrentWord()<CR>
-map <leader>l :call JSLint("%")<CR>
+map <leader>b :BufExplorer<CR>
+map <leader>c :copen<CR>
+map <leader>s :call AckGrepCurrentWord()<CR>
 map <leader>r :Rename<space>
+map <leader>i :set invlist<CR>
+map <leader>w :set nowrap!<CR>
+"map <leader>f :CommandTFlush<CR>
+
+"NERD_Commenter Toggle
+map <silent> <leader>, <leader>c<space>
+
+" NERDTree settings (launch with \nt or \\)
+let g:NERDTreeQuitOnOpen = 0
+map <silent> <leader>e :NERDTreeToggle<CR>
+map <silent> <leader>` :NERDTreeFind<CR>
+
+" Check ruby syntax
+map <leader>v :!ruby -c %:.<CR>
 
 " Move complete block one line down or up with <M-Down> and <M-Up> keys
 vmap <silent> <C-M-Up> :m'<-2<CR>gv
@@ -130,31 +146,13 @@ vmap <silent> <C-M-Down> :m'>+1<CR>gv
 " Make p in Visual mode replace the selected text with the "" register.
 vnoremap p <Esc>:let current_reg = @"<CR>gvs<C-R>=current_reg<CR><Esc>
 
-"NERD_Commenter Toggle
-map <leader>\ <leader>c<space>
-
 " --- normal mode -------------- --- --  -
-
-map <leader>i :set invlist<CR>
-map <leader>w :set nowrap!<CR>
-
 map <S-Insert> <MiddleMouse>
 map! <S-Insert> <MiddleMouse>
-
-"Shortcut to :copen
-map <leader>c :copen<CR>
 
 " Jump into tags (and <Alt-Left> to go back)
 map <silent> <F3> <C-]>
 map <silent> <M-Left> <C-T>
-
-" NERDTree settings (launch with \nt or \\)
-let g:NERDTreeQuitOnOpen = 0
-map <silent> <leader>e :NERDTreeToggle<CR>
-map <silent> <leader>` :NERDTreeFind<CR>
-
-" Shortcut to the BufExplorer (plugin)
-map <silent> <F5> <Esc>\be
 
 " Switch between tabs (vim7 only!)
 map <silent> <A-D-Left> :tabprevious<cr>
@@ -168,9 +166,6 @@ endf
 
 " When editing a file, always jump to the last cursor position
 autocmd BufWritePre * call RmTrailingWhitespaces()
-
-" Check ruby syntax
-map <leader>v :!ruby -c %:.<CR>
 
 " --- insert mode -------------- --- --  -
 
