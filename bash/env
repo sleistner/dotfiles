@@ -9,10 +9,7 @@ fi
 PATH=/usr/local/bin:/usr/local/sbin:$PATH
 PATH=$HOME/.bin:$PATH
 PATH=$PATH:/usr/local/share/npm/bin
-
-#for sdk in $HOME/Projects/Developer/SDKs/*; do
-    #PATH=$sdk:$PATH
-#done
+PATH=$PATH:/usr/local/Cellar/python/2.7/bin
 
 export PATH
 
