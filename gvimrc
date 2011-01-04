@@ -17,8 +17,8 @@ if has("gui_running")
     endif
 
  " --- Mappings ------------------- --- --  - "
-    macmenu &File.New\ Tab key=<nop>
-    map <D-t> :CommandT<CR>
+    "macmenu &File.New\ Tab key=<nop>
+    "map <D-t> :CommandT<CR>
 
   endif
 

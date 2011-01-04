@@ -3,7 +3,7 @@
 alias brew-update-outdated='brew outdated | xargs brew install -f'
 
 COREUTILS_PATH=/usr/local/Cellar/coreutils
-if [ -d COREUTILS_PATH ]; then
+if [ -d $COREUTILS_PATH ]; then
     source $COREUTILS_PATH/$(ls -t $COREUTILS_PATH | head -n1)/aliases
 fi
 
@@ -24,7 +24,7 @@ alias et='mate . &'
 alias ett='mate app config lib db public test &'
 
 # Ack
-if [ ! -x ack ];then
+if [ ! -x `which ack` ];then
     alias ack='ack-grep'
 fi
 
