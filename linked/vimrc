@@ -5,8 +5,8 @@
 
 " --- general options -------------- --- --  -
 filetype off
-call pathogen#helptags()
 call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
 
 set nocompatible
 set tabstop=4
@@ -49,6 +49,23 @@ if has("autocmd")
 
     " Enable file type detection.
     filetype plugin indent on
+
+    autocmd BufRead,BufNewFile *.jst set filetype=html
+
+    " Rails plugin autocmds
+    autocmd User Rails.javascript* set ai nosi ts=4 sw=4 sts=4
+
+    autocmd User Rails Rnavcommand factory spec/factories -suffix=.rb -default=model()
+    autocmd User Rails Rnavcommand sass app/sass -suffix=.scss -default=stylesheet()
+
+    autocmd User Rails Rnavcommand jsmodel public/javascripts/models -suffix=.js -default=javascripts()
+    autocmd User Rails Rnavcommand jscollection public/javascripts/collections -suffix=.js -default=javascripts()
+    autocmd User Rails Rnavcommand jsview public/javascripts/views -suffix=.js -default=javascripts()
+    autocmd User Rails Rnavcommand jscontroller public/javascripts/controllers -suffix=.js -default=javascripts()
+    autocmd User Rails Rnavcommand jst app/views -suffix=.jst -default=views()
+
+    autocmd User Rails Rnavcommand feature features -suffix=.feature
+    autocmd User Rails Rnavcommand step features/step_definitions -suffix=.rb
 
     autocmd FileType text setlocal textwidth=78
 
