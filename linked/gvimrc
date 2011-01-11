@@ -1,41 +1,15 @@
-" === gui settings =========================== === ==  =
+set guioptions=egmt
+set guioptions-=r
 
-if has("gui_running")
+if has("gui_macvim")
 
-" --- MacVim -------------- --- --  -
-
-  set guioptions=egmrt
-  set guioptions-=r
-
-  if has("gui_macvim")
-
-    "set transp=10
     let macvim_skip_cmd_opt_movement=1
 
     if has("autocmd")
-      autocmd GUIEnter * set guifont=Monaco:h12
+        autocmd GUIEnter * set guifont=Bitstream\ Vera\ Sans\ Mono:h12
     endif
 
- " --- Mappings ------------------- --- --  - "
-    "macmenu &File.New\ Tab key=<nop>
-    "map <D-t> :CommandT<CR>
+endif
 
-  endif
-
-" --- window size and fonts -------------- --- --  -
-
-    if has("autocmd")
-        autocmd GUIEnter * winsize 155 55
-
-        if ! has("gui_macvim")
-          autocmd GUIEnter * set guifont=Monospace\ 10
-        endif
-    endif
-
-
-" === colors/ colorscheme ============== === ==  =
-
-  colorscheme railscast
-
-endif " gui_running
+colorscheme topfunky-light
 
