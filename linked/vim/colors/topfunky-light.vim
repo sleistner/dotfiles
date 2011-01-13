@@ -5,7 +5,7 @@
 
 " This color scheme uses a White background. It's based on Bram's
 " morning theme, but doesn't try to work for non-GUI editing.
-" 
+"
 " It's supposed to look like the Emacs standard colors, at least
 " for C. But Emacs has different categories, so it's not very good.
 
@@ -27,7 +27,7 @@ hi ModeMsg gui=bold
 hi StatusLine gui=reverse,bold guifg=#bbbbbb
 hi StatusLineNC gui=reverse
 hi VertSplit gui=reverse
-hi Visual gui=reverse guifg=#eeeeee guibg=fg
+hi Visual gui=reverse guifg=lightgreen guibg=fg
 hi VisualNOS gui=underline,bold
 hi DiffText gui=bold guibg=Red
 hi Cursor guibg=Black guifg=#cccccc
