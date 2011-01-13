@@ -3,7 +3,7 @@
 start(){
  if [ `whoami` = 'root' ]; then
   echo -n $"Starting nginx service: "
-  /usr/local/etc/nginx/sbin/nginx
+  /usr/local/etc/nginx/sbin/nginx &
   echo
  else
   sudo $0 start

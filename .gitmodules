@@ -49,3 +49,6 @@
 [submodule "linked/vim/bundle/vim-scala"]
 	path = linked/vim/bundle/vim-scala
 	url = git://github.com/bdd/vim-scala.git
+[submodule "linked/vim/bundle/nginx"]
+	path = linked/vim/bundle/nginx
+	url = git://github.com/vim-scripts/nginx.vim.git
