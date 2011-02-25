@@ -1,11 +1,11 @@
 # vim:syntax=sh
 
 function vimwhich() {
-  vim `which $*`
+  vim $(which $*)
 }
 
 function mvimwhich() {
-  mvim `which $*`
+  mvim $(which $*)
 }
 
 function clean-git() {

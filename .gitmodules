@@ -52,3 +52,6 @@
 [submodule "linked/vim/bundle/nginx"]
 	path = linked/vim/bundle/nginx
 	url = git://github.com/vim-scripts/nginx.vim.git
+[submodule "linked/vim/bundle/rvm-vim"]
+	path = linked/vim/bundle/rvm-vim
+	url = https://github.com/csexton/rvm.vim.git

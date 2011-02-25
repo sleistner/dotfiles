@@ -67,6 +67,8 @@ if has("autocmd")
     autocmd User Rails Rnavcommand feature features -suffix=.feature
     autocmd User Rails Rnavcommand step features/step_definitions -suffix=.rb
 
+    autocmd User Rails Rnavcommand config config
+
     autocmd FileType text setlocal textwidth=78
 
     autocmd FileType js,scss,sass,css setlocal ai nosi sw=4 ts=4 sts=4
@@ -196,3 +198,4 @@ iabbr <%- <%- -%><Esc>hhhi
 iabbr <%= <%= %><Esc>hhi
 iabbr <%# <%= %><Esc>hhi
 
+set statusline=[%n]\ %<%.99f\ %h%w%m%r%y%{exists('g:loaded_rvm')?rvm#statusline():''}%=%-16(\ %l,%c-%v\ %)%P
