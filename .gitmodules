@@ -55,3 +55,6 @@
 [submodule "linked/vim/bundle/rvm-vim"]
 	path = linked/vim/bundle/rvm-vim
 	url = https://github.com/csexton/rvm.vim.git
+[submodule "linked/vim/bundle/vim-project"]
+	path = linked/vim/bundle/vim-project
+	url = git://github.com/shemerey/vim-project.git
