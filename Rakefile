@@ -13,8 +13,13 @@ namespace :dotfiles do
 
   namespace :vim do
 
+    desc "Init vim plugins as git submodules"
+    task :init do
+      `git submodule init`
+    end
+
     desc "Update vim plugins"
-    task :update do
+    task :update => [:init] do
       `git submodule foreach 'cd #{File.dirname(__FILE__)}/$path && git pull origin master'`
     end
 
