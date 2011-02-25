@@ -26,5 +26,6 @@
 
 [github]
 	user = sleistner
+	token = 769682bb3721e55488670783979834c0
 [core]
 	excludesfile = /Users/sleistner/.gitignore

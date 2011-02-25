@@ -1,5 +1,6 @@
 set guioptions=egmt
 set guioptions-=r
+set fuopt=maxvert,maxhorz
 
 if has("gui_macvim")
 
@@ -11,5 +12,5 @@ if has("gui_macvim")
 
 endif
 
-colorscheme topfunky-light
+colorscheme railscast
 
