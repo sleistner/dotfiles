@@ -43,9 +43,6 @@
 [submodule "linked/vim/bundle/bufexplorer"]
 	path = linked/vim/bundle/bufexplorer
 	url = git://github.com/vim-scripts/bufexplorer.zip.git
-[submodule "linked/vim/bundle/vim-rename"]
-	path = linked/vim/bundle/vim-rename
-	url = git://github.com/itspriddle/vim-rename.git
 [submodule "linked/vim/bundle/vim-scala"]
 	path = linked/vim/bundle/vim-scala
 	url = git://github.com/bdd/vim-scala.git
@@ -58,3 +55,9 @@
 [submodule "linked/vim/bundle/vim-project"]
 	path = linked/vim/bundle/vim-project
 	url = git://github.com/shemerey/vim-project.git
+[submodule "linked/vim/bundle/vim-ack"]
+	path = linked/vim/bundle/vim-ack
+	url = https://github.com/mileszs/ack.vim.git
+[submodule "linked/vim/bundle/vim-autoclose"]
+	path = linked/vim/bundle/vim-autoclose
+	url = git://github.com/korpz/Autoclose-vim.git
