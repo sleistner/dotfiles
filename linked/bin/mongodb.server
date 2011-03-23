@@ -10,14 +10,14 @@ start(){
 }
 
 stop(){
- echo -n $"Stopping $NAME: "
- killall mongod
- echo
+    echo -n $"Stopping $NAME: "
+    killall mongod
+    echo
 }
 
 restart(){
-  stop
-  start
+    stop
+    start
 }
 
 # See how we were called.
