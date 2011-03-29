@@ -60,4 +60,4 @@
 	url = https://github.com/mileszs/ack.vim.git
 [submodule "linked/vim/bundle/vim-autoclose"]
 	path = linked/vim/bundle/vim-autoclose
-	url = git://github.com/korpz/Autoclose-vim.git
+	url = git://github.com/vim-scripts/AutoClose.git
