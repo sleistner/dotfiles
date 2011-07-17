@@ -61,3 +61,12 @@
 [submodule "linked/vim/bundle/vim-autoclose"]
 	path = linked/vim/bundle/vim-autoclose
 	url = git://github.com/vim-scripts/AutoClose.git
+[submodule "linked/vim/bundle/vim-colors-solarized"]
+	path = linked/vim/bundle/vim-colors-solarized
+	url = git://github.com/altercation/vim-colors-solarized.git
+[submodule "linked/vim/bundle/vim-tabular"]
+	path = linked/vim/bundle/vim-tabular
+	url = https://github.com/godlygeek/tabular.git
+[submodule "linked/vim/bundle/vim-gundo"]
+	path = linked/vim/bundle/vim-gundo
+	url = https://github.com/sjl/gundo.vim.git

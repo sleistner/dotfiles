@@ -1,7 +1,5 @@
 # vim:syntax=sh
 
-alias brew-update-outdated='brew outdated | xargs brew install -f'
-
 COREUTILS_PATH=/usr/local/Cellar/coreutils
 if [ -d $COREUTILS_PATH ]; then
     source $COREUTILS_PATH/$(ls -t $COREUTILS_PATH | head -n1)/aliases
@@ -19,10 +17,6 @@ alias sad='svn add --force .'
 alias cmate='mate `svn status | grep ^C | awk "{print $2}"`'
 alias cvim='mvim -p `sst | grep ^C | awk "{print $2}"`'
 
-# Textmate
-alias et='mate . &'
-alias ett='mate app config lib db public test &'
-
 # Ack
 if [ ! -x `which ack` ];then
     alias ack='ack-grep'
@@ -34,7 +28,7 @@ for extension in 'css' 'html' 'ruby' 'rake' 'js'; do
     eval "alias a$extension='a --$extension'"
 done
 
-for extension in 'jade'; do
+for extension in 'jade' 'haml'; do
     eval "alias a$extension='a --type-add TYPE=.$extension'"
 done
 
@@ -44,5 +38,5 @@ alias p='novacom -t open tty://'
 # Fast Ri
 alias fri='fri -L'
 
-# spec
-alias spec='spec -c'
+alias micoach-plugin-link-resources='name="$(basename $(pwd))"; rm -rf "target/$name/resources" && ln -sfn $(pwd)/src/main/plugin/resources "$(pwd)/target/$name/"'
+alias micoach-plugin-build='mvn clean package && micoach-plugin-link-resources'
