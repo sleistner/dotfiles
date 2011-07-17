@@ -1,6 +1,6 @@
 [user]
-    name = sleistner
-    email = sleistner@gmail.com
+	name = sleistner
+	email = sleistner@gmail.com
 [color]
     branch = auto
     diff = auto

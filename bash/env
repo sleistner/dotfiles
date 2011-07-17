@@ -10,8 +10,15 @@ PATH=/usr/local/bin:/usr/local/sbin:$PATH
 PATH=$HOME/.bin:$PATH
 PATH=$PATH:/usr/local/share/npm/bin
 PATH=$PATH:/usr/local/Cellar/python/2.7/bin
+PATH=$PATH:/opt/PostgreSQL/bin
+
+#for dir in $(find $HOME/.java/*/bin -type d); do
+    #PATH=$PATH:$dir
+#done
 
 export PATH
+
+export MAVEN_OPTS="-Xmx2048m -Xms256m -XX:MaxPermSize=512M"
 
 # Node JS
 if [ -d /usr/local/Cellar/npm ]; then

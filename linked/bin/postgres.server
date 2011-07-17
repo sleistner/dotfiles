@@ -1,0 +1,40 @@
+#!/bin/bash
+
+PG_PATH=/usr/local/var/postgres
+#sudo su postgres -c "pg_ctl reload -D /opt/PostgreSQL/data/"
+NAME="postgres service"
+
+start(){
+    echo -n $"Starting $NAME: "
+    pg_ctl -D $PG_PATH -l $PG_PATH/server.log start
+}
+
+stop(){
+    echo -n $"Stopping $NAME: "
+    pg_ctl -D $PG_PATH -l $PG_PATH/server.log stop
+    echo
+}
+
+restart(){
+    stop
+    start
+}
+
+# See how we were called.
+case "$1" in
+start)
+ start
+ ;;
+stop)
+ stop
+ ;;
+restart)
+ restart
+ ;;
+*)
+ echo $"Usage: $0 {start|stop|restart}"
+ exit 1
+esac
+
+exit 0
+

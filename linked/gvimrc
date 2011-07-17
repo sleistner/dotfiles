@@ -12,5 +12,5 @@ if has("gui_macvim")
 
 endif
 
-colorscheme railscast
+colorscheme topfunky-light
 

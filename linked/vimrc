@@ -51,6 +51,7 @@ if has("autocmd")
     filetype plugin indent on
 
     autocmd BufRead,BufNewFile *.jst set filetype=html
+    autocmd BufRead,BufNewFile *.ftl set filetype=html
 
     " Rails plugin autocmds
     autocmd User Rails.javascript* set ai nosi ts=4 sw=4 sts=4
@@ -147,9 +148,31 @@ map <leader>v :!ruby -c %:.<CR>
 " Move complete block one line down or up with <M-Down> and <M-Up> keys
 vmap <silent> <C-M-Up> :m'<-2<CR>gv
 vmap <silent> <C-M-Down> :m'>+1<CR>gv
+"nmap <C-M-Up> ddkp
+"nmap <C-M-Down> ddp
 
 " Make p in Visual mode replace the selected text with the "" register.
 vnoremap p <Esc>:let current_reg = @"<CR>gvs<C-R>=current_reg<CR><Esc>
+
+inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+
+if exists(":Tabularize")
+  nmap <Leader>a= :Tabularize /=<CR>
+  vmap <Leader>a= :Tabularize /=<CR>
+  nmap <Leader>a: :Tabularize /:\zs<CR>
+  vmap <Leader>a: :Tabularize /:\zs<CR>
+endif
+
+function! s:align()
+  let p = '^\s*|\s.*\s|\s*$'
+  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+    Tabularize/|/l1
+    normal! 0
+    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+  endif
+endfunction
 
 " --- normal mode -------------- --- --  -
 map <S-Insert> <MiddleMouse>
@@ -184,3 +207,18 @@ iabbr <%= <%= %><Esc>hhi
 iabbr <%# <%= %><Esc>hhi
 
 set statusline=[%n]\ %<%.99f\ %h%w%m%r%y%{exists('g:loaded_rvm')?rvm#statusline():''}%=%-16(\ %l,%c-%v\ %)%P
+
+nnoremap <Leader>H :call<SID>LongLineHLToggle()<cr>
+hi OverLength ctermbg=none cterm=none
+match OverLength /\%>80v/
+fun! s:LongLineHLToggle()
+ if !exists('w:longlinehl')
+  let w:longlinehl = matchadd('ErrorMsg', '.\%>120v', 0)
+  echo "Long lines highlighted"
+ else
+  call matchdelete(w:longlinehl)
+  unl w:longlinehl
+  echo "Long lines unhighlighted"
+ endif
+endfunction
+
