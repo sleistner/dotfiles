@@ -12,5 +12,7 @@ if has("gui_macvim")
 
 endif
 
-colorscheme topfunky-light
+set background=light
+colorscheme solarized
+
 
