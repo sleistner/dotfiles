@@ -1,13 +1,13 @@
 #!/bin/bash
 
 start(){
- if [ `whoami` = 'root' ]; then
   echo -n $"Starting nginx service: "
-  /usr/local/etc/nginx/sbin/nginx &
-  echo
- else
-  sudo $0 start
- fi
+  if [ "$1" = "tomcat" ]; then
+      configfile="tomcat"
+  else
+      configfile="nginx"
+  fi
+  sudo /usr/local/etc/nginx/sbin/nginx -c /usr/local/etc/nginx/conf/$configfile.conf &
 }
 
 stop(){
@@ -24,7 +24,7 @@ restart(){
 # See how we were called.
 case "$1" in
 start)
- start
+ start "$2"
  ;;
 stop)
  stop
