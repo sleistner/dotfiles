@@ -32,11 +32,8 @@ for extension in 'jade' 'haml'; do
     eval "alias a$extension='a --type-add TYPE=.$extension'"
 done
 
-# Palm
-alias p='novacom -t open tty://'
-
 # Fast Ri
 alias fri='fri -L'
 
-alias micoach-plugin-link-resources='name="$(basename $(pwd))"; rm -rf "target/$name/resources" && ln -sfn $(pwd)/src/main/plugin/resources "$(pwd)/target/$name/"'
+alias micoach-plugin-link-resources='name="$(basename $(pwd) | sed 's/-v[.0-9]*//g')"; echo $name; rm -rf "target/$name/resources" && ln -sfn $(pwd)/src/main/plugin/resources "$(pwd)/target/$name/"'
 alias micoach-plugin-build='mvn clean package && micoach-plugin-link-resources'
