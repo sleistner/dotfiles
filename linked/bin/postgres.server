@@ -1,7 +1,6 @@
 #!/bin/bash
 
 PG_PATH=/usr/local/var/postgres
-#sudo su postgres -c "pg_ctl reload -D /opt/PostgreSQL/data/"
 NAME="postgres service"
 
 start(){
@@ -11,7 +10,7 @@ start(){
 
 stop(){
     echo -n $"Stopping $NAME: "
-    pg_ctl -D $PG_PATH -l $PG_PATH/server.log stop
+    pg_ctl -D $PG_PATH stop -s -m fast
     echo
 }
 
