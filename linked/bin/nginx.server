@@ -1,18 +1,26 @@
 #!/bin/bash
 
+NGINX_PATH=/usr/local/etc/nginx
+
 start(){
-  echo -n $"Starting nginx service: "
-  if [ "$1" = "tomcat" ]; then
-      configfile="tomcat"
+  if [ -n "$1" ]; then
+      configfile="$1"
   else
       configfile="nginx"
   fi
-  sudo /usr/local/etc/nginx/sbin/nginx -c /usr/local/etc/nginx/conf/$configfile.conf &
+
+  CONFIG_FILE="$NGINX_PATH/conf/$configfile.conf"
+  if [ ! -f $CONFIG_FILE ]; then
+    echo "$CONFIG_FILE: No such config file"
+    exit
+  fi
+  echo -n $"Starting nginx service: "
+  sudo $NGINX_PATH/sbin/nginx -c $CONFIG_FILE &
 }
 
 stop(){
  echo -n $"Stopping nginx service: "
- sudo killall nginx
+ sudo kill $(cat $NGINX_PATH/logs/nginx.pid 2> /dev/null) 2> /dev/null
  echo
 }
 
