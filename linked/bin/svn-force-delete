@@ -1,5 +1,0 @@
-#! /usr/bin/env ruby
-
-`svn st | grep ^!`.each do |f|
-  puts `svn --force del #{f.gsub(/!/, '').squeeze(' ').strip}`
-end

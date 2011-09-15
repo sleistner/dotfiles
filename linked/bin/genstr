@@ -1,6 +1,0 @@
-#!/usr/bin/env ruby
-
-input = ARGV.shift
-Dir[input].each do |file|
-  puts file
-end
