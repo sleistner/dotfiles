@@ -1,5 +1,0 @@
-#!/usr/bin/env sh
-
-entry="com.apple.dock no-glass -int"
-defaults write $entry $((! `defaults read $entry`)) && killall Dock
-
