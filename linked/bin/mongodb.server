@@ -6,7 +6,7 @@ NAME="mongodb ($VERSION) service"
 
 start(){
     echo -n $"Starting $NAME: "
-    mongod run --quiet --rest --config $MONGO_PATH/$VERSION/mongod.conf &
+    mongod --fork --quiet --rest --config $MONGO_PATH/$VERSION/mongod.conf --logpath /var/log/mongodb.log --logappend
 }
 
 stop(){
@@ -22,18 +22,18 @@ restart(){
 
 # See how we were called.
 case "$1" in
-start)
- start
- ;;
-stop)
- stop
- ;;
-restart)
- restart
- ;;
-*)
- echo $"Usage: $0 {start|stop|restart}"
- exit 1
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|restart}"
+        exit 1
 esac
 
 exit 0
