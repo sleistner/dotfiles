@@ -3,36 +3,44 @@
 PG_PATH=/usr/local/var/postgres
 NAME="postgres service"
 
-start(){
+start() {
     echo -n $"Starting $NAME: "
     pg_ctl -D $PG_PATH -l $PG_PATH/server.log start
 }
 
-stop(){
+stop() {
     echo -n $"Stopping $NAME: "
     pg_ctl -D $PG_PATH stop -s -m fast
     echo
 }
 
-restart(){
+status() {
+    pg_ctl -D $PG_PATH status
+    echo
+}
+
+restart() {
     stop
     start
 }
 
 # See how we were called.
 case "$1" in
-start)
- start
- ;;
-stop)
- stop
- ;;
-restart)
- restart
- ;;
-*)
- echo $"Usage: $0 {start|stop|restart}"
- exit 1
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    status)
+        status
+        ;;
+    *)
+    echo $"Usage: $(basename $0) {start|stop|restart|status}"
+    exit 1
 esac
 
 exit 0
