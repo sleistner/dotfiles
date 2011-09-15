@@ -73,3 +73,6 @@
 [submodule "linked/vim/bundle/vim-pastie"]
 	path = linked/vim/bundle/vim-pastie
 	url = https://github.com/tpope/vim-pastie.git
+[submodule "linked/vim/bundle/vim-bundler"]
+	path = linked/vim/bundle/vim-bundler
+	url = git://github.com/tpope/vim-bundler.git
