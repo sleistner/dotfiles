@@ -9,9 +9,23 @@ namespace :dotfiles do
       cmd = "ln -sfn #{file} #{File.join(home, ".#{File.basename(file)}")}"
       puts "#{cmd} => #{system cmd}"
     end
+    Rake::Task["dotfiles:vim:setup"].invoke
   end
 
   namespace :vim do
+
+    desc "Setup vim plugins"
+    task :setup => [:compile] do
+      puts "Vim setup done."
+    end
+
+    desc "Compile vim plugins"
+    task :compile => [:update] do
+      Dir.chdir("#{File.dirname(__FILE__)}/linked/vim/bundle/command-T") do
+        puts Dir.pwd
+        system("rake make")
+      end
+    end
 
     desc "Init vim plugins as git submodules"
     task :init do
