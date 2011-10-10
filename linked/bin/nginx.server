@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NGINX_PATH=/usr/local/etc/nginx
+NGINX_PATH=/usr/local/nginx
 
 start(){
   if [ -n "$1" ]; then
