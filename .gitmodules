@@ -25,9 +25,6 @@
 [submodule "linked/vim/bundle/nerdcommenter"]
 	path = linked/vim/bundle/nerdcommenter
 	url = git://github.com/scrooloose/nerdcommenter.git
-[submodule "linked/vim/bundle/jslint"]
-	path = linked/vim/bundle/jslint
-	url = git://github.com/sleistner/jslint.git
 [submodule "linked/vim/bundle/command-T"]
 	path = linked/vim/bundle/command-T
 	url = git://github.com/wincent/Command-T.git
@@ -76,3 +73,9 @@
 [submodule "linked/vim/bundle/vim-bundler"]
 	path = linked/vim/bundle/vim-bundler
 	url = git://github.com/tpope/vim-bundler.git
+[submodule "linked/vim/bundle/vim-hammer"]
+	path = linked/vim/bundle/vim-hammer
+	url = https://github.com/robgleeson/hammer.vim.git
+[submodule "linked/vim/bundle/vim-jshint"]
+	path = linked/vim/bundle/vim-jshint
+	url = https://github.com/sleistner/vim-jshint.git
