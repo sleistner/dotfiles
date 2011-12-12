@@ -7,12 +7,11 @@ if has("gui_macvim")
     let macvim_skip_cmd_opt_movement=1
 
     if has("autocmd")
-        autocmd GUIEnter * set guifont=Monaco:h12
+        autocmd GUIEnter * set guifont=Bitstream\ Vera\ Sans\ Mono:h12
     endif
 
 endif
 
-"set background=dark
 colorscheme slate
 
 
