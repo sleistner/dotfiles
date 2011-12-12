@@ -11,6 +11,7 @@ PATH=$HOME/.bin:$PATH
 PATH=$PATH:/usr/local/share/npm/bin
 PATH=$PATH:/usr/local/Cellar/python/2.7/bin
 PATH=$PATH:/opt/PostgreSQL/bin
+PATH=$PATH:$HOME/Developer/android-sdk/tools:$HOME/Developer/android-sdk/platform-tools
 
 export PATH
 
