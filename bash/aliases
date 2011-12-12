@@ -11,12 +11,6 @@ alias la='l -a'
 alias l1='ls -1'
 alias lla='ll -a'
 
-# Subversion
-alias sdel='svn-force-delete'
-alias sad='svn add --force .'
-alias cmate='mate `svn status | grep ^C | awk "{print $2}"`'
-alias cvim='mvim -p `sst | grep ^C | awk "{print $2}"`'
-
 # Ack
 if [ ! -x `which ack` ];then
     alias ack='ack-grep'
@@ -35,5 +29,3 @@ done
 # Fast Ri
 alias fri='fri -L'
 
-alias micoach-plugin-link-resources='name="$(basename $(pwd) | sed 's/-v[.0-9]*//g')"; echo $name; rm -rf "target/$name/resources" && ln -sfn $(pwd)/src/main/plugin/resources "$(pwd)/target/$name/"'
-alias micoach-plugin-build='mvn clean package && micoach-plugin-link-resources'
