@@ -6,14 +6,16 @@
 #
 # If you update your tasks, just $ rm ~/.raketabs*
 #
-# Adapted from 
+# Adapted from
 # http://onrails.org/articles/2006/08/30/namespaces-and-rake-command-completion
 
 exit 0 unless File.file?(File.join(Dir.pwd, 'Rakefile'))
 exit 0 unless /^rake\b/ =~ ENV["COMP_LINE"]
 
+require 'digest/md5'
+
 def rake_silent_tasks
-  if File.exists?(dotcache = File.join(File.expand_path('~'), ".raketabs-#{Dir.pwd.hash}"))
+  if File.exists?(dotcache = File.join(File.expand_path('~'), ".raketabs-#{Digest::MD5.hexdigest(Dir.pwd)}"))
     File.read(dotcache)
   else
     tasks = `rake --silent --tasks`
