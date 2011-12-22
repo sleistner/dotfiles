@@ -20,7 +20,7 @@ namespace :dotfiles do
     end
 
     desc "Compile vim plugins"
-    task :compile => [:update] do
+    task :compile do
       Dir.chdir("#{File.dirname(__FILE__)}/linked/vim/bundle/command-T") do
         puts Dir.pwd
         system("rake make")
@@ -28,7 +28,7 @@ namespace :dotfiles do
     end
 
     desc "Init vim plugins as git submodules"
-    task :init do
+    task :init => [:update] do
       `git submodule init`
     end
 
