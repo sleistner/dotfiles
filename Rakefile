@@ -15,7 +15,7 @@ namespace :dotfiles do
   namespace :vim do
 
     desc "Setup vim plugins"
-    task :setup => [:compile] do
+    task :setup => [:update,:compile] do
       puts "Vim setup done."
     end
 
@@ -34,7 +34,7 @@ namespace :dotfiles do
 
     desc "Update vim plugins"
     task :update => [:init] do
-      `git submodule foreach 'cd #{File.dirname(__FILE__)}/$path && git co master && git pull origin master'`
+      `git submodule update`
     end
 
   end
