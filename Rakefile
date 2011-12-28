@@ -28,7 +28,7 @@ namespace :dotfiles do
     end
 
     desc "Init vim plugins as git submodules"
-    task :init => [:update] do
+    task :init do
       `git submodule init`
     end
 
