@@ -1,10 +1,10 @@
 # vim:syntax=sh
 
-BASH_DIR=`readlink $HOME/.bashrc | xargs dirname`/../bash
-source $BASH_DIR/env
-source $BASH_DIR/config
-source $BASH_DIR/aliases
-source $BASH_DIR/completions/git
-source $BASH_DIR/completions/rake
-source $BASH_DIR/functions
+SHELL_DIR=$(readlink $HOME/.bashrc | xargs dirname)/../shell
+source $SHELL_DIR/bash/config
+source $SHELL_DIR/bash/completions/git
+source $SHELL_DIR/bash/completions/rake
+source $SHELL_DIR/aliases
+source $SHELL_DIR/env
+source $SHELL_DIR/functions
 

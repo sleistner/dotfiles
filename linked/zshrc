@@ -1,0 +1,10 @@
+# vim:syntax=sh
+
+ZSH=$HOME/.oh-my-zsh
+SHELL_DIR=$(readlink $HOME/.zshrc | xargs dirname)/../shell
+source $SHELL_DIR/zsh/config
+source $ZSH/oh-my-zsh.sh
+source $SHELL_DIR/aliases
+source $SHELL_DIR/env
+source $SHELL_DIR/functions
+
