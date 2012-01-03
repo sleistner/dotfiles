@@ -2,12 +2,22 @@ task :default => 'dotfiles:setup'
 
 namespace :dotfiles do
 
+  def symbolic_link(src, target)
+    cmd = "ln -sfn #{src} #{target}"
+    puts "#{cmd} => #{system(cmd)}"
+  end
+
   desc "Create symlinks in ~/"
   task :setup do
     home = File.expand_path(ENV['HOME'])
     Dir.glob(File.dirname(__FILE__) + '/linked/*').each do |file|
-      cmd = "ln -sfn #{file} #{File.join(home, ".#{File.basename(file)}")}"
-      puts "#{cmd} => #{system cmd}"
+      symbolic_link(file, File.join(home, ".#{File.basename(file)}"))
+    end
+    oh_my_zsh_themes = File.join(home, '.oh-my-zsh', 'themes')
+    if File.directory?(oh_my_zsh_themes)
+      Dir.glob(File.dirname(__FILE__) + '/shell/zsh/themes/*').each do |file|
+        symbolic_link(file, File.join(oh_my_zsh_themes, File.basename(file)))
+      end
     end
     Rake::Task["dotfiles:vim:setup"].invoke
   end
