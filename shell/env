@@ -32,6 +32,10 @@ if [[ -s $HOME/.rbenv ]]; then
     eval "$(rbenv init -)"
 fi
 
+if [ "$TERM" != "dumb" ]; then
+    [ -f $HOME/.dircolors ] && [ -x /usr/local/bin/gdircolors ] && eval `/usr/local/bin/gdircolors --sh $HOME/.dircolors`
+fi
+
 export EDITOR=vim
 export LANG=C
 

@@ -1,4 +1,5 @@
 # vim:syntax=sh
+
 # Colors from http://wiki.archlinux.org/index.php/Color_Bash_Prompt
 # misc
 NO_COLOR='\e[0m' #disable any colors
@@ -49,8 +50,5 @@ PS1="\n\u:\w \[$GREEN\]\$(vcprompt)\[$NO_COLOR\] \n> "
 # Make bash check its window size after a process completes
 shopt -s checkwinsize
 
-if [ "$TERM" != "dumb" ]; then
-    [ -f $HOME/.dircolors ] && [ -x /usr/local/bin/gdircolors ] && eval `/usr/local/bin/gdircolors --sh $HOME/.dircolors`
-fi
 
 

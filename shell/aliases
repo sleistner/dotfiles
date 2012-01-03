@@ -1,9 +1,10 @@
 # vim:syntax=sh
 
-COREUTILS_PATH=/usr/local/Cellar/coreutils
+local COREUTILS_PATH=/usr/local/Cellar/coreutils
 if [ -d $COREUTILS_PATH ]; then
     source $COREUTILS_PATH/$(ls -t $COREUTILS_PATH | head -n1)/aliases
 fi
+
 
 alias l='ls --color -C -F'
 alias ll='l -lh'
@@ -20,10 +21,6 @@ alias a='ack --ignore-dir=build --ignore-dir=dist'
 
 for extension in 'css' 'html' 'ruby' 'rake' 'js'; do
     eval "alias a$extension='a --$extension'"
-done
-
-for extension in 'jade' 'haml'; do
-    eval "alias a$extension='a --type-add TYPE=.$extension'"
 done
 
 # Fast Ri
