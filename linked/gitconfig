@@ -1,0 +1,31 @@
+[user]
+	name = sleistner
+	email = sleistner@gmail.com
+[color]
+    branch = auto
+    diff = auto
+    status = auto
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+[alias]
+    st = status
+    ci = commit -a
+    co = checkout
+    br = branch
+
+[github]
+	user = sleistner
+	token = 769682bb3721e55488670783979834c0
+[core]
+	excludesfile = /Users/sleistner/.gitignore

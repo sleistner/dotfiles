@@ -1,0 +1,81 @@
+[submodule "linked/vim/bundle/vim-coffee-script"]
+	path = linked/vim/bundle/vim-coffee-script
+	url = https://github.com/kchmck/vim-coffee-script.git
+[submodule "linked/vim/bundle/vim-rails"]
+	path = linked/vim/bundle/vim-rails
+	url = git://github.com/tpope/vim-rails.git
+[submodule "linked/vim/bundle/vim-git"]
+	path = linked/vim/bundle/vim-git
+	url = git://github.com/tpope/vim-git.git
+[submodule "linked/vim/bundle/vim-cucumber"]
+	path = linked/vim/bundle/vim-cucumber
+	url = git://github.com/tpope/vim-cucumber.git
+[submodule "linked/vim/bundle/vim-fugitive"]
+	path = linked/vim/bundle/vim-fugitive
+	url = git://github.com/tpope/vim-fugitive.git
+[submodule "linked/vim/bundle/vim-surround"]
+	path = linked/vim/bundle/vim-surround
+	url = git://github.com/tpope/vim-surround.git
+[submodule "linked/vim/bundle/vim-haml"]
+	path = linked/vim/bundle/vim-haml
+	url = git://github.com/tpope/vim-haml.git
+[submodule "linked/vim/bundle/nerdtree"]
+	path = linked/vim/bundle/nerdtree
+	url = git://github.com/scrooloose/nerdtree.git
+[submodule "linked/vim/bundle/nerdcommenter"]
+	path = linked/vim/bundle/nerdcommenter
+	url = git://github.com/scrooloose/nerdcommenter.git
+[submodule "linked/vim/bundle/command-T"]
+	path = linked/vim/bundle/command-T
+	url = git://github.com/wincent/Command-T.git
+[submodule "linked/vim/bundle/snipmate.vim"]
+	path = linked/vim/bundle/snipmate.vim
+	url = git://github.com/msanders/snipmate.vim.git
+[submodule "linked/vim/bundle/vim-repeat"]
+	path = linked/vim/bundle/vim-repeat
+	url = git://github.com/tpope/vim-repeat.git
+[submodule "linked/vim/bundle/vim-vividchalk"]
+	path = linked/vim/bundle/vim-vividchalk
+	url = git://github.com/tpope/vim-vividchalk.git
+[submodule "linked/vim/bundle/bufexplorer"]
+	path = linked/vim/bundle/bufexplorer
+	url = git://github.com/vim-scripts/bufexplorer.zip.git
+[submodule "linked/vim/bundle/vim-scala"]
+	path = linked/vim/bundle/vim-scala
+	url = git://github.com/bdd/vim-scala.git
+[submodule "linked/vim/bundle/nginx"]
+	path = linked/vim/bundle/nginx
+	url = git://github.com/vim-scripts/nginx.vim.git
+[submodule "linked/vim/bundle/rvm-vim"]
+	path = linked/vim/bundle/rvm-vim
+	url = https://github.com/csexton/rvm.vim.git
+[submodule "linked/vim/bundle/vim-project"]
+	path = linked/vim/bundle/vim-project
+	url = git://github.com/shemerey/vim-project.git
+[submodule "linked/vim/bundle/vim-ack"]
+	path = linked/vim/bundle/vim-ack
+	url = https://github.com/mileszs/ack.vim.git
+[submodule "linked/vim/bundle/vim-autoclose"]
+	path = linked/vim/bundle/vim-autoclose
+	url = git://github.com/vim-scripts/AutoClose.git
+[submodule "linked/vim/bundle/vim-colors-solarized"]
+	path = linked/vim/bundle/vim-colors-solarized
+	url = git://github.com/altercation/vim-colors-solarized.git
+[submodule "linked/vim/bundle/vim-tabular"]
+	path = linked/vim/bundle/vim-tabular
+	url = https://github.com/godlygeek/tabular.git
+[submodule "linked/vim/bundle/vim-gundo"]
+	path = linked/vim/bundle/vim-gundo
+	url = https://github.com/sjl/gundo.vim.git
+[submodule "linked/vim/bundle/vim-pastie"]
+	path = linked/vim/bundle/vim-pastie
+	url = https://github.com/tpope/vim-pastie.git
+[submodule "linked/vim/bundle/vim-bundler"]
+	path = linked/vim/bundle/vim-bundler
+	url = git://github.com/tpope/vim-bundler.git
+[submodule "linked/vim/bundle/vim-hammer"]
+	path = linked/vim/bundle/vim-hammer
+	url = https://github.com/robgleeson/hammer.vim.git
+[submodule "linked/vim/bundle/vim-jshint"]
+	path = linked/vim/bundle/vim-jshint
+	url = https://github.com/sleistner/vim-jshint.git
