@@ -1,6 +1,6 @@
 " .vimrc
 " created by wolfger@spearwolf.de !2002-2009
-" last modified: 05.01.2009
+" last modified: 05.01.2012
 " extended by sleistner@gmail.com
 
 " --- general options -------------- --- --  -
@@ -27,6 +27,7 @@ set wildmenu
 set ttyfast
 set hidden
 set display=lastline,uhex
+set number
 
 set encoding=utf-8
 set termencoding=utf-8
