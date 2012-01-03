@@ -1,0 +1,68 @@
+#!/usr/bin/perl -w
+
+use strict;
+use warnings;
+use IO::File;
+use File::Path;
+use File::Basename;
+use MIME::Base64;
+
+# commandline handling
+my $archive = $ARGV[0]
+    or die "Use: $0 WEBARCHIVE [OUTPUT DIRECTORY]\n";
+my $directory = $ARGV[1] || ".";
+
+# sanitycheck
+die "$0: unable to write to output directory '$directory'\n"
+    unless -w $directory;
+
+# convert (binary) webarchive to XML propertylist and capture it
+my $fh = new IO::File "plutil -convert xml1 -o /dev/stdout '$ARGV[0]' |"
+    or die $!;
+my $data = do { local $/; <$fh> };
+
+# retrieve resources from data
+my @resources = $data =~ m,<dict>\s*<key>WebResourceData</key>\s*.*?</dict>,gsm;
+
+# process each resource
+my $basehref;
+foreach my $resource (@resources)
+{
+    my ($encodedData)   = $resource =~ m,<data>(.*?)</data>,sm;
+    my ($mimeType)          = $resource =~ m,<key>WebResourceMIMEType</key>\s*<string>(.*?)</string>,sm;
+    my ($encodingName)  = $resource =~ m,<key>WebResourceTextEncodingName</key>\s*<string>(.*?)</string>,sm;
+    my ($resourceURL)       = $resource =~ m,<key>WebResourceURL</key>\s*<string>(.*?)</string>,sm;
+
+    # determine basehref
+    $basehref = $resourceURL if "text/html" eq $mimeType;
+
+    # determine file-path
+    my $path;
+    if ($basehref)
+    {
+        ($path) = $resourceURL =~ m,^$basehref(.*),;
+    }
+    else
+    {
+        ($path) = $resourceURL =~ m,^.*/(.*),;
+    }
+
+    # sanitycheck
+    $path = "index.html" unless $path;
+
+    # determine full path
+    my $fullpath = "$directory/$path";
+
+    # make directory;
+    mkpath(dirname($fullpath), 0755);
+
+    # export files
+    my $fh = new IO::File ">$fullpath"
+        or do {
+            print STDERR "error opening $fullpath";
+            next;
+    };
+    $fh->print(decode_base64($encodedData));
+
+    printf STDERR "%-30s: wrote file of type $mimeType\n", $path;
+}

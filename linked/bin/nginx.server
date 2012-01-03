@@ -1,0 +1,49 @@
+#!/bin/bash
+
+NGINX_PATH=/usr/local/nginx
+
+start(){
+  if [ -n "$1" ]; then
+      configfile="$1"
+  else
+      configfile="nginx"
+  fi
+
+  CONFIG_FILE="$NGINX_PATH/conf/$configfile.conf"
+  if [ ! -f $CONFIG_FILE ]; then
+    echo "$CONFIG_FILE: No such config file"
+    exit
+  fi
+  echo -n $"Starting nginx service: "
+  sudo $NGINX_PATH/sbin/nginx -c $CONFIG_FILE &
+}
+
+stop(){
+ echo -n $"Stopping nginx service: "
+ sudo kill $(cat $NGINX_PATH/logs/nginx.pid 2> /dev/null) 2> /dev/null
+ echo
+}
+
+restart(){
+  stop
+  start
+}
+
+# See how we were called.
+case "$1" in
+start)
+ start "$2"
+ ;;
+stop)
+ stop
+ ;;
+restart)
+ restart
+ ;;
+*)
+ echo $"Usage: $0 {start|stop|restart}"
+ exit 1
+esac
+
+exit 0
+

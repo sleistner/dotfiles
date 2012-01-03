@@ -1,0 +1,38 @@
+# vim:syntax=sh
+
+function vimwhich() {
+  vim $(which $*)
+}
+
+function mvimwhich() {
+  mvim $(which $*)
+}
+
+function clean-git() {
+  echo log/* >> .gitignore
+  echo .DS_Store >> .gitignore
+  echo tmp/**/* >> .gitignore
+  echo db/schema.rb >> .gitignore
+  git add .gitignore
+  git commit .gitignore -m "Set various ignores"
+}
+
+function clean-svn() {
+  svn propset svn:ignore '*' log
+  svn propset svn:ignore '*' tmp/cache
+  svn propset svn:ignore '*' tmp/pids
+  svn propset svn:ignore '*' tmp/sessions
+  svn propset svn:ignore '*' tmp/sockets
+  svn commit -m "Set various ignores"
+}
+
+# SSH Tunnel
+
+function mysql-tunnel() {
+  autossh -f -M 11000 -l $1 -L 11980:127.0.0.1:3306 -N $2
+}
+
+function mysql-tunnel-kill-all() {
+  killall autossh
+}
+

@@ -1,0 +1,43 @@
+# vim:syntax=sh
+
+echo $PATH | grep -q -s "/usr/local/bin"
+if [ $? -eq 1 ] ; then
+  PATH=$PATH:/usr/local/bin
+  export PATH
+fi
+
+PATH=/usr/local/bin:/usr/local/sbin:$PATH
+PATH=$HOME/.bin:$PATH
+PATH=$PATH:/usr/local/share/npm/bin
+PATH=$PATH:/usr/local/Cellar/python/2.7/bin
+PATH=$PATH:/opt/PostgreSQL/bin
+PATH=$PATH:$HOME/Developer/android-sdk/tools:$HOME/Developer/android-sdk/platform-tools
+
+export PATH
+
+export MAVEN_OPTS="-Xmx2048m -Xms256m -XX:MaxPermSize=512M"
+
+# Node JS
+if [ -d /usr/local/Cellar/npm ]; then
+    export NODE_PATH=/usr/local/Cellar/npm/`npm -v`/lib/node/
+fi
+
+# Ruby Version Manager
+if [[ -s $HOME/.rvm/scripts/rvm ]]; then
+    source $HOME/.rvm/scripts/rvm
+fi
+
+if [[ -s $HOME/.rbenv ]]; then
+    export PATH="$HOME/.rbenv/bin:$PATH"
+    eval "$(rbenv init -)"
+fi
+
+if [ "$TERM" != "dumb" ]; then
+    [ -f $HOME/.dircolors ] && [ -x /usr/local/bin/gdircolors ] && eval `/usr/local/bin/gdircolors --sh $HOME/.dircolors`
+fi
+
+export EDITOR=vim
+export LANG=C
+
+
+
