@@ -1,6 +1,6 @@
 # vim:syntax=sh
 
-local COREUTILS_PATH=/usr/local/Cellar/coreutils
+COREUTILS_PATH=/usr/local/Cellar/coreutils
 if [ -d $COREUTILS_PATH ]; then
     source $COREUTILS_PATH/$(ls -t $COREUTILS_PATH | head -n1)/aliases
 fi
