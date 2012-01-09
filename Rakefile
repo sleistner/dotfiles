@@ -55,6 +55,7 @@ namespace :dotfiles do
     desc "Update vim plugins"
     task :update => [:init] do
       `git submodule update`
+      `git submodule foreach 'cd #{File.dirname(__FILE__)}/$path && git co master && git pull origin master'`
     end
 
   end
