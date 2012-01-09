@@ -19,8 +19,12 @@
     changed = green
     untracked = cyan
 [alias]
+[alias]
+    graph = log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%an] %Cgreen%d%Creset %s\" --all --date=short
+    stis = status --ignore-submodules
+    diis = diff --ignore-submodules
     st = status
-    ci = commit -a
+    ci = commit
     co = checkout
     br = branch
 
