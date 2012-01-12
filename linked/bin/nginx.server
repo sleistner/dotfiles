@@ -15,12 +15,12 @@ start(){
     exit
   fi
   echo -n $"Starting nginx service: "
-  sudo $NGINX_PATH/sbin/nginx -c $CONFIG_FILE &
+  $NGINX_PATH/sbin/nginx -c $CONFIG_FILE &
 }
 
 stop(){
  echo -n $"Stopping nginx service: "
- sudo kill $(cat $NGINX_PATH/logs/nginx.pid 2> /dev/null) 2> /dev/null
+ kill $(cat $NGINX_PATH/logs/nginx.pid 2> /dev/null) 2> /dev/null
  echo
 }
 
