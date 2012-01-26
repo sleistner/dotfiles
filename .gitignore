@@ -8,3 +8,4 @@ bin/redcar
 .netrwhist
 linked/bin/micoach-merge
 linked/bin/merge-micoachlinked/gitconfig
+linked/bin/pandora-run
