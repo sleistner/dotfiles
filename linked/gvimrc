@@ -4,6 +4,7 @@ set fuopt=maxvert,maxhorz
 
 if has("gui_macvim")
 
+    set fu
     let macvim_skip_cmd_opt_movement=1
 
     if has("autocmd")
@@ -13,7 +14,7 @@ if has("gui_macvim")
 
 endif
 
-colorscheme soso
+colorscheme mustang
 
 
 

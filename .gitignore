@@ -7,4 +7,6 @@ vim/.netrwhist
 bin/redcar
 .netrwhist
 linked/bin/micoach-merge
-linked/bin/merge-micoach
+linked/bin/merge-micoachlinked/gitconfig
+linked/bin/pandora-run
+.rake_tasks~linked/gitconfig

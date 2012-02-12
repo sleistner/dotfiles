@@ -1,3 +1,0 @@
-complete -C rake-completion -o default rake
-
-# vim:syntax=sh
