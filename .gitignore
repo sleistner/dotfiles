@@ -9,4 +9,5 @@ bin/redcar
 linked/bin/micoach-merge
 linked/bin/merge-micoachlinked/gitconfig
 linked/bin/pandora-run
-.rake_tasks~linked/gitconfig
+.rake_tasks~
+linked/gitconfig
