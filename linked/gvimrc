@@ -1,14 +1,15 @@
 set guioptions=egmt
 set guioptions-=r
-set fuopt=maxvert,maxhorz
+"set fuopt=maxvert,maxhorz
+set background=light
 
 if has("gui_macvim")
+    "set fu
 
-    set fu
-    let macvim_skip_cmd_opt_movement=1
+    "let macvim_skip_cmd_opt_movement=1
 
     if has("autocmd")
-        "autocmd GUIEnter * set guifont=Bitstream\ Vera\ Sans\ Mono:h12
+        "autocmd GUIEnter * set guifont=Bitstream\ Vera\ Sans\ Mono:h14
         autocmd GUIEnter * set guifont=Courier:h14
     endif
 

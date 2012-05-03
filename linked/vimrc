@@ -27,7 +27,6 @@ set wildmenu
 set ttyfast
 set hidden
 set display=lastline,uhex
-set number
 
 set encoding=utf-8
 set termencoding=utf-8
