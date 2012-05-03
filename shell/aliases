@@ -11,12 +11,6 @@ if [ ! -x `which ack` ];then
     alias ack='ack-grep'
 fi
 
-alias a='ack --ignore-dir=build --ignore-dir=dist'
-
-for extension in 'css' 'html' 'ruby' 'rake' 'js'; do
-    eval "alias a$extension='a --$extension'"
-done
-
 # Fast Ri
 alias fri='fri -L'
 

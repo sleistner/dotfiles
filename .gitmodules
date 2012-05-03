@@ -73,9 +73,6 @@
 [submodule "linked/vim/bundle/vim-bundler"]
 	path = linked/vim/bundle/vim-bundler
 	url = git://github.com/tpope/vim-bundler.git
-[submodule "linked/vim/bundle/vim-hammer"]
-	path = linked/vim/bundle/vim-hammer
-	url = https://github.com/robgleeson/hammer.vim.git
 [submodule "linked/vim/bundle/vim-jshint"]
 	path = linked/vim/bundle/vim-jshint
 	url = https://github.com/sleistner/vim-jshint.git

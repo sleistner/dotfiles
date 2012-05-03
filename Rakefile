@@ -17,26 +17,19 @@ namespace :dotfiles do
     end
   end
 
-  def link_zsh_themes
-    oh_my_zsh_themes = File.join(home, '.oh-my-zsh', 'themes')
-    if File.directory?(oh_my_zsh_themes)
-      Dir.glob(File.dirname(__FILE__) + '/shell/zsh/themes/*').each do |file|
-        symbolic_link(file, File.join(oh_my_zsh_themes, File.basename(file)))
-      end
-    end
+  desc "Setup home symlinks and vim plugins."
+  task :setup => [:symlink, "dotfiles:vim:setup"] do
   end
 
   desc "Create symlinks in #{home}"
-  task :setup do
+  task :symlink do
     link_dotfiles
-    link_zsh_themes
-    Rake::Task["dotfiles:vim:setup"].invoke
   end
 
   namespace :vim do
 
     desc "Setup vim plugins"
-    task :setup => [:update,:compile] do
+    task :setup => [:update, :compile] do
       puts "Vim setup done."
     end
 
