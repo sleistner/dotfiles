@@ -1,11 +1,5 @@
 # vim:syntax=sh
 
-COREUTILS_PATH=/usr/local/Cellar/coreutils
-if [ -d $COREUTILS_PATH ]; then
-    source $COREUTILS_PATH/$(ls -t $COREUTILS_PATH | head -n1)/aliases
-fi
-
-
 alias l='ls --color -C -F'
 alias ll='l -lh'
 alias la='l -a'
