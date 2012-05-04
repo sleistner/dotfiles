@@ -1,0 +1,8 @@
+#!/bin/bash
+
+for file in `ls linked/`
+do
+	cmd="ln -sfn $(pwd)/linked/${file} ${HOME}/.${file}"
+	echo $cmd
+	eval $cmd
+done
