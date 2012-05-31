@@ -1,7 +1,6 @@
 set guioptions=egmt
 set guioptions-=r
-"set fuopt=maxvert,maxhorz
-set background=light
+set fuopt=maxvert,maxhorz
 
 if has("gui_macvim")
     "set fu
@@ -15,4 +14,4 @@ if has("gui_macvim")
 
 endif
 
-colorscheme soso
+colorscheme solarized
