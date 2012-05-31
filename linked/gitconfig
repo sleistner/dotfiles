@@ -1,0 +1,35 @@
+[user]
+    name  = Steffen Leistner
+    email = sleistner@gmail.com
+
+[color]
+    branch = auto
+    diff   = auto
+    status = auto
+
+[color "branch"]
+    current = yellow reverse
+    local   = yellow
+    remote  = green
+
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old  = red bold
+    new  = green bold
+
+[color "status"]
+    added     = yellow
+    changed   = green
+    untracked = cyan
+
+[alias]
+    st = status
+    ci = commit
+    co = checkout
+    br = branch
+    gl = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%an, %cr)%Creset' --abbrev-commit --date=relative
+
+[mergetool]
+    keepBackup = false
+
