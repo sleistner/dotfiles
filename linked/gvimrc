@@ -3,15 +3,12 @@ set guioptions-=r
 set fuopt=maxvert,maxhorz
 
 if has("gui_macvim")
-    "set fu
-
-    "let macvim_skip_cmd_opt_movement=1
-
     if has("autocmd")
-        "autocmd GUIEnter * set guifont=Bitstream\ Vera\ Sans\ Mono:h14
-        autocmd GUIEnter * set guifont=Courier:h14
+        "autocmd GUIEnter * set guifont=Bitstream\ Vera\ Sans\ Mono:h12
+        autocmd GUIEnter * set guifont=Monaco:h12
     endif
 
 endif
 
-colorscheme solarized
+colorscheme molokai
+
