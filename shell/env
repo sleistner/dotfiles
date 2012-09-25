@@ -37,7 +37,8 @@ if [ "$TERM" != "dumb" ]; then
 fi
 
 export EDITOR=vim
-export LANG=C
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
 
 
