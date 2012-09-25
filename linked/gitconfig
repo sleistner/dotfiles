@@ -28,8 +28,37 @@
     ci = commit
     co = checkout
     br = branch
-    gl = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%an, %cr)%Creset' --abbrev-commit --date=relative
+
+[core]
+    excludesfile = ~/.gitignore
+    editor = vim
+
+[apply]
+    whitespace = nowarn
+
+[pull]
+    default = tracking
+
+[push]
+    default = tracking
+
+[branch]
+    autosetuprebase = remote
+
+[merge]
+    tool = opendiff
 
 [mergetool]
-    keepBackup = false
+    keepbackup = false
+    keeptemporaries = false
+    trustexitcode = false
+
+[pretty "shortd"]
+    format = "%Cred%h%Creset - %C(green) %an %C(reset) - %C(yellow)%d%Creset %s %Cgreen(%cr) %Creset"
+
+[tig]
+    line-graphics = "utf-8"
+    show-date = relative
+    author-width = 20
+    show-rev-graph = yes
 
