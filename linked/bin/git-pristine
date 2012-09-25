@@ -1,0 +1,5 @@
+#!/bin/bash
+
+git branch -d -r `git branch -r | awk  '{ if ($0 !~ /next|master/) printf "%s", $0 }'`
+git branch -D `git branch | awk  '{ if ($0 !~ /next|master/) printf "%s", $0 }'`
+
