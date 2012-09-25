@@ -1,9 +1,11 @@
 set wildmode=full
 set wildmenu
 set list listchars=tab:»·,trail:·
+set numberwidth=3
 
 " Vundle
 Bundle 'sleistner/vim-jshint'
+Bundle 'fholgado/minibufexpl.vim'
 
 if has("autocmd")
     filetype plugin indent on
@@ -23,8 +25,22 @@ if has("autocmd")
     autocmd FileType js,scss,sass,css setlocal ai nosi sw=4 ts=4 sts=4
 endif
 
-" NERDTree settings
+" Plugin Configuration {{{
+
+" NERDTree
 map <silent> <leader>` :NERDTreeFind<CR>
+
+" NERDcommenter
+nmap <leader>/ :call NERDComment(0, "invert")<cr>
+vmap <leader>/ :call NERDComment(0, "invert")<cr>
+
+" Minibufexplorer
+let g:miniBufExplVSplit = 35
+
+" Neocomplete
+let g:neocomplcache_enable_at_startup = 0
+
+" }}}
 
 " Move complete block one line down or up with <M-Down> and <M-Up> keys
 vmap <silent> <C-M-Up> :m'<-2<CR>gv
