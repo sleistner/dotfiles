@@ -2,7 +2,7 @@ set wildmode=full
 set wildmenu
 set list listchars=tab:»·,trail:·
 set numberwidth=3
-
+set tags+=gems.tags
 " Vundle
 Bundle 'sleistner/vim-jshint'
 Bundle 'fholgado/minibufexpl.vim'

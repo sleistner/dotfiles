@@ -1,5 +1,28 @@
 #!/bin/bash
 
-git branch -d -r `git branch -r | awk  '{ if ($0 !~ /next|master/) printf "%s", $0 }'`
-git branch -D `git branch | awk  '{ if ($0 !~ /next|master/) printf "%s", $0 }'`
+# This has to be run from master
+git checkout master
 
+# Update our list of remotes
+git fetch
+git remote prune origin
+
+# Remove local fully merged branches
+git branch --merged master | grep -v 'master$' | xargs git branch -d
+
+# Show remote fully merged branches
+echo "The following remote branches are fully merged and will be removed:"
+git branch -r --merged master | sed 's/ *origin\///' | grep -v 'master$'
+
+read -p "Continue (y/n)? "
+if [[ -z "$REPLY" || "$REPLY" == "y" ]]
+then
+    # Remove remote fully merged branches
+    for branch in `git branch -r --merged master | grep -v master$`
+    do
+        parts=(`echo "$branch" | sed 's/ *\// :/'`);
+        git push ${parts[0]} ${parts[1]}
+    done
+
+    echo "Done!"
+fi

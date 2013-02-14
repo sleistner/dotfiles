@@ -1,6 +1,6 @@
 [user]
-    name  = Steffen Leistner
-    email = sleistner@gmail.com
+	name = Steffen Leistner
+	email = sleistner@gmail.com
 
 [color]
     branch = auto
@@ -28,10 +28,11 @@
     ci = commit
     co = checkout
     br = branch
+    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
 
 [core]
-    excludesfile = ~/.gitignore
-    editor = vim
+	excludesfile = /Users/sleistner/.gitignore_global
+    editor = subl
 
 [apply]
     whitespace = nowarn
@@ -46,7 +47,7 @@
     autosetuprebase = remote
 
 [merge]
-    tool = opendiff
+	tool = sublime
 
 [mergetool]
     keepbackup = false
@@ -62,3 +63,6 @@
     author-width = 20
     show-rev-graph = yes
 
+[mergetool "sublime"]
+	cmd = subl -w $MERGED
+	trustExitCode = false

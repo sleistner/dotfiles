@@ -6,6 +6,11 @@ alias la='l -a'
 alias l1='ls -1'
 alias lla='ll -a'
 
+alias b='bundle'
+alias be='b exec'
+alias ber='be rake'
+alias bers='ber spec'
+
 # Ack
 if [ ! -x `which ack` ];then
     alias ack='ack-grep'

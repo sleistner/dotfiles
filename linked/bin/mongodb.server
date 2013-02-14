@@ -2,11 +2,18 @@
 
 MONGO_PATH=/usr/local/Cellar/mongodb
 VERSION=`ls -t $MONGO_PATH | head -n1`
-NAME="mongodb ($VERSION) service"
+NAME="mongodb ($VERSION) service at ($MONGO_PATH/$VERSION)"
 
 start(){
     echo -n $"Starting $NAME: "
-    mongod --fork --quiet --rest --config $MONGO_PATH/$VERSION/mongod.conf --logpath /var/log/mongodb.log --logappend
+    /usr/local/bin/mongod \
+        run \
+        --fork \
+        --quiet \
+        --rest \
+        --config /usr/local/etc/mongod.conf \
+        --logpath /usr/local/var/log/mongodb/output.log \
+        --logappend
 }
 
 stop(){
