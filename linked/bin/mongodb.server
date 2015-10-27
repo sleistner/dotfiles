@@ -1,16 +1,13 @@
 #!/bin/bash
 
-MONGO_PATH=/usr/local/Cellar/mongodb
-VERSION=`ls -t $MONGO_PATH | head -n1`
-NAME="mongodb ($VERSION) service at ($MONGO_PATH/$VERSION)"
+NAME="mongodb service"
 
 start(){
     echo -n $"Starting $NAME: "
-    /usr/local/bin/mongod \
+    sudo /usr/local/bin/mongod \
         run \
         --fork \
         --quiet \
-        --rest \
         --config /usr/local/etc/mongod.conf \
         --logpath /usr/local/var/log/mongodb/output.log \
         --logappend
@@ -18,7 +15,7 @@ start(){
 
 stop(){
     echo -n $"Stopping $NAME: "
-    killall mongod
+    sudo killall mongod
     echo
 }
 

@@ -1,6 +1,7 @@
 #!/bin/bash
 
-NGINX_PATH=/usr/local/nginx
+NGINX_PATH=/usr/local/etc/nginx
+
 
 start(){
   if [ -n "$1" ]; then
@@ -9,13 +10,16 @@ start(){
       configfile="nginx"
   fi
 
-  CONFIG_FILE="$NGINX_PATH/conf/$configfile.conf"
+  CONFIG_FILE="$NGINX_PATH/$configfile.conf"
   if [ ! -f $CONFIG_FILE ]; then
     echo "$CONFIG_FILE: No such config file"
     exit
   fi
+  echo "$NGINX_PATH/logs"
+  echo $CONFIG_FILE
   echo -n $"Starting nginx service: "
-  $NGINX_PATH/sbin/nginx -c $CONFIG_FILE &
+  mkdir -p "$NGINX_PATH/logs" && chmod a+rwx "$NGINX_PATH/logs"
+  /usr/local/bin/nginx -c $CONFIG_FILE -g "pid $NGINX_PATH/logs/nginx.pid;" &
 }
 
 stop(){

@@ -1,21 +1,20 @@
 # vim:syntax=sh
 
+# ls
 alias l='ls --color -C -F'
 alias ll='l -lh'
 alias la='l -a'
 alias l1='ls -1'
 alias lla='ll -a'
 
-alias b='bundle'
-alias be='b exec'
-alias ber='be rake'
-alias bers='ber spec'
+# Deploy
+alias d-pre='cap preview deploy'
+alias d-pro='cap production deploy'
 
 # Ack
 if [ ! -x `which ack` ];then
     alias ack='ack-grep'
 fi
 
-# Fast Ri
-alias fri='fri -L'
+alias java_ls='/usr/libexec/java_home -V 2>&1 | grep -E "^\s*\d.\d.\d" | cut -d , -f 1 | colrm 1 4'
 

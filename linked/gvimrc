@@ -10,5 +10,5 @@ if has("gui_macvim")
 
 endif
 
-colorscheme molokai
+"colorscheme molokai
 

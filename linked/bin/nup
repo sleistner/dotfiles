@@ -1,0 +1,1 @@
+git pull && npm install && (cat package.json | grep migrate && npm run migrate) && (([ -f app.js ] && touch app.js) || ([ -f index.js ] && touch index.js))

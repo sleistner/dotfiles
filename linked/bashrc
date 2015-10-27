@@ -2,8 +2,6 @@
 
 SHELL_DIR=$(readlink $HOME/.bashrc | xargs dirname)/../shell
 source $SHELL_DIR/bash/config
-source $SHELL_DIR/bash/completions/git
-source $SHELL_DIR/bash/completions/rake
 source $SHELL_DIR/aliases
 source $SHELL_DIR/env
 source $SHELL_DIR/functions

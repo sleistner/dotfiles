@@ -24,15 +24,42 @@
     untracked = cyan
 
 [alias]
-    st = status
-    ci = commit
-    co = checkout
-    br = branch
+    filter-deleted = "!sh -c 'git log --diff-filter=D --summary | grep delete'"
+    delete-merged = "!f() { \
+        git checkout --quiet master \
+        && \
+        git branch --merged \
+        | \
+        grep --invert-match '\\*' \
+        | \
+        xargs -n 1 git branch --delete; \
+        git checkout --quiet @{-1} \
+        ; \
+        }; f"
+    delete-merged-remote = "!f() { \
+        git checkout --quiet master \
+        && \
+        git branch --remote --merged \
+        | \
+        grep --invert-match 'master' \
+        | \
+        xargs -n 1 echo \
+        | \
+        awk '{ sub(/origin\\//, \"\"); print }' \
+        | \
+        xargs -I {} git push origin :{} \
+        ; \
+        }; f"
     hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+    changelog = log --pretty=%s --first-parent
+    co = checkout
+    ci = commit
+    st = status
+    br = branch
 
 [core]
 	excludesfile = /Users/sleistner/.gitignore_global
-    editor = subl
+	editor = vim
 
 [apply]
     whitespace = nowarn
@@ -47,22 +74,49 @@
     autosetuprebase = remote
 
 [merge]
-	tool = sublime
+    tool = Kaleidoscope
 
 [mergetool]
     keepbackup = false
     keeptemporaries = false
     trustexitcode = false
+    prompt = false
 
 [pretty "shortd"]
     format = "%Cred%h%Creset - %C(green) %an %C(reset) - %C(yellow)%d%Creset %s %Cgreen(%cr) %Creset"
 
 [tig]
     line-graphics = "utf-8"
-    show-date = relative
-    author-width = 20
-    show-rev-graph = yes
 
 [mergetool "sublime"]
-	cmd = subl -w $MERGED
-	trustExitCode = false
+    cmd = subl -w $MERGED
+    trustExitCode = false
+[github]
+    user = sleistner
+[difftool "Kaleidoscope"]
+    cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+[diff]
+    tool = Kaleidoscope
+[difftool]
+    prompt = false
+[mergetool "Kaleidoscope"]
+    cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+    trustExitCode = true
+[filter "media"]
+	required = true
+	clean = git media clean %f
+	smudge = git media smudge %f
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[filter "hawser"]
+	clean = git hawser clean %f
+	smudge = git hawser smudge %f
+	required = true
+[filter "lfs"]
+	clean = git lfs clean %f
+	smudge = git lfs smudge %f
+	required = true

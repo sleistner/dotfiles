@@ -1,20 +1,7 @@
 # vim:syntax=sh
 
-function vimwhich() {
-  vim $(which $*)
-}
-
-function mvimwhich() {
-  mvim $(which $*)
-}
-
-function clean-git() {
-  echo log/* >> .gitignore
-  echo .DS_Store >> .gitignore
-  echo tmp/**/* >> .gitignore
-  echo db/schema.rb >> .gitignore
-  git add .gitignore
-  git commit .gitignore -m "Set various ignores"
+function swhich() {
+  subl $(which $*)
 }
 
 # SSH Tunnel
@@ -25,5 +12,10 @@ function mysql-tunnel() {
 
 function mysql-tunnel-kill-all() {
   killall autossh
+}
+
+function java_use() {
+    export JAVA_HOME=$(/usr/libexec/java_home -v $1)
+    java -version
 }
 

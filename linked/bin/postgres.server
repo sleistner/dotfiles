@@ -1,21 +1,22 @@
 #!/bin/bash
 
-PG_PATH=/usr/local/var/postgres
+PG_CONF_PATH=/usr/local/var/postgres
+PG_BIN=/usr/local/bin/pg_ctl
 NAME="postgres service"
 
 start() {
     echo -n $"Starting $NAME: "
-    pg_ctl -D $PG_PATH -l $PG_PATH/server.log start
+    $PG_BIN -D $PG_CONF_PATH -l $PG_CONF_PATH/server.log start
 }
 
 stop() {
     echo -n $"Stopping $NAME: "
-    pg_ctl -D $PG_PATH stop -s -m fast
+    $PG_BIN -D $PG_CONF_PATH stop -s -m fast
     echo
 }
 
 status() {
-    pg_ctl -D $PG_PATH status
+    $PG_BIN -D $PG_CONF_PATH status
     echo
 }
 
