@@ -58,7 +58,7 @@
     br = branch
 
 [core]
-	excludesfile = /Users/sleistner/.gitignore_global
+	excludesfile = /home/sleistner/.gitignore_global
 	editor = vim
 
 [apply]
@@ -73,9 +73,6 @@
 [branch]
     autosetuprebase = remote
 
-[merge]
-    tool = Kaleidoscope
-
 [mergetool]
     keepbackup = false
     keeptemporaries = false
@@ -88,35 +85,8 @@
 [tig]
     line-graphics = "utf-8"
 
-[mergetool "sublime"]
-    cmd = subl -w $MERGED
-    trustExitCode = false
 [github]
     user = sleistner
-[difftool "Kaleidoscope"]
-    cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
-[diff]
-    tool = Kaleidoscope
+
 [difftool]
     prompt = false
-[mergetool "Kaleidoscope"]
-    cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
-    trustExitCode = true
-[filter "media"]
-	required = true
-	clean = git media clean %f
-	smudge = git media smudge %f
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
-[filter "hawser"]
-	clean = git hawser clean %f
-	smudge = git hawser smudge %f
-	required = true
-[filter "lfs"]
-	clean = git lfs clean %f
-	smudge = git lfs smudge %f
-	required = true

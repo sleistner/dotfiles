@@ -1,13 +1,9 @@
 .DS_Store
-.bin/merge-micoach
 *.swp
 .VimballRecord
 vim/.netrwhist
 .redcar
 bin/redcar
 .netrwhist
-linked/bin/micoach-merge
-linked/bin/merge-micoachlinked/gitconfig
-linked/bin/pandora-run
 .rake_tasks~
 vimified/

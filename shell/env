@@ -2,28 +2,17 @@
 
 PATH=/usr/local/bin:/usr/local/sbin:$PATH
 PATH=$HOME/.bin:$PATH
-PATH=$PATH:/usr/local/opt/python/bin
-PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 
 export PATH
 
-export ANDROID_HOME=/usr/local/opt/android-sdk
-
-export EDITOR=mvim
+export EDITOR=vim
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
-
-# Maven
-export MAVEN_OPTS="-Xmx2048m -Xms256m -XX:MaxPermSize=512M"
 
 # Node JS
 export NVM_SYMLINK_CURRENT="true"
 export NVM_DIR=~/.nvm
-source $(brew --prefix nvm)/nvm.sh
-
-#Go
-export GOPATH=$HOME/code/go
-export PATH=$PATH:$GOPATH/bin
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
 # RB Env
 if [[ -s $HOME/.rbenv ]]; then
@@ -31,10 +20,17 @@ if [[ -s $HOME/.rbenv ]]; then
     eval "$(rbenv init -)"
 fi
 
-if [ "$TERM" != "dumb" ]; then
-    [ -f $HOME/.dircolors ] && [ -x /usr/local/bin/gdircolors ] && eval `/usr/local/bin/gdircolors --sh $HOME/.dircolors`
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
 fi
 
-source $(brew --prefix)/etc/bash_completion
-
-ulimit -n 2084
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
