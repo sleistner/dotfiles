@@ -1,1 +1,0 @@
-ps aux | grep java | grep -v IntelliJ | grep -v grep

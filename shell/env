@@ -10,9 +10,9 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
 # Node JS
-export NVM_SYMLINK_CURRENT="true"
-export NVM_DIR=~/.nvm
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+if [[ -s /usr/share/nvm/init-nvm.sh ]]; then  
+    source /usr/share/nvm/init-nvm.sh
+fi
 
 # RB Env
 if [[ -s $HOME/.rbenv ]]; then
@@ -24,13 +24,10 @@ if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
 fi
 
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
+if [[ -s /usr/share/git/completion/git-prompt.sh ]]; then 
+    source /usr/share/git/completion/git-prompt.sh
+fi
+
+if [[ -s /etc/profile.d/vte.sh ]]; then 
+    source /etc/profile.d/vte.sh
 fi
