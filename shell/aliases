@@ -16,3 +16,6 @@ alias egrep='egrep --color=auto'
 if [ ! -x `which ack` ];then
     alias ack='ack-grep'
 fi
+
+# Arch Linux
+alias ch='sudo pacman -Sy $(pacman -Qq | grep headers) --needed --noconfirm && yaourt -Sua --noconfirm'

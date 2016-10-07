@@ -1,21 +1,14 @@
 # vim:syntax=sh
 
-function swhich() {
+function sublwhich() {
   subl $(which $*)
 }
 
-# SSH Tunnel
-
-function mysql-tunnel() {
-  autossh -f -M 11000 -l $1 -L 11980:127.0.0.1:3306 -N $2
+function codewhich() {
+  code $(which $*)
 }
 
-function mysql-tunnel-kill-all() {
-  killall autossh
-}
-
-function java_use() {
-    export JAVA_HOME=$(/usr/libexec/java_home -v $1)
-    java -version
+function vimwhich() {
+  vim $(which $*)
 }
 
