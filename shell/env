@@ -1,6 +1,6 @@
 # vim:syntax=sh
 
-PATH=/usr/local/bin:/usr/local/sbin:$PATH
+PATH=/usr/local/bin:/usr/local/sbin:/usr/bin/vendor_perl:$PATH
 PATH=$HOME/.bin:$PATH
 
 export PATH
@@ -10,7 +10,7 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
 # Node JS
-if [[ -s /usr/share/nvm/init-nvm.sh ]]; then  
+if [[ -s /usr/share/nvm/init-nvm.sh ]]; then
     source /usr/share/nvm/init-nvm.sh
 fi
 
@@ -24,10 +24,10 @@ if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
 fi
 
-if [[ -s /usr/share/git/completion/git-prompt.sh ]]; then 
+if [[ -s /usr/share/git/completion/git-prompt.sh ]]; then
     source /usr/share/git/completion/git-prompt.sh
 fi
 
-if [[ -s /etc/profile.d/vte.sh ]]; then 
+if [[ -s /etc/profile.d/vte.sh ]]; then
     source /etc/profile.d/vte.sh
 fi

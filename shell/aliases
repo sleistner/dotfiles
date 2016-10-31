@@ -12,10 +12,5 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
-# Ack
-if [ ! -x `which ack` ];then
-    alias ack='ack-grep'
-fi
-
 # Arch Linux
 alias ch='sudo pacman -Sy $(pacman -Qq | grep headers) --needed --noconfirm && yaourt -Sua --noconfirm'

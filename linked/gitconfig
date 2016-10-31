@@ -1,6 +1,6 @@
 [user]
-	name = Steffen Leistner
-	email = sleistner@gmail.com
+  name = Steffen Leistner
+  email = sleistner@gmail.com
 
 [color]
     branch = auto
@@ -58,8 +58,8 @@
     br = branch
 
 [core]
-	excludesfile = /home/sleistner/.gitignore_global
-	editor = vim
+  excludesfile = /home/sleistner/.gitignore_global
+  editor = vim
 
 [apply]
     whitespace = nowarn
@@ -91,6 +91,6 @@
 [difftool]
     prompt = false
 [diff]
-	tool = meld
+  tool = meld
 [merge]
-	tool = meld
+  tool = meld
