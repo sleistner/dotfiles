@@ -87,6 +87,3 @@ source ~/config/dotfiles/shell/aliases
 source ~/config/dotfiles/shell/env
 source ~/config/dotfiles/shell/functions
 
-# tabtab source for yarn package
-# uninstall by removing these lines or running `tabtab uninstall yarn`
-[[ -f /home/sleistner/.yarn-cache/.global/node_modules/tabtab/.completions/yarn.zsh ]] && . /home/sleistner/.yarn-cache/.global/node_modules/tabtab/.completions/yarn.zsh
