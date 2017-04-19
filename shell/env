@@ -8,10 +8,19 @@ export PATH
 export EDITOR=vim
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
+export NVM_DIR="$HOME/.nvm"
+
 
 # Node JS
+
+# Ubuntu
 if [[ -s /usr/share/nvm/init-nvm.sh ]]; then
     source /usr/share/nvm/init-nvm.sh
+fi
+
+# Darwin
+if [[ -s /usr/local/opt/nvm/nvm.sh ]]; then
+  source /usr/local/opt/nvm/nvm.sh
 fi
 
 # RB Env
@@ -20,8 +29,14 @@ if [[ -s $HOME/.rbenv ]]; then
     eval "$(rbenv init -)"
 fi
 
+# Ubuntu
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+fi
+
+# Darwin
+if [ -x /usr/local/bin/gdircolors ]; then
+    test -r ~/.dircolors && eval `/usr/local/bin/gdircolors --sh $HOME/.dircolors`
 fi
 
 if [[ -s /usr/share/git/completion/git-prompt.sh ]]; then
