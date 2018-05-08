@@ -1,449 +1,84 @@
-" -------------------------
-" GENERAL
-" -------------------------
+set nocompatible              " required
+filetype off                  " required
 
-" Must be called first
-filetype off
-
-"This must be first, because it changes other options as a side effect.
-set nocompatible
-
-" Vundle
+" set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
 " let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+Plugin 'gmarik/Vundle.vim'
+Plugin 'tmhedberg/SimpylFold'
+Plugin 'vim-scripts/indentpython.vim'
+Bundle 'Valloric/YouCompleteMe'
+Plugin 'vim-syntastic/syntastic'
+Plugin 'nvie/vim-flake8'
+Plugin 'jnurmine/Zenburn'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'scrooloose/nerdtree'
+Plugin 'kien/ctrlp.vim'
+Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+Plugin 'editorconfig/editorconfig-vim'
 
-Bundle 'AutoComplPop'
+" add all your plugins here (note older versions of Vundle
+" used Bundle instead of Plugin)
 
-Bundle 'Townk/vim-autoclose'
-Bundle 'bufexplorer.zip'
+" ...
 
-Bundle 'kien/ctrlp.vim'
-Bundle 'kien/rainbow_parentheses.vim'
-Bundle 'scrooloose/syntastic'
-Bundle 'godlygeek/tabular'
-Bundle 'tpope/vim-endwise'
-Bundle 'tpope/vim-repeat'
-Bundle 'tpope/vim-surround'
-Bundle 'tomtom/tcomment_vim'
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
 
-Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-rails'
-Bundle 'janx/vim-rubytest'
-
-Bundle 'tpope/vim-cucumber'
-Bundle 'tpope/vim-haml'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'pangloss/vim-javascript'
-Bundle 'plasticboy/vim-markdown'
-
-Bundle 'msanders/snipmate.vim'
-
-Bundle 'Lokaltog/vim-powerline'
-Bundle 'majutsushi/tagbar'
-Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-Bundle 'The-NERD-tree'
-Bundle 'mileszs/ack.vim'
-
-filetype plugin indent on
-
-call pathogen#runtime_append_all_bundles()
-
-"allow backspacing over everything in insert mode
-set backspace=indent,eol,start
-
-"store lots of :cmdline history
-set history=1000
-
-"color theme for terminal vim
-colors peachpuff
-
-" -------------------------
-" /GENERAL
-" -------------------------
-
-" -------------------------
-" BACKUPS
-" -------------------------
-set nobackup                      " do not keep backups after close
-set nowritebackup                 " do not keep a backup while working
-set noswapfile                    " don't keep swp files either
-set backupdir=$HOME/.vimbackup    " store backups under ~/.vimbackup
-set backupcopy=yes                " keep attributes of original file
-set backupskip=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*
-set directory=~/.vimswap,~/tmp,. " keep swp files under ~/.vimswap
-" -------------------------
-" /BACKUPS
-" -------------------------
-
-" -------------------------
-" STATUSLINE
-" -------------------------
-"return the syntax highlight group under the cursor ''
-function! StatuslineCurrentHighlight()
-    let name = synIDattr(synID(line('.'),col('.'),1),'name')
-    if name == ''
-        return ''
-    else
-        return '[' . name . ']'
-    endif
-endfunction
-
-let g:syntastic_enable_signs=1
-let g:syntastic_auto_loc_list=1
-let g:syntastic_quiet_messages = {'level': 'warnings'}
-let g:syntastic_javascript_checkers = ['eslint']
-
-let g:ackprg = 'ag --nogroup --nocolor --column'
-
-set statusline=%f       "tail of the filename
-
-"display a warning if fileformat isnt unix
-set statusline+=%#warningmsg#
-set statusline+=%{&ff!='unix'?'['.&ff.']':''}
-set statusline+=%*
-
-"display a warning if file encoding isnt utf-8
-set statusline+=%#warningmsg#
-set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''}
-set statusline+=%*
-
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-set statusline+=%h      "help file flag
-set statusline+=%y      "filetype
-set statusline+=%r      "read only flag
-set statusline+=%m      "modified flag
-
-"display a warning if &et is wrong, or we have mixed-indenting
-set statusline+=%#error#
-set statusline+=%*
-
-set statusline+=%#warningmsg#
-set statusline+=%*
-
-"display a warning if &paste is set
-set statusline+=%#error#
-set statusline+=%{&paste?'[paste]':''}
-set statusline+=%*
-
-set statusline+=%=      "left/right separator
-set statusline+=%{StatuslineCurrentHighlight()} "current highlight
-set statusline+=%c,     "cursor column
-set statusline+=%l/%L   "cursor line/total lines
-set statusline+=\ %P    "percent through file
-" -------------------------
-" /STATUSLINE
-" -------------------------
-
-" -------------------------
-" GRAPHICAL
-" -------------------------
-"Visual
-set ruler                  " show the cursor position all the time
-set nolazyredraw           " turn off lazy redraw
-set wildmenu               " turn on wild menu
-set wildmode=list:longest,full
-set ch=2                   " command line height
-set winwidth=140
-
-" set whichwrap+=<,>,h,l,[,] " backspace and cursor keys wrap to
-set report=0               " tell us about changes
-set nostartofline          " don't jump to the start of line when scrolling
-
-"Visual Cues
-set showmatch             " brackets/braces that is
-set mat=5                 " duration to show matching brace (1/10 sec)
-set laststatus=2          " always show the status line
-set ignorecase            " ignore case when searching
-set nohlsearch            " don't highlight searches
-set visualbell            " shut the fuck up
-set showcmd               " show incomplete cmds down the bottom
-set showmode              " show current mode down the bottom
-set incsearch             " find the next match as we type the search
-set hlsearch              " hilight searches by default
-set nowrap                " dont wrap lines
-set linebreak             " wrap lines at convenient points
-set autoread              " reload files (no local changes only)
-" -------------------------
-" /GRAPHICAL
-" -------------------------
-
-" -------------------------
-" MAPPINGS
-" -------------------------
-" remap <LEADER> to ',' (instead of '\')
-let mapleader = ","
-
-map <s-D-Left> <C-w><Left>
-map <s-D-Right> <C-w><Right>
-map <s-D-Up> <C-w><Up>
-map <s-D-Down> <C-w><Down>
-
-map <leader>a <C-w><Left>
-map <leader>d <C-w><Right>
-map <leader>w <C-w><Up>
-map <leader>s <C-w><Down>
-
-map <D-H> <C-w><Right><C-W>H<CR>
-map <D-V> <C-w><Down><C-W>K<CR>
-
-map <D-C> :vsplit<CR>
-map <D-R> :split<CR>
-map <leader>v :vsplit<CR>
-map <leader>h :split<CR>
-
-imap <D-1> <Esc>:tabn 1<CR>i
-imap <D-2> <Esc>:tabn 2<CR>i
-imap <D-3> <Esc>:tabn 3<CR>i
-imap <D-4> <Esc>:tabn 4<CR>i
-imap <D-5> <Esc>:tabn 5<CR>i
-imap <D-6> <Esc>:tabn 6<CR>i
-imap <D-7> <Esc>:tabn 7<CR>i
-imap <D-8> <Esc>:tabn 8<CR>i
-imap <D-9> <Esc>:tabn 9<CR>i
-
-map <D-1> :tabn 1<CR>
-map <D-2> :tabn 2<CR>
-map <D-3> :tabn 3<CR>
-map <D-4> :tabn 4<CR>
-map <D-5> :tabn 5<CR>
-map <D-6> :tabn 6<CR>
-map <D-7> :tabn 7<CR>
-map <D-8> :tabn 8<CR>
-map <D-9> :tabn 9<CR>
-
-map <leader>q :q<CR>
-imap <leader>q :q<CR>
-
-" Leader shortcuts for Rails commands
-" Props to @malditogeek
-" map <Leader>m :Rmodel
-" map <Leader>c :Rcontroller
-" map <Leader>v :Rview
-" map <Leader>u :Runittest
-" map <Leader>f :Rfunctionaltest
-" map <Leader>tm :RTmodel
-" map <Leader>tc :RTcontroller
-" map <Leader>tv :RTview
-" map <Leader>tu :RTunittest
-" map <Leader>tf :RTfunctionaltest
-" map <Leader>sm :RSmodel
-" map <Leader>sc :RScontroller
-" map <Leader>sv :RSview
-" map <Leader>su :RSunittest
-" map <Leader>sf :RSfunctionaltest
-
-" -------------------------
-" MAPPINGS
-" -------------------------
-
-"indent settings
-set shiftwidth=2
-set ts=2
-set bs=2
-set shiftround
-set softtabstop=2
-set expandtab
-set smarttab
-set autoindent
-
-"folding settings
-set foldmethod=indent   "fold based on indent
-set foldnestmax=3       "deepest fold is 3 levels
-set nofoldenable        "dont fold by default
-
-set wildmode=list:longest   "make cmdline tab completion similar to bash
-set wildmenu                "enable ctrl-n and ctrl-p to scroll thru matches
-set wildignore=*.o,*.obj,*~ "stuff to ignore when tab completing
-
-"display tabs and trailing spaces
-set list
-set listchars=tab:▷⋅,trail:⋅,nbsp:⋅
-
-set formatoptions-=o "dont continue comments when pushing o/O
-
-"vertical/horizontal scroll off settings
-set scrolloff=3
-set sidescrolloff=7
-set sidescroll=1
-
-"load ftplugins and indent files
-filetype plugin on
-filetype indent on
-
-"turn on syntax highlighting
+let python_highlight_all=1
 syntax on
 
-set ofu=syntaxcomplete#Complete
-let g:acp_behaviorKeywordLength = 4
+" Enable folding
+set foldmethod=indent
+set foldlevel=99
+set nu
+set encoding=utf-8
+set clipboard=unnamed
 
-"some stuff to get the mouse going in term
-set mouse=a
-set ttymouse=xterm2
+" Enable folding with the spacebar
+nnoremap <space> za
 
-"tell the term has 256 colors
-set t_Co=256
+" Flagging Unnecessary Whitespace
+" We also want to avoid extraneous whitespace. 
+" We can have VIM flag that for us so that it’s easy to spot - and then remove.
+highlight BadWhitespace ctermbg=red guibg=darkred
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 
-"hide buffers when not displayed
-set hidden
+let g:ycm_autoclose_preview_window_after_completion=1
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
-"ctags
-set tags=ctags
+"python with virtualenv support
+py << EOF
+import os
+import sys
+if 'VIRTUAL_ENV' in os.environ:
+  project_base_dir = os.environ['VIRTUAL_ENV']
+  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+  execfile(activate_this, dict(__file__=activate_this))
+EOF
 
-"dont load csapprox if we no gui support - silences an annoying warning
-if !has("gui")
-    let g:CSApprox_loaded = 1
+if has('gui_running')
+  set background=dark
+  colorscheme solarized
+else
+  colorscheme zenburn
 endif
 
-"clear the highlight as well as redraw
-nnoremap <leader>/ :nohls<CR><C-L>
+let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
 
-"make <D-intro> jump add new line as in Textmate
-inoremap <D-CR> <ESC>o
-
-"map to NERDtree
-nnoremap <c-t> :NERDTreeToggle<CR>
-
-"map to bufexplorer
-nnoremap <leader>b :BufExplorer<cr>
-
-"map to fuzzy finder text mate stylez
-set wildignore+=gems/**,coverage,tmp,*/.git/*,*/.hg/*,*/.svn/*,.DS_Store,*/node_modules/*
-nnoremap <leader>r :ClearCtrlPCache<CR>:CtrlP<cr>
-nnoremap <leader>f :CtrlP<cr>
-
-let g:ctrlp_working_path_mode = 0
-
-"reload vim config
-nnoremap <D-e> :so $MYVIMRC<cr>
-nnoremap <D-E> :so $MYGVIMRC<cr>
-
-"comment lines as with textmate
-map <leader>g :TComment<cr>
-imap <leader>g :TComment<cr>
-vmap <leader>g :TComment<cr>
-
-"display yankring
-map <leader>p :YRShow<cr>
-imap <leader>p :YRShow<cr>
-vmap <leader>p :YRShow<cr>
-
-"go back to last file
-map <leader><leader> <C-^>
-
-
-"make Y consistent with C and D
-nnoremap Y y$
-
-" -------------------
-" KEYBINDS
-" -------------------
-"Move lines up and down
-map <C-J> :m +1 <CR>
-map <C-K> :m -2 <CR>
-
-" move faster around up and down
-nnoremap <space> :+15<cr>
-nnoremap <C-Down> :+15<cr>
-inoremap <C-Down> :+15<cr>
-nnoremap <s-space> :-15<cr>
-nnoremap <C-Up> :-15<cr>
-inoremap <C-Up> :-15<cr>
-
-" Experiment so select with shift-arrows
-nnoremap <s-Right> v<Right>
-inoremap <s-Right> <Esc><Right>v<Right>
-vnoremap <s-Right> <Right>
-
-"Duplicate a selection
-vmap D y'>p
-
-"one-key indentation
-nmap > >>
-nmap < <<
-
-vnoremap < <gv
-vnoremap > >gv
-
-"Easier beginning/end of line
-map H ^
-map L $
-
-" -------------------
-" /KEYBINDS
-" -------------------
-
-"No Help, please
-nmap <F1> <Esc>
-
-"Numbers
-set number
-set numberwidth=5
-
-"jump to last cursor position when opening a file
-"dont do it when writing a commit log entry
-autocmd BufReadPost * call SetCursorPosition()
-function! SetCursorPosition()
-    if &filetype !~ 'commit\c'
-        if line("'\"") > 0 && line("'\"") <= line("$")
-            exe "normal! g`\""
-            normal! zz
-        endif
-    end
-endfunction
-
-" -------------------
-" AUTO & OTHERS
-" -------------------
-
-" Project Tree
-" autocmd VimEnter * call s:CdIfDirectory(expand("<amatch>"))
-
-" Disable netrw's autocmd, since we're ALWAYS using NERDTree
-runtime plugin/netRwPlugin.vim
-augroup FileExplorer
-  au!
-augroup END
-
-let g:NERDTreeHijackNetrw = 0
-
-" If the parameter is a directory, cd into it
-function s:CdIfDirectory(directory)
-  if isdirectory(a:directory)
-    call ChangeDirectory(a:directory)
+if has("gui_running")
+  if has("gui_gtk2")
+    set guifont=Inconsolata\ 12
+  elseif has("gui_macvim")
+    set guifont=Menlo\ Regular:h14
+  elseif has("gui_win32")
+    set guifont=Consolas:h11:cANSI
   endif
-endfunction
-
-" NERDTree utility function
-function s:UpdateNERDTree(stay)
-  if exists("t:NERDTreeBufName")
-    if bufwinnr(t:NERDTreeBufName) != -1
-      NERDTree
-      if !a:stay
-        wincmd p
-      end
-    endif
-  endif
-endfunction
-
-autocmd BufWritePre * :%s/\s\+$//e
-
-au BufWritePost .vimrc so ~/.vimrc
-
-" New filetypes
-autocmd BufNewFile,BufRead *.thor setf ruby
-
-" Mark as red every character after 80
-" :au BufWinEnter * let w:m1=matchadd('Search', '\\%<81v.\\%>77v', -1)
-" :au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\\%>80v.\\+', -1)
-
-" Local config
-" if filereadable("~/.vimrclocal")
-"   source ~/.vimrclocal
-" endif
+endif
 

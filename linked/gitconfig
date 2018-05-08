@@ -1,6 +1,6 @@
 [user]
-  name = Steffen Leistner
-  email = sleistner@gmail.com
+	name = Steffen Leistner
+	email = sleistner@gmail.com
 
 [color]
     branch = auto
@@ -49,7 +49,8 @@
         | \
         xargs -I {} git push origin :{} \
         ; \
-        }; f"
+        }g f"
+    delete-local-tags = tag -l | tag -d
     hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
     changelog = log --pretty=%s --first-parent
     co = checkout
@@ -58,7 +59,7 @@
     br = branch
 
 [core]
-  excludesfile = /home/sleistner/.gitignore_global
+	excludesfile = /Users/sleistner/.gitignore_global
   editor = vim
 
 [apply]
@@ -88,15 +89,33 @@
 [github]
     user = sleistner
 
+[difftool "Kaleidoscope"]
+  cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+
+# If you want to set up Kaleidoscope as the default diff tool,
+# then also set the following variables:
 [difftool]
-    prompt = false
+  prompt = false
 [diff]
-  tool = meld
+ tool = Kaleidoscope
+
+[mergetool "Kaleidoscope"]
+	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" \"$REMOTE\"
+
+[mergetool]
+  prompt = false
 [merge]
-  tool = meld
+	tool = Kaleidoscope
 [difftool "sourcetree"]
-	cmd = /usr/local/bin/ksdiff -w \"$LOCAL\" \"$REMOTE\"
+	cmd = vscode --diff --wait
 	path = 
 [mergetool "sourcetree"]
-	cmd = /usr/local/bin/ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[commit]
+	template = /Users/sleistner/.stCommitMsg

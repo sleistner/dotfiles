@@ -12,3 +12,6 @@ function vimwhich() {
   vim $(which $*)
 }
 
+function nodeenv() {
+  source "/usr/local/opt/nvm/nvm.sh"
+}

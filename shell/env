@@ -1,7 +1,9 @@
 # vim:syntax=sh
 
-PATH=/usr/local/bin:/usr/local/sbin:/usr/bin/vendor_perl:$PATH
-PATH=$HOME/.bin:$PATH
+PATH="/usr/local/bin:/usr/local/sbin:/usr/bin/vendor_perl:$PATH"
+PATH="$PATH:/usr/local/opt/go/libexec/bin"
+PATH="$PATH:$GOPATH/bin"
+PATH="$HOME/.bin:$PATH"
 
 export PATH
 
@@ -9,25 +11,11 @@ export EDITOR=vim
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export NVM_DIR="$HOME/.nvm"
+export GOPATH="$HOME/code/go"
 
-
-# Node JS
-
-# Ubuntu
-if [[ -s /usr/share/nvm/init-nvm.sh ]]; then
-    source /usr/share/nvm/init-nvm.sh
-fi
-
-# Darwin
-if [[ -s /usr/local/opt/nvm/nvm.sh ]]; then
-  source /usr/local/opt/nvm/nvm.sh
-fi
-
-# RB Env
-if [[ -s $HOME/.rbenv ]]; then
-    export PATH="$HOME/.rbenv/bin:$PATH"
-    eval "$(rbenv init -)"
-fi
+# Ruby
+source /usr/local/opt/chruby/share/chruby/chruby.sh
+source /usr/local/opt/chruby/share/chruby/auto.sh
 
 # Ubuntu
 if [ -x /usr/bin/dircolors ]; then
@@ -46,3 +34,6 @@ fi
 if [[ -s /etc/profile.d/vte.sh ]]; then
     source /etc/profile.d/vte.sh
 fi
+
+# Oh my ZSH
+bindkey '^ ' forward-word
