@@ -5,17 +5,25 @@ PATH="$PATH:/usr/local/opt/go/libexec/bin"
 PATH="$PATH:$GOPATH/bin"
 PATH="$HOME/.bin:$PATH"
 
+USER_BASE_PATH=$(python3 -m site --user-base)
+PATH="$PATH:$USER_BASE_PATH/bin"
+
 export PATH
 
 export EDITOR=vim
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export NVM_DIR="$HOME/.nvm"
-export GOPATH="$HOME/code/go"
+export GOPATH="$HOME/go"
 
 # Ruby
-source /usr/local/opt/chruby/share/chruby/chruby.sh
-source /usr/local/opt/chruby/share/chruby/auto.sh
+# source /usr/local/opt/chruby/share/chruby/chruby.sh
+# source /usr/local/opt/chruby/share/chruby/auto.sh
+
+# Python
+export VIRTUALENVWRAPPER_PYTHON="$(which python3)"
+source /usr/local/bin/virtualenvwrapper.sh
+export PROJECT_ENV="$HOME/Projects"
 
 # Ubuntu
 if [ -x /usr/bin/dircolors ]; then
@@ -34,6 +42,15 @@ fi
 if [[ -s /etc/profile.d/vte.sh ]]; then
     source /etc/profile.d/vte.sh
 fi
+
+# Node JS
+# source /usr/local/opt/nvm/nvm.sh
+
+#source kubectl bash completion
+source <(kubectl completion zsh)
+
+#source minikube bash completion
+source <(minikube completion zsh)
 
 # Oh my ZSH
 bindkey '^ ' forward-word
