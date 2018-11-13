@@ -1,39 +1,54 @@
-# vim:syntax=sh
+source "$HOME/Projects/Porsche/MyPorsche/myct-cloud-helpers/cloud-helpers.sh"
 
 PATH="/usr/local/bin:/usr/local/sbin:/usr/bin/vendor_perl:$PATH"
-PATH="$PATH:/usr/local/opt/go/libexec/bin"
 PATH="$PATH:$GOPATH/bin"
 PATH="$HOME/.bin:$PATH"
+PATH="$HOME/.local/bin:$PATH"
+PATH="$(brew --prefix mysql@5.7)/bin:$PATH"
+PATH="$(brew --prefix openssl@3)/bin:$PATH"
+PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+PATH="$HOME/.rbenv/bin:$PATH";
 
 export PATH
+
+if type brew &>/dev/null
+then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+
+  autoload -Uz compinit
+  compinit
+fi
 
 export EDITOR=vim
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
-export NVM_DIR="$HOME/.nvm"
-export GOPATH="$HOME/code/go"
+export GOPATH="$HOME/go"
 
 # Ruby
-source /usr/local/opt/chruby/share/chruby/chruby.sh
-source /usr/local/opt/chruby/share/chruby/auto.sh
+eval "$(rbenv init -)"
 
-# Ubuntu
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-fi
+# NodeJS
+eval "$(fnm env --use-on-cd)"
 
 # Darwin
 if [ -x /usr/local/bin/gdircolors ]; then
-    test -r ~/.dircolors && eval `/usr/local/bin/gdircolors --sh $HOME/.dircolors`
+  test -r "$HOME"/.dircolors && eval $(/usr/local/bin/gdircolors --sh $HOME/.dircolors)
 fi
 
 if [[ -s /usr/share/git/completion/git-prompt.sh ]]; then
-    source /usr/share/git/completion/git-prompt.sh
+  source /usr/share/git/completion/git-prompt.sh
 fi
 
 if [[ -s /etc/profile.d/vte.sh ]]; then
-    source /etc/profile.d/vte.sh
+  source /etc/profile.d/vte.sh
 fi
+
+# Rust
+export PATH="$HOME/.cargo/bin:$PATH"
 
 # Oh my ZSH
 bindkey '^ ' forward-word
+
+# twilio autocomplete setup
+TWILIO_AC_ZSH_SETUP_PATH=/Users/sleistner/.twilio-cli/autocomplete/zsh_setup && test -f $TWILIO_AC_ZSH_SETUP_PATH && source $TWILIO_AC_ZSH_SETUP_PATH;
+
