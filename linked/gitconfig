@@ -59,7 +59,7 @@
     br = branch
 
 [core]
-	excludesfile = /Users/sleistner/.gitignore_global
+	excludesfile = ~/.gitignore_global
   editor = vim
 
 [apply]
@@ -117,5 +117,3 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-[commit]
-	template = /Users/sleistner/.stCommitMsg

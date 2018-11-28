@@ -1,9 +1,5 @@
 # vim:syntax=sh
 
-function sublwhich() {
-  subl $(which $*)
-}
-
 function codewhich() {
   code $(which $*)
 }
@@ -12,6 +8,10 @@ function vimwhich() {
   vim $(which $*)
 }
 
-function nodeenv() {
-  source "/usr/local/opt/nvm/nvm.sh"
+function toggletouchpad() {
+	if synclient -l | grep "TouchpadOff .*=.*0" ; then
+    synclient TouchpadOff=1 ;
+	else
+    synclient TouchpadOff=0 ;
+	fi
 }
