@@ -8,3 +8,6 @@ bin/redcar
 .rake_tasks~
 vimified/
 linked/vim/bundle
+
+# Claude Code local settings (per-machine, not shared)
+.claude/settings.local.json

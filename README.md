@@ -1,7 +1,10 @@
 # dotfiles
 
+**A one-command setup for a zsh + neovim + modern-CLI workstation on macOS or Linux.**
+
 [![ci](https://github.com/sleistner/dotfiles/actions/workflows/ci.yml/badge.svg)](https://github.com/sleistner/dotfiles/actions/workflows/ci.yml)
 ![macOS](https://img.shields.io/badge/macOS-000000?logo=apple&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black)
 ![zsh](https://img.shields.io/badge/shell-zsh-1A5E2A)
 ![oh-my-zsh](https://img.shields.io/badge/oh--my--zsh-C25B5B?logo=ohdear)
 ![Starship](https://img.shields.io/badge/prompt-Starship-DD0B78?logo=starship&logoColor=white)
@@ -9,26 +12,52 @@
 ![Ghostty](https://img.shields.io/badge/terminal-Ghostty-222222)
 ![startup ~130ms](https://img.shields.io/badge/zsh_startup-~130ms-brightgreen)
 
-Personal macOS config — zsh + oh-my-zsh + starship, neovim, git, tig,
-ghostty, ripgrep, mise, tmux, zed.
-
-See **[TOOLS.md](./TOOLS.md)** for a grouped reference of the important
-Homebrew-installed tools and what they do.
-
 ## Install
 
-Step-by-step guides for a fresh machine:
+```sh
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/sleistner/dotfiles/HEAD/install.sh)"
+```
 
-- **[docs/install-macos.md](./docs/install-macos.md)** — primary target.
-  Xcode CLT → Homebrew → 1Password SSH → clone → `./setup` →
-  `brew bundle` → oh-my-zsh → first-run app housekeeping.
-- **[docs/install-linux.md](./docs/install-linux.md)** — Debian/Ubuntu
-  with Fedora + Arch notes. Uses distro packages + `cargo` instead of
-  Homebrew; native Docker engine; alternatives for the macOS-only GUI
-  apps (OrbStack, Ghostty, Raycast, Rectangle).
+Paste that in a macOS Terminal or Linux shell prompt.
 
-Shell config, nvim config, git config, and every modern CLI in this
-repo work on both platforms.
+The script detects your OS, explains each step as it runs, and prompts before
+anything with side effects (installing 1Password, changing your default shell).
+It's idempotent — safe to re-run on a machine that's already set up.
+
+Read about what it does, and what it leaves for you to do, in
+**[docs/install-macos.md](./docs/install-macos.md)** or
+**[docs/install-linux.md](./docs/install-linux.md)**.
+
+## What this repo does
+
+- Installs **Xcode CLT + Homebrew** (macOS) or distro packages (Linux) and runs
+  `brew bundle` against a curated [Brewfile](./Brewfile) of ~115 formulae and
+  ~15 casks. See **[TOOLS.md](./TOOLS.md)** for what's in it and why.
+- Clones itself to `~/config/dotfiles` and symlinks every entry under
+  [`linked/`](./linked) into `~/.<name>` and every entry under [`xdg/`](./xdg)
+  into `~/.config/<name>`.
+- Installs **oh-my-zsh** with `--keep-zshrc` (leaves the symlinked `.zshrc`
+  untouched) and the `zsh-autosuggestions` plugin.
+- Optionally installs **1Password + 1Password CLI** so SSH agent and git
+  commit signing Just Work.
+- Opts you into a ~130ms zsh startup with Starship prompt, sensible
+  `compinit` handling, and deduped `PATH`.
+
+## What this repo does not do
+
+- **Not a package manager.** It delegates to Homebrew/apt/dnf/pacman and
+  pins nothing beyond what's in the Brewfile.
+- **No secrets, ever.** Anything that stores tokens or credentials
+  (`~/.npmrc`, `~/.terraformrc`, `~/.config/gh/hosts.yml`, `.contentfulrc.json`)
+  is deliberately not versioned — use 1Password or a secret manager.
+- **No migration of state.** Shell history, `~/.zcompdump`, REPL histories,
+  `~/Library`, and `~/.cache` stay put; this repo manages config only.
+- **No GUI auto-config.** Raycast/Ghostty/OrbStack need their one-time
+  accessibility perms and first-launch wizards — the install doc calls
+  these out explicitly.
+- **Not a framework.** There's no plugin system or per-tool install
+  script — `./setup` is a single ~50-line shell loop. Add a file under
+  `linked/` or `xdg/`, re-run `./setup`, done.
 
 ## Re-run after changes
 
@@ -38,31 +67,38 @@ Add or remove files in `linked/` or `xdg/`, then:
 ./setup
 ```
 
-## Layout
+Idempotent — `ln -sfn` overwrites existing symlinks to the same target.
+
+---
+
+## Under the hood
+
+### Layout
 
 ```
 linked/   -> ~/.<name>          Dotfiles that tools read straight from $HOME
 xdg/      -> ~/.config/<name>   XDG-aware tools that look in $XDG_CONFIG_HOME
 shell/    sourced by zshrc      Shared shell env (PATH, EDITOR, locale, etc.)
+install/  platform bootstrap    install-macos.sh, install-linux.sh, common.sh
 ```
 
-### linked/
+#### linked/
 
 Every file or directory here becomes `~/.<name>`:
 
-| Entry                  | Symlinked to          |
-| ---------------------- | --------------------- |
-| `linked/zshrc`         | `~/.zshrc`            |
-| `linked/zshenv`        | `~/.zshenv`           |
-| `linked/zprofile`      | `~/.zprofile`         |
-| `linked/gitconfig`     | `~/.gitconfig`        |
-| `linked/gitignore_global` | `~/.gitignore_global` |
-| `linked/tigrc`         | `~/.tigrc`            |
-| `linked/tmux.conf`     | `~/.tmux.conf`        |
-| `linked/pryrc`         | `~/.pryrc`            |
-| `linked/bin/`          | `~/.bin/` (on PATH via `shell/env`) |
+| Entry                     | Symlinked to                        |
+| ------------------------- | ----------------------------------- |
+| `linked/zshrc`            | `~/.zshrc`                          |
+| `linked/zshenv`           | `~/.zshenv`                         |
+| `linked/zprofile`         | `~/.zprofile`                       |
+| `linked/gitconfig`        | `~/.gitconfig`                      |
+| `linked/gitignore_global` | `~/.gitignore_global`               |
+| `linked/tigrc`            | `~/.tigrc`                          |
+| `linked/tmux.conf`        | `~/.tmux.conf`                      |
+| `linked/pryrc`            | `~/.pryrc`                          |
+| `linked/bin/`             | `~/.bin/` (on PATH via `shell/env`) |
 
-### xdg/
+#### xdg/
 
 By default each top-level entry is mirrored into `~/.config/<name>`, but
 the behavior differs based on type:
@@ -81,22 +117,22 @@ the behavior differs based on type:
 
 Current contents:
 
-| Entry                        | Mode       | Mirrored to                         |
-| ---------------------------- | ---------- | ----------------------------------- |
-| `xdg/starship.toml`          | file       | `~/.config/starship.toml`           |
-| `xdg/nvim/`                  | whole-dir  | `~/.config/nvim/`                   |
-| `xdg/ripgrep/ripgreprc`      | file-walk  | `~/.config/ripgrep/ripgreprc`       |
-| `xdg/ghostty/config`         | file-walk  | `~/.config/ghostty/config`          |
-| `xdg/mise/config.toml`       | file-walk  | `~/.config/mise/config.toml`        |
-| `xdg/zed/settings.json`      | file-walk  | `~/.config/zed/settings.json`       |
+| Entry                   | Mode      | Mirrored to                   |
+| ----------------------- | --------- | ----------------------------- |
+| `xdg/starship.toml`     | file      | `~/.config/starship.toml`     |
+| `xdg/nvim/`             | whole-dir | `~/.config/nvim/`             |
+| `xdg/ripgrep/ripgreprc` | file-walk | `~/.config/ripgrep/ripgreprc` |
+| `xdg/ghostty/config`    | file-walk | `~/.config/ghostty/config`    |
+| `xdg/mise/config.toml`  | file-walk | `~/.config/mise/config.toml`  |
+| `xdg/zed/settings.json` | file-walk | `~/.config/zed/settings.json` |
 
-### shell/
+#### shell/
 
 - `shell/env` — sourced from `linked/zshrc`. Holds `PATH`, `EDITOR`,
   locale, `GOPATH`, `RIPGREP_CONFIG_PATH`, ulimit, keybindings, and
   `typeset -U path` for auto-dedupe.
 
-## Adding a new config
+### Adding a new config
 
 1. Find out where the tool reads its config: `~/.toolrc`, `~/.toolrc.d/`,
    or `~/.config/tool/`.
@@ -108,16 +144,7 @@ Current contents:
 
 No per-tool edits to the setup script.
 
-## Not versioned (by design)
-
-- Anything with secrets — `~/.npmrc`, `~/.terraformrc`,
-  `~/.config/gh/hosts.yml`, `~/.contentfulrc.json`, etc. Use 1Password or
-  a secret manager; keep templates only.
-- Tool state and history — shell history, `~/.zcompdump`, `~/.viminfo`,
-  `~/.lesshst`, REPL histories, etc.
-- App caches — `~/.cache`, `~/Library`.
-
-## Startup perf
+### Startup perf
 
 Interactive zsh startup is ~130ms. Key tricks in `linked/zshrc` and
 `shell/env`:

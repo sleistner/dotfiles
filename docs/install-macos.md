@@ -1,7 +1,21 @@
 # Install — macOS
 
-Step-by-step fresh-Mac setup. Run these in order; each step assumes the
-previous one completed successfully.
+## Quick start
+
+Paste this in a fresh Terminal:
+
+```sh
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/sleistner/dotfiles/HEAD/install.sh)"
+```
+
+The script walks steps 1–2 and 4–8 below automatically, prompts once for
+1Password (step 3), and is idempotent — safe to re-run. Then finish the
+manual bits in [§9 First-run housekeeping](#9-first-run-housekeeping).
+
+If you'd rather do it by hand, or you want to know exactly what the
+one-liner runs, the rest of this page is the step-by-step version.
+
+---
 
 ## 1. Xcode Command Line Tools
 
@@ -100,6 +114,7 @@ git clone https://github.com/zsh-users/zsh-autosuggestions \
   ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 ```
 
+<a id="9-first-run-housekeeping"></a>
 ## 9. First-run housekeeping
 
 One-time actions after the core install.

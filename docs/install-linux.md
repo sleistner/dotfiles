@@ -1,12 +1,36 @@
 # Install — Linux
 
-Step-by-step setup for a Debian/Ubuntu system. Fedora and Arch notes are
-inline where the commands differ.
+Debian/Ubuntu is the primary target; Fedora and Arch notes are inline
+where commands differ.
 
 The macOS-only parts of this repo (OrbStack, Ghostty, Raycast, Rectangle,
 Alt-tab, Sequel Ace) don't apply on Linux — use native alternatives. Shell
 config, nvim config, git config, and the modern CLIs all work identically.
 
+## Quick start
+
+```sh
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/sleistner/dotfiles/HEAD/install.sh)"
+```
+
+The dispatcher detects Linux and runs `install/install-linux.sh`, which
+automates the parts with clean cross-distro behavior: system
+prerequisites (§1), optional `chsh` to zsh, clone (§3), `./setup` (§4),
+and oh-my-zsh + `zsh-autosuggestions` (§5). Idempotent.
+
+What's **not** automated, because it's opinionated per-distro / per-desktop:
+
+- SSH access for GitHub — [§2](#2-ssh-access-for-github-clone)
+- Modern CLI toolchain (mise, starship, cargo installs, `gh`) — [§6](#6-install-the-cli-toolchain)
+- Docker engine — [§7](#7-docker)
+- Terminal emulator + nerd font — [§8](#8-terminal-emulator--fonts)
+- First-run housekeeping (atuin, nvim, mise) — [§9](#9-first-run-housekeeping)
+
+Finish those manually after the one-liner returns.
+
+---
+
+<a id="1-system-prerequisites"></a>
 ## 1. System prerequisites
 
 ```sh
@@ -29,6 +53,7 @@ chsh -s "$(command -v zsh)"
 
 Sign out and back in (or reboot) for the shell change to take effect.
 
+<a id="2-ssh-access-for-github-clone"></a>
 ## 2. SSH access for GitHub clone
 
 Either:
@@ -69,6 +94,7 @@ git clone https://github.com/zsh-users/zsh-autosuggestions \
   ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 ```
 
+<a id="6-install-the-cli-toolchain"></a>
 ## 6. Install the CLI toolchain
 
 The `Brewfile` in this repo is macOS-focused (GUI casks, macOS-only
@@ -163,6 +189,7 @@ sudo dnf install -y gh
 sudo pacman -S --needed github-cli
 ```
 
+<a id="7-docker"></a>
 ## 7. Docker
 
 Native Linux Docker engine (no VM, no Docker Desktop needed):
@@ -184,6 +211,7 @@ The sparkle `dev:https` script handles Linux: it requires the daemon to
 be running (`sudo systemctl start docker`) but never tries to auto-launch
 a GUI app. No code changes needed on your end.
 
+<a id="8-terminal-emulator--fonts"></a>
 ## 8. Terminal emulator + fonts
 
 macOS uses Ghostty via a `.app` cask — on Linux, download the
@@ -202,6 +230,7 @@ sudo apt install -y fonts-firacode
 
 Set your terminal to use the nerd font in its preferences.
 
+<a id="9-first-run-housekeeping"></a>
 ## 9. First-run housekeeping
 
 - **atuin** — `atuin register -u <name> -e <email>` (or `atuin login`).
