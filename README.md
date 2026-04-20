@@ -11,6 +11,9 @@
 Personal macOS config — zsh + oh-my-zsh + starship, neovim, git, tig,
 ghostty, ripgrep, mise, tmux, zed.
 
+See **[TOOLS.md](./TOOLS.md)** for a grouped reference of the important
+Homebrew-installed tools and what they do.
+
 ## Install
 
 ```sh
