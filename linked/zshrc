@@ -25,18 +25,32 @@ source $ZSH/oh-my-zsh.sh
 
 source ~/config/dotfiles/shell/env
 
-# `tools`        — render TOOLS.md (full reference).
-# `tools <term>` — render only sections matching <term> (e.g. `tools git`).
+# `tools`          — render TOOLS.md (full reference).
+# `tools <term>`   — render only sections matching <term> (e.g. `tools git`).
+# `tools -h`       — list available sections.
 tools() {
   local doc=~/config/dotfiles/TOOLS.md
-  if [ -z "$1" ]; then
-    glow -p "$doc"
-  else
-    awk -v q="$1" '
-      /^## / { section=tolower($0); printing = index(section, tolower(q)) > 0 }
-      printing
-    ' "$doc" | glow -p -
-  fi
+  case "$1" in
+    -h|--help)
+      echo "usage: tools [SECTION]"
+      echo
+      echo "  tools             show the full reference"
+      echo "  tools SECTION     show only sections whose heading matches SECTION"
+      echo "  tools -h          this help"
+      echo
+      echo "Sections:"
+      awk '/^## / { sub(/^## /, "  "); print }' "$doc"
+      ;;
+    "")
+      glow -p "$doc"
+      ;;
+    *)
+      awk -v q="$1" '
+        /^## / { section=tolower($0); printing = index(section, tolower(q)) > 0 }
+        printing
+      ' "$doc" | glow -p -
+      ;;
+  esac
 }
 
 eval "$(direnv hook zsh)"
