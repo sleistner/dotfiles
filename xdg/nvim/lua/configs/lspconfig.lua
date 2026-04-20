@@ -1,43 +1,46 @@
--- load defaults i.e lua_lsp
+-- LSP setup using Neovim 0.11's native vim.lsp.config / vim.lsp.enable API.
+-- nvim-lspconfig ships per-server presets under `lsp/<name>.lua`; we use
+-- those as the base and override only what we need.
+
+-- NvChad's defaults() sets up lua_ls and registers the keybindings
+-- NvChad expects; keep calling it before configuring our own servers.
 require("nvchad.configs.lspconfig").defaults()
 
-local lspconfig = require "lspconfig"
 local nvlsp = require "nvchad.configs.lspconfig"
 
--- Language servers with the default NvChad config. Install the actual
--- server binaries via Mason (:MasonInstall ...) or your distro.
+-- Global defaults applied to every vim.lsp.enable'd server.
+vim.lsp.config("*", {
+  on_attach = nvlsp.on_attach,
+  on_init = nvlsp.on_init,
+  capabilities = nvlsp.capabilities,
+})
+
+-- Servers that work with nvim-lspconfig's defaults (install the binaries
+-- via :MasonInstall <pkg> or your distro).
 local servers = {
   -- Frontend
   "html",
   "cssls",
   -- Backend
-  "ruby_lsp",  -- Ruby (Shopify's; faster than solargraph)
+  "ruby_lsp",
   -- Config / data
   "bashls",
   "jsonls",
   "yamlls",
-  -- rust_analyzer is auto-configured by rustaceanvim — don't list here.
+  -- rust_analyzer is auto-configured by rustaceanvim — don't enable here.
 }
 
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    on_attach = nvlsp.on_attach,
-    on_init = nvlsp.on_init,
-    capabilities = nvlsp.capabilities,
-  }
+for _, name in ipairs(servers) do
+  vim.lsp.enable(name)
 end
 
--- TypeScript + Vue 3 (Volar 2.x hybrid mode).
--- ts_ls handles .ts/.js, with Volar's TS plugin piggy-backing so it
--- understands Vue SFCs. vue_ls handles the .vue-specific pieces (template
--- expressions, <script setup> macros, scoped CSS).
+-- TypeScript + Vue 3 (Volar 2.x hybrid mode). ts_ls handles .ts/.js/.vue
+-- with Volar's TS plugin piggy-backing; vue_ls handles SFC-specific
+-- features (template expressions, <script setup> macros, scoped CSS).
 local mason_pkgs = vim.fn.stdpath "data" .. "/mason/packages"
 local vue_ts_plugin = mason_pkgs .. "/vue-language-server/node_modules/@vue/language-server"
 
-lspconfig.ts_ls.setup {
-  on_attach = nvlsp.on_attach,
-  on_init = nvlsp.on_init,
-  capabilities = nvlsp.capabilities,
+vim.lsp.config("ts_ls", {
   init_options = {
     plugins = {
       {
@@ -48,10 +51,6 @@ lspconfig.ts_ls.setup {
     },
   },
   filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact", "vue" },
-}
-
-lspconfig.vue_ls.setup {
-  on_attach = nvlsp.on_attach,
-  on_init = nvlsp.on_init,
-  capabilities = nvlsp.capabilities,
-}
+})
+vim.lsp.enable "ts_ls"
+vim.lsp.enable "vue_ls"
