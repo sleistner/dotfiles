@@ -1,13 +1,16 @@
 return {
   {
     "stevearc/conform.nvim",
-    -- event = 'BufWritePre', -- uncomment for format on save
-    opts = require "configs.conform",
+    event = { "BufWritePre" },
+    cmd = { "ConformInfo" },
+    opts = function()
+      return require "configs.conform"
+    end,
   },
 
-  -- These are some examples, uncomment them if you want to see them work!
   {
     "neovim/nvim-lspconfig",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
       require "configs.lspconfig"
     end,
@@ -15,16 +18,7 @@ return {
 
   {
     "github/copilot.vim",
-    lazy = false,
-    config = function()
-      -- Disable the default Tab mapping
-      -- vim.g.copilot_no_tab_map = true
-
-      -- Custom mappings
-      -- vim.api.nvim_set_keymap("i", "<C-/>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
-      -- vim.api.nvim_set_keymap("i", "<C-K>", "copilot#Next()", { silent = true, expr = true })
-      -- vim.api.nvim_set_keymap("i", "<C-H>", "copilot#Previous()", { silent = true, expr = true })
-    end,
+    event = "InsertEnter",
   },
 
   {
@@ -96,7 +90,7 @@ return {
   -- },
   {
     "zaldih/themery.nvim",
-    lazy = false,
+    cmd = "Themery",
     config = function()
       require("themery").setup {
         themes = {
@@ -110,8 +104,8 @@ return {
     end,
   },
 
-  { "catppuccin/nvim", name = "catppuccin" },
-  { "folke/tokyonight.nvim", name = "tokyonight" },
-  { "sainnhe/gruvbox-material", name = "gruvbox-material" },
-  { "EdenEast/nightfox.nvim", name = "nightfox" },
+  { "catppuccin/nvim", name = "catppuccin", lazy = true },
+  { "folke/tokyonight.nvim", name = "tokyonight", lazy = true },
+  { "sainnhe/gruvbox-material", name = "gruvbox-material", lazy = true },
+  { "EdenEast/nightfox.nvim", name = "nightfox", lazy = true },
 }
