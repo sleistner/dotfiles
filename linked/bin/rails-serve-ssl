@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# This script is used to start the Rails server with SSL enabled for development.
+VITE_RUBY_HTTPS=true \
+SPARKLE_PORT=3000 \
+SPARKLE_SSL=true \
+SPARKLE_AR_LOG_TO_FILE=true \
+bin/rails s \
+-b 'ssl://127.0.0.1:3000?key=config/development.key&cert=config/development.crt'

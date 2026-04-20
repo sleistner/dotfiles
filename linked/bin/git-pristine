@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+git checkout --quiet master &&
+    git branch --remote |
+    grep --invert-match 'master' |
+    xargs -n 1 echo |
+    awk '{ sub(/origin\//, ""); print }' |
+    xargs -I {} git push origin :{}

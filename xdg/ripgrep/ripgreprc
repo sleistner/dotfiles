@@ -1,0 +1,22 @@
+# Show context lines
+--smart-case
+
+# Follow symlinks
+--follow
+
+# Search hidden files by default (still respects .gitignore)
+--hidden
+
+# Exclude common noise directories
+--glob=!.git/
+--glob=!node_modules/
+--glob=!.next/
+--glob=!dist/
+--glob=!build/
+--glob=!target/
+--glob=!.venv/
+--glob=!__pycache__/
+
+# Custom file type definitions (migrated from ackrc)
+--type-add=haml:*.haml
+--type-add=freemarker:*.ftl

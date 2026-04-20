@@ -1,0 +1,4 @@
+Pry::Commands.alias_command 'c', 'continue'
+Pry::Commands.alias_command 'n', 'next'
+Pry::Commands.alias_command 's', 'step'
+Pry::Commands.alias_command 'f', 'finish'

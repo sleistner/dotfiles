@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+
+SESSION_NAME=run
+AWS_REGION=eu-west-1
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]; do
+    key="$1"
+
+    case $key in
+    --role-arn)
+        AWS_ROLE_ARN="$2"
+        shift # past argument
+        shift # past value
+        ;;
+    --profile)
+        AWS_PROFILE="$2"
+        shift # past argument
+        shift # past value
+        ;;
+    --serial-number)
+        AWS_SERIAL_NUMBER="$2"
+        shift # past argument
+        shift # past value
+        ;;
+    --region)
+        AWS_REGION="$2"
+        shift # past argument
+        shift # past argument
+        ;;
+    --session-name)
+        SESSION_NAME="$2"
+        shift # past argument
+        shift # past argument
+        ;;
+    --token-code)
+        TOKEN_CODE="$2"
+        shift # past argument
+        shift # past argument
+        ;;
+    *) # unknown option
+        POSITIONAL+=("$1") # save it in an array for later
+        shift              # past argument
+        ;;
+    esac
+done
+set -- "${POSITIONAL[@]}" # restore positional parameters
+
+credentials=$(
+    aws sts assume-role \
+        --role-arn $AWS_ROLE_ARN \
+        --profile $AWS_PROFILE \
+        --role-session-name $SESSION_NAME \
+        --serial-number $AWS_SERIAL_NUMBER \
+        --token-code $TOKEN_CODE \
+        --query 'Credentials.{AKI:AccessKeyId,SAK:SecretAccessKey,ST:SessionToken}' \
+        --output text
+)
+
+target_file=.env
+
+echo AWS_ACCESS_KEY_ID=$(echo ${credentials} | awk '{print $1}') >$target_file
+echo AWS_SECRET_ACCESS_KEY=$(echo ${credentials} | awk '{print $2}') >>$target_file
+echo AWS_SESSION_TOKEN=$(echo ${credentials} | awk '{print $3}') >>$target_file
+echo AWS_DEFAULT_REGION=$AWS_REGION >>$target_file

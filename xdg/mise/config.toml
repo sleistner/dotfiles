@@ -1,0 +1,10 @@
+
+[settings]
+idiomatic_version_file_enable_tools = []
+experimental = true
+
+[tools]
+node = "24"
+pre-commit = "latest"
+terraform = "1.10.0"
+watchexec = "latest"

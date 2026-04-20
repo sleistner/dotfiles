@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+base_branch=${1:-master}
+exists_in_local=$(git branch --list "${base_branch}")
+
+if [[ -z ${exists_in_local} ]]; then
+    echo "Unknown base branch: ${base_branch}"
+else
+    git checkout --quiet "${base_branch}" &&
+        git branch --remote --merged |
+        grep --invert-match "${base_branch}" |
+            xargs -n 1 echo |
+            awk '{ sub(/origin\\//, \"\"); print }' |
+            xargs -I {} git push origin :{}
+fi

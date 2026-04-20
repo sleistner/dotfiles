@@ -1,0 +1,4 @@
+working-directory = inherit
+font-size = 16
+theme = light:Catppuccin Latte,dark:Catppuccin Frappe
+

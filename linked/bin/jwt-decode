@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+if ! command -v jq &>/dev/null; then
+    echo "jq could not be found"
+    exit
+fi
+
+jq -R 'split(".") | select(length > 0) | .[0],.[1] | @base64d | fromjson' <<<"$1"

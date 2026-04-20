@@ -1,52 +1,27 @@
+# vim: set syntax=bash :
+
+export EDITOR=nvim
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+export GOPATH="$HOME/go"
+export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/ripgreprc"
+
+# Auto-dedupe PATH entries (zsh keeps only the first occurrence).
+typeset -U path PATH
+
 PATH="/usr/local/bin:/usr/local/sbin:/usr/bin/vendor_perl:$PATH"
 PATH="$PATH:$GOPATH/bin"
 PATH="$HOME/.bin:$PATH"
 PATH="$HOME/.local/bin:$PATH"
-PATH="$(brew --prefix mysql@5.7)/bin:$PATH"
-PATH="$(brew --prefix openssl@3)/bin:$PATH"
+PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
+PATH="/opt/homebrew/opt/openssl@3/bin:$PATH"
 PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-PATH="$HOME/.rbenv/bin:$PATH";
+PATH="$HOME/.cargo/bin:$PATH"
 
 export PATH
 
-if type brew &>/dev/null
-then
-  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-
-  autoload -Uz compinit
-  compinit
-fi
-
-export EDITOR=vim
-export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
-export GOPATH="$HOME/go"
-
-# Ruby
-eval "$(rbenv init -)"
-
-# NodeJS
-eval "$(fnm env --use-on-cd)"
-
-# Darwin
-if [ -x /usr/local/bin/gdircolors ]; then
-  test -r "$HOME"/.dircolors && eval $(/usr/local/bin/gdircolors --sh $HOME/.dircolors)
-fi
-
-if [[ -s /usr/share/git/completion/git-prompt.sh ]]; then
-  source /usr/share/git/completion/git-prompt.sh
-fi
-
-if [[ -s /etc/profile.d/vte.sh ]]; then
-  source /etc/profile.d/vte.sh
-fi
-
-# Rust
-export PATH="$HOME/.cargo/bin:$PATH"
+ulimit -n 4095
 
 # Oh my ZSH
 bindkey '^ ' forward-word
-
-# twilio autocomplete setup
-TWILIO_AC_ZSH_SETUP_PATH=/Users/sleistner/.twilio-cli/autocomplete/zsh_setup && test -f $TWILIO_AC_ZSH_SETUP_PATH && source $TWILIO_AC_ZSH_SETUP_PATH;
 

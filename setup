@@ -1,8 +1,58 @@
 #!/bin/bash
+set -e
 
-for file in `ls linked/`
-do
-	cmd="ln -sfn $(pwd)/linked/${file} ${HOME}/.${file}"
-	echo $cmd
-	eval $cmd
+run_cmd() {
+  echo "$1"
+  eval "$1"
+}
+
+DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# linked/*  ->  ~/.<name>
+for file in "$DOTFILES_DIR"/linked/*; do
+  name=$(basename "$file")
+  run_cmd "ln -sfn $DOTFILES_DIR/linked/${name} ${HOME}/.${name}"
+done
+
+# xdg/ mirror into ~/.config/
+# - top-level files: linked as files
+# - top-level dirs containing .link-as-dir: linked as whole dir
+# - top-level dirs without the marker: walked; each file inside is linked individually
+#   (so tools that own their ~/.config/<tool>/ dir can keep their own state there)
+mkdir -p "${HOME}/.config"
+
+link_files() {
+  local src_dir="$1" dst_dir="$2"
+  # If dst is a symlink (possibly to src_dir itself from a previous whole-dir
+  # link), replace it with a real directory before populating.
+  if [ -L "$dst_dir" ]; then
+    run_cmd "rm $dst_dir"
+  fi
+  mkdir -p "$dst_dir"
+  local entry name
+  for entry in "$src_dir"/* "$src_dir"/.[!.]*; do
+    [ -e "$entry" ] || continue
+    name=$(basename "$entry")
+    [ "$name" = ".link-as-dir" ] && continue
+    if [ -d "$entry" ]; then
+      link_files "$entry" "$dst_dir/$name"
+    else
+      run_cmd "ln -sfn $entry $dst_dir/$name"
+    fi
+  done
+}
+
+for entry in "$DOTFILES_DIR"/xdg/*; do
+  name=$(basename "$entry")
+  target="${HOME}/.config/${name}"
+  if [ -f "$entry" ]; then
+    run_cmd "ln -sfn $entry $target"
+  elif [ -f "$entry/.link-as-dir" ]; then
+    if [ -d "$target" ] && [ ! -L "$target" ]; then
+      run_cmd "rm -rf $target"
+    fi
+    run_cmd "ln -sfn $entry $target"
+  else
+    link_files "$entry" "$target"
+  fi
 done
