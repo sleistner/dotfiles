@@ -1,3 +1,6 @@
+# Sourced for every zsh invocation (including non-interactive and scripts).
+# Keep this minimal — anything slow belongs in zshrc, not here.
+
 . "$HOME/.cargo/env"
 
 # Activate mise when running in Cursor

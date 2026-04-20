@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Delete remote branches that have been merged into <base-branch> (default: master).
+# Usage: git-delete-merged-remote [base-branch]
 
 base_branch=${1:-master}
 exists_in_local=$(git branch --list "${base_branch}")

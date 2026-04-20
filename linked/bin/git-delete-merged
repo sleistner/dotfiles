@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
+# Delete local branches whose upstream has been removed on the remote.
 
 git fetch --prune && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -d

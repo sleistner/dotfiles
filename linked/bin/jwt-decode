@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Decode a JWT: prints header + payload as pretty JSON.
+# Usage: jwt-decode <token>
 
 if ! command -v jq &>/dev/null; then
     echo "jq could not be found"

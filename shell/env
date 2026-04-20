@@ -1,4 +1,7 @@
 # vim: set syntax=bash :
+#
+# Shared shell env — PATH, editor, locale, ulimit, keybindings.
+# Sourced from linked/zshrc on every interactive shell.
 
 export EDITOR=nvim
 export LANG=en_US.UTF-8

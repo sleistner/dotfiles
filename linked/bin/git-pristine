@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Prune every non-master remote branch. Destructive — use with care.
 
 git checkout --quiet master &&
     git branch --remote |

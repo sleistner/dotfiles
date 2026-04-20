@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
+# List every file that has ever been deleted in the current repo.
 
 git log --diff-filter=D --summary | grep delete

@@ -1,3 +1,6 @@
+# Sourced once per login shell (before zshrc). Put login-only setup here:
+# Homebrew shellenv, OrbStack integration, and any vendor pre/post hooks.
+
 # Kiro CLI pre block. Keep at the top of this file.
 [[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zprofile.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zprofile.pre.zsh"
 # Q pre block. Keep at the top of this file.

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
+# Start the Sparkle Rails server with SSL enabled for local development.
+# (Symlinked as `rss` for convenience.)
 
-# This script is used to start the Rails server with SSL enabled for development.
 VITE_RUBY_HTTPS=true \
 SPARKLE_PORT=3000 \
 SPARKLE_SSL=true \

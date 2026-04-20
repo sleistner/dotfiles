@@ -1,4 +1,8 @@
 #!/bin/bash
+# dotfiles installer: symlinks linked/* into ~/.*  and xdg/* into ~/.config/*.
+# Idempotent — safe to re-run after adding or removing files.
+# See README.md for layout and conventions.
+
 set -e
 
 run_cmd() {
