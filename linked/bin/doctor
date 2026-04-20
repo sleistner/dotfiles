@@ -1,0 +1,149 @@
+#!/usr/bin/env bash
+# doctor — verify Brewfile ↔ installed ↔ docs stay in sync.
+#
+# Checks:
+#   1. brew bundle check     — installed state matches Brewfile
+#   2. Brewfile ↔ TOOLS.md   — every user-facing formula is documented
+#   3. Brewfile ↔ install-linux.md — Rust CLIs present in the cargo block
+#
+# Exits non-zero if any check fails. Runs clean on Linux too (check 1 is
+# skipped when brew is not installed).
+#
+# Usage: doctor
+
+set -u
+
+REPO="${DOTFILES_DIR:-$HOME/config/dotfiles}"
+BREWFILE="$REPO/Brewfile"
+TOOLS_MD="$REPO/TOOLS.md"
+LINUX_MD="$REPO/docs/install-linux.md"
+
+# Formulae in Brewfile that are transitive/build deps and NOT expected to
+# appear in TOOLS.md (it only lists user-facing tools).
+IGNORE_DOCS=(
+  advancecomp aom automake cairo cmake freetds gdbm glib gnutls
+  gobject-introspection harfbuzz hunspell "icu4c@76" "icu4c@77" jpeg
+  jpeg-xl leptonica libass libffi libheif libmng libraw librist libyaml
+  ninja nss p11-kit pango poppler proj pycparser "python@3.13" qt
+  shared-mime-info srt unbound zsh-completions
+)
+
+# Rust CLIs expected in docs/install-linux.md cargo-install block.
+# Format: "brewfile_name:cargo_token" — cargo_token is what appears on
+# the `cargo install` line (may differ from the Homebrew formula name).
+RUST_CLIS=(
+  "atuin:atuin"
+  "bacon:bacon"
+  "bottom:bottom"
+  "difftastic:difftastic"
+  "dust:du-dust"
+  "git-absorb:git-absorb"
+  "git-delta:git-delta"
+  "gitleaks:gitleaks"
+  "hyperfine:hyperfine"
+  "jaq:jaq"
+  "just:just"
+  "mdcat:mdcat"
+  "oxipng:oxipng"
+  "procs:procs"
+  "sd:sd"
+  "stylua:stylua"
+  "tealdeer:tealdeer"
+  "xh:xh"
+  "yazi:yazi-fm"
+  "zoxide:zoxide"
+)
+
+ok() { printf '  [ok]   %s\n' "$1"; }
+fail() {
+  printf '  [FAIL] %s\n' "$1"
+  FAILED=1
+}
+section() { printf '\n== %s ==\n' "$1"; }
+
+FAILED=0
+
+# ---- Check 1: brew bundle check ------------------------------------------
+section "brew bundle check"
+
+if ! command -v brew >/dev/null 2>&1; then
+  ok "skipped (brew not installed)"
+else
+  if brew bundle check --file="$BREWFILE" >/dev/null 2>&1; then
+    ok "installed state matches Brewfile"
+  else
+    fail "drift detected — run: brew bundle check --verbose --file=$BREWFILE"
+  fi
+fi
+
+# ---- Check 2: Brewfile ↔ TOOLS.md ---------------------------------------
+section "Brewfile ↔ TOOLS.md"
+
+# Extract formula names from Brewfile (strip any "foo/bar/" tap prefix).
+brew_formulae=$(
+  awk -F'"' '/^brew "/ { sub(".*/", "", $2); print $2 }' "$BREWFILE"
+)
+
+is_ignored() {
+  local name="$1" ignored
+  for ignored in "${IGNORE_DOCS[@]}"; do
+    [ "$name" = "$ignored" ] && return 0
+  done
+  return 1
+}
+
+missing_docs=()
+while IFS= read -r formula; do
+  [ -z "$formula" ] && continue
+  is_ignored "$formula" && continue
+  # Strip "@14" etc. so postgresql@14 matches "postgresql" in prose.
+  base="${formula%@*}"
+  if ! grep -qw -- "$base" "$TOOLS_MD"; then
+    missing_docs+=("$formula")
+  fi
+done <<<"$brew_formulae"
+
+if [ ${#missing_docs[@]} -eq 0 ]; then
+  ok "every user-facing formula is documented"
+else
+  fail "TOOLS.md missing: ${missing_docs[*]}"
+fi
+
+# ---- Check 3: Brewfile ↔ install-linux.md cargo block -------------------
+section "Brewfile ↔ install-linux.md (cargo block)"
+
+# Pull the cargo install block: lines between `cargo install ...` and the
+# first line that doesn't end with a backslash. Flatten into one string.
+cargo_block=$(
+  awk '
+    /^cargo install/ { capture = 1 }
+    capture          { print; if ($0 !~ /\\[[:space:]]*$/) exit }
+  ' "$LINUX_MD"
+)
+
+missing_linux=()
+for pair in "${RUST_CLIS[@]}"; do
+  brew_name="${pair%:*}"
+  cargo_name="${pair#*:}"
+  # Only check tools actually present in the Brewfile.
+  grep -qE "^brew \"$brew_name\"" "$BREWFILE" || continue
+  if ! printf '%s' "$cargo_block" | grep -qw -- "$cargo_name"; then
+    missing_linux+=("$cargo_name")
+  fi
+done
+
+if [ ${#missing_linux[@]} -eq 0 ]; then
+  ok "Rust CLIs present in cargo block"
+else
+  fail "install-linux.md cargo block missing: ${missing_linux[*]}"
+fi
+
+# ---- Summary -------------------------------------------------------------
+echo
+if [ "$FAILED" -eq 0 ]; then
+  echo "All checks passed."
+  exit 0
+else
+  echo "One or more checks failed."
+  exit 1
+fi

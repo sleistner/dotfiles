@@ -59,6 +59,8 @@ are omitted.
 | **mkcert** | Generate locally-trusted TLS certs for dev. |
 | **testssl** | Audit TLS config of a server. |
 | **speedtest-cli** | CLI speedtest.net. |
+| **wrk** | HTTP benchmarking tool — high-load request generator. |
+| **dnsmasq** | Local DNS resolver (e.g. `*.local` → `127.0.0.1` for dev). |
 
 ## Data / JSON / YAML / SQL
 
@@ -95,6 +97,7 @@ and the active docker context is `orbstack`. Confirm anytime with
 | **azure-functions-core-tools@4** | Local Azure Functions dev. |
 | **azd** | Azure Developer CLI (deploy templates). |
 | **cargo-lambda** | Build + deploy AWS Lambda functions in Rust. |
+| **contentful-cli** | Contentful (headless CMS) CLI — manage spaces, migrations, content. |
 
 ## Languages & package managers
 
