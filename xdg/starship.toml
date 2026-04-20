@@ -1,8 +1,8 @@
 [azure]
 disabled = false
-format = 'on [$symbol($subscription)]($style) '
-symbol = '󰠅 '
-style = 'blue bold'
 
 [aws]
+disabled = true
+
+[gcloud]
 disabled = true
