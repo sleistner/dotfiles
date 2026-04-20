@@ -69,6 +69,73 @@ Add or remove files in `linked/` or `xdg/`, then:
 
 Idempotent — `ln -sfn` overwrites existing symlinks to the same target.
 
+## Manage with `dotctl`
+
+`dotctl` is the management CLI for this repo — a git-style dispatcher that
+runs `dotctl-<cmd>` from `linked/bin/`. Single namespaced entry point, so
+generic names like `doctor` don't collide with tools on PATH (notably
+Graphviz's `dot`).
+
+```sh
+dotctl              # list commands
+dotctl update       # pull + brew bundle + setup (add -u to brew upgrade too)
+dotctl doctor       # health-check Brewfile ↔ installed ↔ docs
+dotctl tools        # render the grouped TOOLS.md reference
+```
+
+### `dotctl update`
+
+Brings a machine back in line with the repo. Runs, in order:
+
+1. `git pull --ff-only` in the repo (skipped safely if there are
+   uncommitted changes or no upstream — nothing gets clobbered).
+2. `brew bundle install` — installs anything missing from the Brewfile.
+3. `./setup` — re-links new entries in `linked/` or `xdg/`.
+4. `brew upgrade` — **opt-in only**, with `-u` / `--upgrade`.
+
+Any failing step aborts with a non-zero exit; the default (no `-u`) is
+deliberately conservative so routine updates don't silently pull in
+major-version bumps of every Homebrew formula.
+
+```sh
+dotctl update        # pull + bundle + setup
+dotctl update -u     # also `brew upgrade`
+```
+
+### `dotctl doctor`
+
+Catches drift between the Brewfile, what's installed, and the docs:
+
+1. **`brew bundle check`** — splits drift into:
+   - **missing** (FAIL) — formula/cask/tap not installed.
+   - **outdated** (warn, non-fatal) — installed but `brew upgrade` would
+     bump it. Routine world drift, not repo drift.
+2. **Brewfile ↔ TOOLS.md** — every user-facing formula is documented
+   (build/transitive deps are allow-listed in the script).
+3. **Brewfile ↔ `install-linux.md`** — every Rust CLI in the Brewfile
+   has a matching entry in the `cargo install` block of the Linux guide.
+
+Failing checks collect **runnable fix commands** at the end. On a tty,
+you can select one by number, `a` for all, or Enter to skip. In CI the
+prompt is suppressed. Exit code is 0 when only warnings fire, non-zero
+on any FAIL — CI stays green on outdated packages, red on genuine drift.
+
+### `dotctl tools`
+
+Renders [TOOLS.md](./TOOLS.md) through `mdcat` for a terminal-friendly
+view. Pass a section heading to filter:
+
+```sh
+dotctl tools                   # full reference
+dotctl tools "rust clis"       # just that section
+dotctl tools -h                # list available sections
+```
+
+### Adding a subcommand
+
+Drop an executable `dotctl-<name>` into `linked/bin/`. The dispatcher
+picks it up automatically — no edits to `dotctl` itself.
+
 ---
 
 ## Under the hood
@@ -96,7 +163,7 @@ Every file or directory here becomes `~/.<name>`:
 | `linked/tigrc`            | `~/.tigrc`                          |
 | `linked/tmux.conf`        | `~/.tmux.conf`                      |
 | `linked/pryrc`            | `~/.pryrc`                          |
-| `linked/bin/`             | `~/.bin/` (on PATH via `shell/env`) |
+| `linked/bin/`             | `~/.bin/` (on PATH via `shell/env`, hosts `dotctl` + subcommands) |
 
 #### xdg/
 

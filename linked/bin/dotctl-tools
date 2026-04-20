@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Render TOOLS.md — full, filtered, or list sections.
 #
-#   tools             show the full reference
-#   tools SECTION     show only sections whose heading matches SECTION
-#   tools -h          this help
+#   dotctl tools             show the full reference
+#   dotctl tools SECTION     show only sections whose heading matches SECTION
+#   dotctl tools -h          this help
 
 set -e
 
@@ -12,11 +12,11 @@ doc="$HOME/config/dotfiles/TOOLS.md"
 case "${1:-}" in
   -h | --help)
     cat <<'EOF'
-usage: tools [SECTION]
+usage: dotctl tools [SECTION]
 
-  tools             show the full reference
-  tools SECTION     show only sections whose heading matches SECTION
-  tools -h          this help
+  dotctl tools             show the full reference
+  dotctl tools SECTION     show only sections whose heading matches SECTION
+  dotctl tools -h          this help
 
 Sections:
 EOF

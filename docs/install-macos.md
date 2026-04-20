@@ -136,8 +136,8 @@ One-time actions after the core install.
 - **mise** — run `mise install` in any project with a `mise.toml` to
   fetch the pinned toolchains.
 
-Done. `zsh` startup should be ~150ms. Run `tools` for the grouped CLI
-reference, or `tools -h` for filter usage.
+Done. `zsh` startup should be ~150ms. Run `dotctl tools` for the grouped
+CLI reference, or `dotctl tools -h` for filter usage.
 
 ## Re-run after changes
 

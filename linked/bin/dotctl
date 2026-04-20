@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+# dotctl — management CLI for this dotfiles repo.
+#
+# Dispatches `dotctl <cmd> [args...]` to `dotctl-<cmd>` found next to this
+# script (git-style). Keeps a single namespaced entry point on PATH so
+# generic names like "doctor" don't collide with other tools.
+#
+# Usage:
+#   dotctl <command> [args...]
+#   dotctl help
+#   dotctl --list
+
+set -eu
+
+BIN_DIR=$(cd "$(dirname "$0")" && pwd)
+PREFIX="dotctl-"
+
+list_commands() {
+  # Strip the dotctl- prefix and print one per line.
+  for path in "$BIN_DIR"/$PREFIX*; do
+    [ -x "$path" ] || continue
+    name=${path##*/}
+    printf '  %s\n' "${name#$PREFIX}"
+  done
+}
+
+usage() {
+  cat <<EOF
+dotctl — manage this dotfiles repo
+
+Usage: dotctl <command> [args...]
+
+Commands:
+$(list_commands)
+
+Run 'dotctl <command> --help' for command-specific help (if supported).
+EOF
+}
+
+case "${1:-}" in
+  "" | -h | --help | help)
+    usage
+    exit 0
+    ;;
+  --list)
+    list_commands
+    exit 0
+    ;;
+esac
+
+cmd="$1"
+shift
+target="$BIN_DIR/$PREFIX$cmd"
+
+if [ ! -x "$target" ]; then
+  printf 'dotctl: unknown command: %s\n\n' "$cmd" >&2
+  usage >&2
+  exit 127
+fi
+
+exec "$target" "$@"

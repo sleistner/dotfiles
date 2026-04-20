@@ -6,6 +6,10 @@
 #   2. Brewfile ↔ TOOLS.md   — every user-facing formula is documented
 #   3. Brewfile ↔ install-linux.md — Rust CLIs present in the cargo block
 #
+# Check 1 distinguishes missing (fail) from outdated (warn): a formula
+# that's installed but needs `brew upgrade` is routine world drift, not
+# repo drift, so it won't fail the script.
+#
 # Exits non-zero if any check fails. Runs clean on Linux too (check 1 is
 # skipped when brew is not installed).
 #
@@ -56,6 +60,7 @@ RUST_CLIS=(
 )
 
 ok() { printf '  [ok]   %s\n' "$1"; }
+warn() { printf '  [warn] %s\n' "$1"; }
 fail() {
   printf '  [FAIL] %s\n' "$1"
   FAILED=1
@@ -63,6 +68,9 @@ fail() {
 section() { printf '\n== %s ==\n' "$1"; }
 
 FAILED=0
+# Fix commands collected by checks, offered at the end.
+FIXES=()
+add_fix() { FIXES+=("$1"); }
 
 # ---- Check 1: brew bundle check ------------------------------------------
 section "brew bundle check"
@@ -73,7 +81,61 @@ else
   if brew bundle check --file="$BREWFILE" >/dev/null 2>&1; then
     ok "installed state matches Brewfile"
   else
-    fail "drift detected — run: brew bundle check --verbose --file=$BREWFILE"
+    # Classify each drift line: missing (not installed) = fail,
+    # outdated (installed but upgrade needed) = warn.
+    drift=$(brew bundle check --verbose --file="$BREWFILE" 2>&1 || true)
+    missing=()
+    outdated=()
+
+    classify_formula() {
+      local name="$1"
+      if brew list --formula --versions "$name" >/dev/null 2>&1; then
+        outdated+=("$name")
+      else
+        missing+=("$name")
+      fi
+    }
+    classify_cask() {
+      local name="$1"
+      if brew list --cask --versions "$name" >/dev/null 2>&1; then
+        outdated+=("$name (cask)")
+      else
+        missing+=("$name (cask)")
+      fi
+    }
+
+    while IFS= read -r line; do
+      case "$line" in
+        *"Formula "*" needs to be installed or updated."*)
+          name=${line#*Formula }
+          name=${name%% needs*}
+          classify_formula "$name"
+          ;;
+        *"Cask "*" needs to be installed"*)
+          name=${line#*Cask }
+          name=${name%% needs*}
+          classify_cask "$name"
+          ;;
+        *"Tap "*" needs to be tapped."*)
+          name=${line#*Tap }
+          name=${name%% needs*}
+          missing+=("$name (tap)")
+          ;;
+      esac
+    done <<<"$drift"
+
+    if [ ${#missing[@]} -gt 0 ]; then
+      fail "missing: ${missing[*]}"
+      add_fix "brew bundle install --file=$BREWFILE"
+    fi
+    if [ ${#outdated[@]} -gt 0 ]; then
+      warn "outdated (upgrade available): ${outdated[*]}"
+      add_fix "brew upgrade"
+    fi
+    if [ ${#missing[@]} -eq 0 ] && [ ${#outdated[@]} -eq 0 ]; then
+      # Couldn't parse — fall back to the raw command.
+      fail "drift detected — run: brew bundle check --verbose --file=$BREWFILE"
+    fi
   fi
 fi
 
@@ -108,6 +170,7 @@ if [ ${#missing_docs[@]} -eq 0 ]; then
   ok "every user-facing formula is documented"
 else
   fail "TOOLS.md missing: ${missing_docs[*]}"
+  add_fix "\$EDITOR $TOOLS_MD  # add entries for: ${missing_docs[*]}"
 fi
 
 # ---- Check 3: Brewfile ↔ install-linux.md cargo block -------------------
@@ -137,12 +200,49 @@ if [ ${#missing_linux[@]} -eq 0 ]; then
   ok "Rust CLIs present in cargo block"
 else
   fail "install-linux.md cargo block missing: ${missing_linux[*]}"
+  add_fix "\$EDITOR $LINUX_MD  # add to cargo block: ${missing_linux[*]}"
 fi
 
 # ---- Summary -------------------------------------------------------------
 echo
+if [ ${#FIXES[@]} -gt 0 ]; then
+  echo "Suggested fixes:"
+  i=1
+  for fix in "${FIXES[@]}"; do
+    printf '  [%d] %s\n' "$i" "$fix"
+    i=$((i + 1))
+  done
+  echo
+
+  # Offer interactive selection only on a tty.
+  if [ -t 0 ] && [ -t 1 ]; then
+    printf 'Run a fix? [1-%d / a=all / Enter to skip]: ' "${#FIXES[@]}"
+    read -r choice
+    case "$choice" in
+      "") ;;
+      a|A)
+        for fix in "${FIXES[@]}"; do
+          printf '\n$ %s\n' "$fix"
+          eval "$fix"
+        done
+        ;;
+      *[!0-9]*)
+        echo "Not a number — skipping." ;;
+      *)
+        if [ "$choice" -ge 1 ] && [ "$choice" -le "${#FIXES[@]}" ]; then
+          fix="${FIXES[$((choice - 1))]}"
+          printf '\n$ %s\n' "$fix"
+          eval "$fix"
+        else
+          echo "Out of range — skipping."
+        fi
+        ;;
+    esac
+  fi
+fi
+
 if [ "$FAILED" -eq 0 ]; then
-  echo "All checks passed."
+  [ ${#FIXES[@]} -eq 0 ] && echo "All checks passed."
   exit 0
 else
   echo "One or more checks failed."

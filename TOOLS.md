@@ -139,7 +139,7 @@ and the active docker context is `orbstack`. Confirm anytime with
 | **hyperfine** | Statistical CLI benchmarking. |
 | **tealdeer** (`tldr`) | Rust tldr client — fast cached man-page examples. |
 | **pv** | Pipe viewer — progress bar on pipes. |
-| **mdcat** | Rust markdown renderer — inline images in kitty/wezterm/ghostty. Used by the `tools` helper. |
+| **mdcat** | Rust markdown renderer — inline images in kitty/wezterm/ghostty. Used by `dotctl tools`. |
 | **procs** | Rust `ps` replacement — colorized, tree view, saner defaults. |
 | **sd** | Rust `sed` replacement — intuitive find/replace syntax. |
 | **just** | Rust command runner — cleaner `make` replacement for project scripts. |

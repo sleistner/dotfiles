@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+# dotctl update — bring this machine up to date with the dotfiles repo.
+#
+# Runs, in order:
+#   1. git pull         — fast-forward the repo.
+#   2. brew bundle      — install anything in the Brewfile that's missing.
+#   3. ./setup          — re-link any new entries in linked/ or xdg/.
+#   4. brew upgrade     — (opt-in) upgrade outdated formulae/casks.
+#
+# Any failing step aborts and returns non-zero so the problem is visible.
+#
+# Usage:
+#   dotctl update            pull + bundle + setup
+#   dotctl update -u         also run `brew upgrade` at the end
+#   dotctl update --upgrade  same as -u
+#   dotctl update -h         this help
+
+set -u
+
+REPO="${DOTFILES_DIR:-$HOME/config/dotfiles}"
+BREWFILE="$REPO/Brewfile"
+RUN_UPGRADE=0
+
+for arg in "$@"; do
+  case "$arg" in
+    -h | --help)
+      sed -n '2,17p' "$0" | sed 's/^# \{0,1\}//'
+      exit 0
+      ;;
+    -u | --upgrade)
+      RUN_UPGRADE=1
+      ;;
+    *)
+      printf 'dotctl update: unknown option: %s\n' "$arg" >&2
+      exit 2
+      ;;
+  esac
+done
+
+section() { printf '\n== %s ==\n' "$1"; }
+step() { printf '$ %s\n' "$1"; }
+die() {
+  printf '\ndotctl update: %s — aborting.\n' "$1" >&2
+  exit 1
+}
+
+# ---- 1. git pull ---------------------------------------------------------
+section "git pull ($REPO)"
+
+[ -d "$REPO/.git" ] || die "no git repo at $REPO"
+
+if [ -n "$(git -C "$REPO" status --porcelain)" ]; then
+  printf '  [skip] uncommitted changes — not pulling.\n'
+  printf '         commit/stash first, or run: git -C %s status\n' "$REPO"
+else
+  upstream=$(git -C "$REPO" rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2>/dev/null || true)
+  if [ -z "$upstream" ]; then
+    printf '  [skip] current branch has no upstream.\n'
+  else
+    step "git -C $REPO pull --ff-only"
+    git -C "$REPO" pull --ff-only || die "git pull failed"
+  fi
+fi
+
+# ---- 2. brew bundle ------------------------------------------------------
+section "brew bundle"
+
+if ! command -v brew >/dev/null 2>&1; then
+  printf '  [skip] brew not installed (Linux without Linuxbrew?).\n'
+else
+  step "brew bundle install --file=$BREWFILE"
+  brew bundle install --file="$BREWFILE" || die "brew bundle failed"
+fi
+
+# ---- 3. setup ------------------------------------------------------------
+section "setup (symlinks)"
+
+[ -x "$REPO/setup" ] || die "no executable setup script at $REPO/setup"
+step "$REPO/setup"
+"$REPO/setup" || die "setup failed"
+
+# ---- 4. brew upgrade (opt-in) -------------------------------------------
+if [ "$RUN_UPGRADE" -eq 1 ]; then
+  section "brew upgrade"
+  if ! command -v brew >/dev/null 2>&1; then
+    printf '  [skip] brew not installed.\n'
+  else
+    step "brew upgrade"
+    brew upgrade || die "brew upgrade failed"
+  fi
+fi
+
+echo
+echo "Update complete."

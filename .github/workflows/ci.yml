@@ -40,7 +40,7 @@ jobs:
       - name: Run doctor
         env:
           DOTFILES_DIR: ${{ github.workspace }}
-        run: ./linked/bin/doctor
+        run: ./linked/bin/dotctl doctor
 
   gitleaks:
     name: gitleaks
