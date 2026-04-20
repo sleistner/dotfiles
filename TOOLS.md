@@ -54,8 +54,7 @@ are omitted.
 | Tool | What it does |
 | --- | --- |
 | **curl** | The default. |
-| **httpie** (`http`) | User-friendly HTTP client (JSON bodies, colorized output). |
-| **xh** | Rust-based httpie replacement — same CLI, faster. |
+| **xh** | User-friendly HTTP client (JSON bodies, colorized output); Rust httpie replacement. |
 | **wget** | File download. |
 | **mkcert** | Generate locally-trusted TLS certs for dev. |
 | **testssl** | Audit TLS config of a server. |
@@ -100,15 +99,13 @@ are omitted.
 | **pnpm** | Fast disk-efficient npm alternative. |
 | **uv** | Modern Python package + env + version manager (replaces pip/pipenv/pyenv). |
 | **python@3.13** | Needed as a dep of other brews (azure-cli, podman-compose, speedtest-cli). |
-| **ruby-build** | Build recipes for Ruby. |
 
 ## Security & secrets
 
 | Tool | What it does |
 | --- | --- |
 | **gnupg** (`gpg`) | Encryption/signing (used by some tools even though git signs via SSH/1Password). |
-| **pass** | Unix password manager (GPG-encrypted files). |
-| **gopass** | Enhanced fork of pass. |
+| **gopass** | GPG-encrypted password manager (drop-in successor to `pass`). |
 | **1password-cli** (`op`) | 1Password CLI. |
 | **gitleaks** | See Git section. |
 
