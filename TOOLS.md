@@ -47,6 +47,7 @@ are omitted.
 | Tool | What it does |
 | --- | --- |
 | **neovim** | Primary editor. Config: `xdg/nvim/` (NvChad + lazy.nvim). |
+| **tree-sitter-cli** (`tree-sitter`) | CLI used by nvim-treesitter's main branch to compile parsers from grammars. Not used interactively. |
 | **zed** (cask) | GUI editor. Config: `xdg/zed/settings.json`. |
 
 ## HTTP & network
