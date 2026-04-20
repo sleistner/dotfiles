@@ -57,7 +57,7 @@ install_oh_my_zsh() {
     ok "already installed"
   else
     RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh -c \
-      "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" \
+      "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/HEAD/tools/install.sh)" \
       "" --unattended --keep-zshrc
     ok "installed"
   fi

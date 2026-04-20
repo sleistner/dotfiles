@@ -107,7 +107,7 @@ the new symlinks and every brew-installed tool on `PATH`.
 ```sh
 # oh-my-zsh — installer will notice ~/.zshrc exists; --keep-zshrc keeps
 #             the symlinked rc untouched.
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/HEAD/tools/install.sh)" "" --unattended --keep-zshrc
 
 # zsh-autosuggestions (listed in plugins=(git zsh-autosuggestions))
 git clone https://github.com/zsh-users/zsh-autosuggestions \
