@@ -80,21 +80,21 @@ manager and modern ones via their upstream binaries or `cargo`.
 ```sh
 # Debian / Ubuntu
 sudo apt install -y \
-  neovim tmux tig htop jq curl wget \
+  neovim tmux tig curl wget \
   ripgrep fd-find bat fzf \
   shellcheck shfmt direnv \
   build-essential pkg-config libssl-dev
 
 # Fedora
 sudo dnf install -y \
-  neovim tmux tig htop jq curl wget \
+  neovim tmux tig curl wget \
   ripgrep fd-find bat fzf \
   ShellCheck shfmt direnv \
   make pkgconf-pkg-config openssl-devel
 
 # Arch
 sudo pacman -S --needed \
-  neovim tmux tig htop jq curl wget \
+  neovim tmux tig curl wget \
   ripgrep fd bat fzf \
   shellcheck shfmt direnv \
   base-devel pkgconf openssl
@@ -103,6 +103,11 @@ sudo pacman -S --needed \
 > On Debian/Ubuntu, `fd` is installed as `fdfind`. Either alias it
 > (`alias fd=fdfind` in `shell/env`) or symlink:
 > `mkdir -p ~/.local/bin && ln -s "$(command -v fdfind)" ~/.local/bin/fd`.
+
+> `jq`, `htop`, and `tldr` are intentionally absent from the distro list —
+> the macOS Brewfile uses the Rust replacements `jaq`, `bottom`, and
+> `tealdeer` (installed via cargo below). If you want `/usr/bin/jq` as a
+> fallback for scripts, add `jq` back to the apt/dnf/pacman line.
 
 ### 6b. Modern CLIs (install via upstream release or cargo)
 
@@ -124,11 +129,13 @@ source ~/.cargo/env
 # Rust-based CLIs referenced by this config:
 cargo install --locked \
   atuin zoxide git-delta xh yazi-fm gitleaks \
-  hyperfine git-absorb stylua eza
+  hyperfine git-absorb stylua eza \
+  bottom du-dust tealdeer jaq \
+  sd just difftastic procs bacon oxipng mdcat
 
 # Node-based CLIs (install via your mise-managed node):
 mise install node@latest
-npm install -g pnpm tldr
+npm install -g pnpm
 ```
 
 > Pick either `lsd` (apt) or `eza` (cargo). Your `linked/zshrc` uses

@@ -59,7 +59,7 @@
 
 [diff]
 	algorithm = histogram
-	tool = Kaleidoscope
+	tool = difftastic
 
 [difftool]
 	prompt = false
@@ -110,9 +110,12 @@
 	ci = commit
 	st = status
 	br = branch
+	dft = difftool
 
 [pretty "shortd"]
 	format = "%Cred%h%Creset - %C(green) %an %C(reset) - %C(yellow)%d%Creset %s %Cgreen(%cr) %Creset"
 
 [tig]
 	line-graphics = "utf-8"
+[difftool "difftastic"]
+	cmd = difft \"$LOCAL\" \"$REMOTE\"

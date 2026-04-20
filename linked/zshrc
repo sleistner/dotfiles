@@ -72,6 +72,9 @@ function y() {
 # Starship
 eval "$(starship init zsh)"
 
+# Aliases
+alias jq=jaq
+
 # zsh-syntax-highlighting — MUST be near the end, after all other widgets.
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 

@@ -23,12 +23,12 @@ EOF
     awk '/^## / { sub(/^## /, "  "); print }' "$doc"
     ;;
   "")
-    glow -p "$doc"
+    mdcat -p "$doc"
     ;;
   *)
     awk -v q="$1" '
       /^## / { section=tolower($0); printing = index(section, tolower(q)) > 0 }
       printing
-    ' "$doc" | glow -p -
+    ' "$doc" | mdcat -p -
     ;;
 esac

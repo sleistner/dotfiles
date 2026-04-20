@@ -64,7 +64,7 @@ are omitted.
 
 | Tool | What it does |
 | --- | --- |
-| **jq** | JSON processor. |
+| **jaq** (`jaq`) | Rust jq clone — jq-compatible syntax, faster. Aliased to `jq` in zshrc. |
 | **yq** | YAML processor (jq-like syntax). |
 | **dasel** | Query/modify JSON/YAML/TOML/XML with a single tool. |
 | **mysql-client** | MySQL CLI. |
@@ -127,13 +127,19 @@ and the active docker context is `orbstack`. Confirm anytime with
 
 | Tool | What it does |
 | --- | --- |
-| **htop** | Process viewer. |
+| **bottom** (`btm`) | Rust TUI system monitor — CPU/mem/net/disk/process graphs. |
+| **dust** | Rust `du` replacement — tree view with visual size bars. |
 | **coreutils** | GNU versions of core Unix tools (prefix with `g`: `gls`, `gdate`, …). |
 | **tmux** | Terminal multiplexer. |
 | **hyperfine** | Statistical CLI benchmarking. |
-| **tldr** | Man pages with practical examples. |
+| **tealdeer** (`tldr`) | Rust tldr client — fast cached man-page examples. |
 | **pv** | Pipe viewer — progress bar on pipes. |
-| **glow** | Render markdown in the terminal. |
+| **mdcat** | Rust markdown renderer — inline images in kitty/wezterm/ghostty. Used by the `tools` helper. |
+| **procs** | Rust `ps` replacement — colorized, tree view, saner defaults. |
+| **sd** | Rust `sed` replacement — intuitive find/replace syntax. |
+| **just** | Rust command runner — cleaner `make` replacement for project scripts. |
+| **difftastic** (`difft`) | Syntax-aware structural diff. Wire up as `GIT_EXTERNAL_DIFF`. |
+| **bacon** | Rust background code checker — `cargo-watch` successor. |
 
 ## Image & media
 
@@ -146,6 +152,7 @@ Used by Sparkle project and general image optimization.
 | **ghostscript** | PostScript + PDF processing. |
 | **poppler** | PDF rendering and CLI utils (`pdfinfo`, `pdftotext`). |
 | **pngcrush**, **pngquant**, **optipng** | PNG optimization. |
+| **oxipng** | Rust PNG optimizer — replaces optipng/pngcrush with one tool. |
 | **jpegoptim**, **jhead** | JPEG optimization / EXIF. |
 | **gifsicle** | GIF optimization. |
 | **advancecomp** | Deflate-based recompression. |
