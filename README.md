@@ -1,5 +1,6 @@
 # dotfiles
 
+[![ci](https://github.com/sleistner/dotfiles/actions/workflows/ci.yml/badge.svg)](https://github.com/sleistner/dotfiles/actions/workflows/ci.yml)
 ![macOS](https://img.shields.io/badge/macOS-000000?logo=apple&logoColor=white)
 ![zsh](https://img.shields.io/badge/shell-zsh-1A5E2A)
 ![oh-my-zsh](https://img.shields.io/badge/oh--my--zsh-C25B5B?logo=ohdear)

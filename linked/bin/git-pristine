@@ -2,8 +2,8 @@
 # Prune every non-master remote branch. Destructive — use with care.
 
 git checkout --quiet master &&
-    git branch --remote |
-    grep --invert-match 'master' |
+  git branch --remote |
+  grep --invert-match 'master' |
     xargs -n 1 echo |
     awk '{ sub(/origin\//, ""); print }' |
     xargs -I {} git push origin :{}
