@@ -79,15 +79,27 @@ return {
     lazy = false,
   },
 
-  -- {
-  -- 	"nvim-treesitter/nvim-treesitter",
-  -- 	opts = {
-  -- 		ensure_installed = {
-  -- 			"vim", "lua", "vimdoc",
-  --      "html", "css"
-  -- 		},
-  -- 	},
-  -- },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    event = { "BufReadPre", "BufNewFile" },
+    build = ":TSUpdate",
+    main = "nvim-treesitter.configs",
+    opts = {
+      ensure_installed = {
+        -- Config / docs
+        "lua", "luadoc", "vim", "vimdoc", "markdown", "markdown_inline",
+        "bash", "regex", "gitignore", "dockerfile",
+        -- Frontend
+        "javascript", "typescript", "tsx", "vue", "html", "css", "scss",
+        -- Backend (embedded_template covers ERB)
+        "ruby", "embedded_template", "rust", "go",
+        -- Data
+        "json", "yaml", "toml", "sql",
+      },
+      highlight = { enable = true },
+      indent = { enable = true },
+    },
+  },
   {
     "zaldih/themery.nvim",
     cmd = "Themery",
