@@ -60,6 +60,7 @@ are omitted.
 | **testssl** | Audit TLS config of a server. |
 | **speedtest-cli** | CLI speedtest.net. |
 | **wrk** | HTTP benchmarking tool — high-load request generator. |
+| **hurl** | HTTP tests as plain-text files — versionable, scriptable, CI-friendly. |
 | **dnsmasq** | Local DNS resolver (e.g. `*.local` → `127.0.0.1` for dev). |
 
 ## Data / JSON / YAML / SQL
@@ -116,6 +117,7 @@ and the active docker context is `orbstack`. Confirm anytime with
 | **gopass** | GPG-encrypted password manager (drop-in successor to `pass`). |
 | **1password-cli** (`op`) | 1Password CLI. |
 | **gitleaks** | See Git section. |
+| **trivy** | Vulnerability scanner — container images, filesystems, IaC (Terraform/k8s), SBOMs. |
 
 ## Code quality / formatters / linters
 

@@ -131,11 +131,15 @@ cargo install --locked \
   atuin zoxide git-delta xh yazi-fm gitleaks \
   hyperfine git-absorb stylua eza \
   bottom du-dust tealdeer jaq \
-  sd just difftastic procs bacon oxipng mdcat
+  sd just difftastic procs bacon oxipng mdcat hurl
 
 # Node-based CLIs (install via your mise-managed node):
 mise install node@latest
 npm install -g pnpm
+
+# trivy — vulnerability scanner (official installer, distro-agnostic)
+curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh \
+  | sudo sh -s -- -b /usr/local/bin
 ```
 
 > Pick either `lsd` (apt) or `eza` (cargo). Your `linked/zshrc` uses
