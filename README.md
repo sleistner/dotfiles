@@ -17,12 +17,26 @@ Homebrew-installed tools and what they do.
 
 ## Install
 
+Step-by-step guides for a fresh machine:
+
+- **[docs/install-macos.md](./docs/install-macos.md)** — primary target.
+  Xcode CLT → Homebrew → 1Password SSH → clone → `./setup` →
+  `brew bundle` → oh-my-zsh → first-run app housekeeping.
+- **[docs/install-linux.md](./docs/install-linux.md)** — Debian/Ubuntu
+  with Fedora + Arch notes. Uses distro packages + `cargo` instead of
+  Homebrew; native Docker engine; alternatives for the macOS-only GUI
+  apps (OrbStack, Ghostty, Raycast, Rectangle).
+
+Shell config, nvim config, git config, and every modern CLI in this
+repo work on both platforms.
+
+## Re-run after changes
+
+Add or remove files in `linked/` or `xdg/`, then:
+
 ```sh
 ./setup
 ```
-
-Idempotent. Creates symlinks from this repo into `$HOME` and `~/.config`.
-Safe to re-run after adding or removing files.
 
 ## Layout
 
