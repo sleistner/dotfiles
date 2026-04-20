@@ -44,33 +44,46 @@ return {
     },
   },
 
-  -- Cursor-like inline-diff AI edits. Default keymaps: <leader>aa (ask),
-  -- <leader>ae (edit), <leader>ar (refresh). Requires ANTHROPIC_API_KEY
-  -- in the environment — set it in a non-committed file sourced by your
-  -- shell (e.g. ~/.config/zsh/secrets.zsh) or via 1Password / mise env.
+  -- Claude Code inside nvim. Uses your `claude` CLI auth (Pro/Max
+  -- subscription via `claude login`) — no separate API key needed.
+  -- Opens Claude Code in an adjacent terminal and adds commands to
+  -- send selections, add buffers/files to context, and accept/deny
+  -- diffs it proposes.
   {
-    "yetone/avante.nvim",
-    event = "VeryLazy",
-    version = false,
-    build = "make",
-    opts = {
-      provider = "claude",
-      providers = {
-        claude = {
-          endpoint = "https://api.anthropic.com",
-          model = "claude-sonnet-4-6",
-          extra_request_body = {
-            temperature = 0,
-            max_tokens = 8192,
-          },
-        },
+    "coder/claudecode.nvim",
+    dependencies = { "folke/snacks.nvim" },
+    config = true,
+    keys = {
+      { "<leader>a", nil, desc = "AI/Claude Code" },
+      { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
+      { "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
+      { "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
+      { "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
+      { "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
+      { "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
+      { "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
+      {
+        "<leader>as",
+        "<cmd>ClaudeCodeTreeAdd<cr>",
+        desc = "Add file",
+        ft = { "NvimTree", "neo-tree", "oil", "minifiles" },
       },
+      -- Diff management
+      { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
+      { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
     },
-    dependencies = {
-      "stevearc/dressing.nvim",
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      "nvim-tree/nvim-web-devicons",
+  },
+
+  -- UI primitives (input/select/picker/notifier). Used by claudecode.nvim
+  -- and generally nice to have for modern plugin UX.
+  {
+    "folke/snacks.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {
+      input = { enabled = true },
+      picker = { enabled = true },
+      notifier = { enabled = true },
     },
   },
 
