@@ -1,0 +1,121 @@
+[user]
+	name = Steffen Leistner
+	email = sleistner@gmail.com
+
+[color]
+    branch = auto
+    diff   = auto
+    status = auto
+
+[color "branch"]
+    current = yellow reverse
+    local   = yellow
+    remote  = green
+
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old  = red bold
+    new  = green bold
+
+[color "status"]
+    added     = yellow
+    changed   = green
+    untracked = cyan
+
+[alias]
+    filter-deleted = "!sh -c 'git log --diff-filter=D --summary | grep delete'"
+    delete-merged = "!f() { \
+        git checkout --quiet master \
+        && \
+        git branch --merged \
+        | \
+        grep --invert-match '\\*' \
+        | \
+        xargs -n 1 git branch --delete; \
+        git checkout --quiet @{-1} \
+        ; \
+        }; f"
+    delete-merged-remote = "!f() { \
+        git checkout --quiet master \
+        && \
+        git branch --remote --merged \
+        | \
+        grep --invert-match 'master' \
+        | \
+        xargs -n 1 echo \
+        | \
+        awk '{ sub(/origin\\//, \"\"); print }' \
+        | \
+        xargs -I {} git push origin :{} \
+        ; \
+        }g f"
+    delete-local-tags = tag -l | tag -d
+    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+    changelog = log --pretty=%s --first-parent
+    co = checkout
+    ci = commit
+    st = status
+    br = branch
+
+[core]
+	excludesfile = /Users/sleistner/.gitignore_global
+  editor = vim
+
+[apply]
+    whitespace = nowarn
+
+[pull]
+    default = tracking
+
+[push]
+    default = tracking
+
+[branch]
+    autosetuprebase = remote
+
+[mergetool]
+    keepbackup = false
+    keeptemporaries = false
+    trustexitcode = false
+    prompt = false
+
+[pretty "shortd"]
+    format = "%Cred%h%Creset - %C(green) %an %C(reset) - %C(yellow)%d%Creset %s %Cgreen(%cr) %Creset"
+
+[tig]
+    line-graphics = "utf-8"
+
+[github]
+    user = sleistner
+
+[difftool "Kaleidoscope"]
+  cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+
+# If you want to set up Kaleidoscope as the default diff tool,
+# then also set the following variables:
+[difftool]
+  prompt = false
+[diff]
+ tool = Kaleidoscope
+
+[mergetool "Kaleidoscope"]
+	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" \"$REMOTE\"
+
+[mergetool]
+  prompt = false
+[merge]
+	tool = Kaleidoscope
+[difftool "sourcetree"]
+	cmd = vscode --diff --wait
+	path = 
+[mergetool "sourcetree"]
+	cmd = /usr/local/bin/ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+	trustExitCode = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[commit]
+	template = /Users/sleistner/.stCommitMsg

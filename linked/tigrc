@@ -1,0 +1,3 @@
+bind generic R !@?git reset --hard %(commit)
+bind status D !@?rm %(file)
+bind generic + !git commit --amend

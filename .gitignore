@@ -1,0 +1,10 @@
+.DS_Store
+*.swp
+.VimballRecord
+vim/.netrwhist
+.redcar
+bin/redcar
+.netrwhist
+.rake_tasks~
+vimified/
+linked/vim/bundle
