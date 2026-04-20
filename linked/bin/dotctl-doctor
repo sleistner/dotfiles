@@ -220,14 +220,15 @@ if [ ${#FIXES[@]} -gt 0 ]; then
     read -r choice
     case "$choice" in
       "") ;;
-      a|A)
+      a | A)
         for fix in "${FIXES[@]}"; do
           printf '\n$ %s\n' "$fix"
           eval "$fix"
         done
         ;;
       *[!0-9]*)
-        echo "Not a number — skipping." ;;
+        echo "Not a number — skipping."
+        ;;
       *)
         if [ "$choice" -ge 1 ] && [ "$choice" -le "${#FIXES[@]}" ]; then
           fix="${FIXES[$((choice - 1))]}"
