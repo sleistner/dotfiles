@@ -21,6 +21,59 @@ return {
     event = "InsertEnter",
   },
 
+  -- Chat UI on top of the Copilot subscription. No extra API keys.
+  -- Commands: :CopilotChat, :CopilotChatExplain, :CopilotChatFix, ...
+  {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    dependencies = {
+      "github/copilot.vim",
+      "nvim-lua/plenary.nvim",
+    },
+    build = "make tiktoken",
+    cmd = {
+      "CopilotChat",
+      "CopilotChatExplain",
+      "CopilotChatReview",
+      "CopilotChatFix",
+      "CopilotChatOptimize",
+      "CopilotChatTests",
+      "CopilotChatCommit",
+    },
+    opts = {
+      debug = false,
+    },
+  },
+
+  -- Cursor-like inline-diff AI edits. Default keymaps: <leader>aa (ask),
+  -- <leader>ae (edit), <leader>ar (refresh). Requires ANTHROPIC_API_KEY
+  -- in the environment — set it in a non-committed file sourced by your
+  -- shell (e.g. ~/.config/zsh/secrets.zsh) or via 1Password / mise env.
+  {
+    "yetone/avante.nvim",
+    event = "VeryLazy",
+    version = false,
+    build = "make",
+    opts = {
+      provider = "claude",
+      providers = {
+        claude = {
+          endpoint = "https://api.anthropic.com",
+          model = "claude-sonnet-4-6",
+          extra_request_body = {
+            temperature = 0,
+            max_tokens = 8192,
+          },
+        },
+      },
+    },
+    dependencies = {
+      "stevearc/dressing.nvim",
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      "nvim-tree/nvim-web-devicons",
+    },
+  },
+
   {
     "NeogitOrg/neogit",
     dependencies = {
