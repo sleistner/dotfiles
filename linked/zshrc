@@ -35,16 +35,32 @@ export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agen
 # Mise
 eval "$(mise activate zsh)"
 
-# fzf keybindings + completion (ctrl-R, ctrl-T, alt-C)
+# fzf keybindings + completion (ctrl-T files, alt-C dirs; ctrl-R is atuin below)
 # stderr redirect silences a harmless `can't change option: zle` from fzf's
 # option-restore loop in non-TTY contexts — keybindings still register.
 source <(fzf --zsh) 2>/dev/null
 
+# atuin — sqlite-backed shell history (binds ctrl-R; overrides fzf's).
+# --disable-up-arrow keeps plain ↑ for prefix-search via zsh history.
+eval "$(atuin init zsh --disable-up-arrow)"
+
 # zoxide — smart cd (`z <partial-path>` jumps to frecent dirs)
 eval "$(zoxide init zsh)"
 
+# yazi — TUI file manager. `y` wrapper cd's the shell to yazi's last dir.
+function y() {
+  local tmp="$(mktemp -t yazi-cwd.XXXXXX)" cwd
+  yazi "$@" --cwd-file="$tmp"
+  IFS= read -r -d '' cwd < "$tmp"
+  [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+  rm -f -- "$tmp"
+}
+
 # Starship
 eval "$(starship init zsh)"
+
+# zsh-syntax-highlighting — MUST be near the end, after all other widgets.
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Added by Antigravity
 export PATH="/Users/sleistner/.antigravity/antigravity/bin:$PATH"
