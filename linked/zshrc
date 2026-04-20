@@ -15,6 +15,12 @@ FPATH="/opt/homebrew/share/zsh/site-functions:${FPATH}"
 # Skip compinit security audit (saves ~50ms). Safe on a single-user mac.
 ZSH_DISABLE_COMPFIX=true
 
+# Skip OMZ's URL/brace auto-quoting on paste — saves a few ms.
+DISABLE_MAGIC_FUNCTIONS=true
+
+# Run zsh-autosuggestions history scan asynchronously (snappier prompt).
+ZSH_AUTOSUGGEST_USE_ASYNC=1
+
 source $ZSH/oh-my-zsh.sh
 
 source ~/config/dotfiles/shell/env
