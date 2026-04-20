@@ -37,7 +37,10 @@ source ~/config/dotfiles/shell/env
 
 eval "$(direnv hook zsh)"
 
-export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
+# 1Password SSH agent (optional; only takes effect when 1Password is running).
+_1p_sock=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
+[[ -S "$_1p_sock" ]] && export SSH_AUTH_SOCK="$_1p_sock"
+unset _1p_sock
 
 # Kiro CLI post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"

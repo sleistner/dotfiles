@@ -23,11 +23,22 @@ After it finishes, Homebrew prints two lines to add its `shellenv` to
 your profile — you can run them, but the dotfiles' `linked/zprofile`
 handles this for you after step 5.
 
-## 3. 1Password (for SSH-based git access)
+## 3. 1Password (optional)
 
-This config signs commits and authenticates via the 1Password SSH agent
-(see `linked/gitconfig` and `linked/zshrc`). Install and sign in
-**before** cloning, so `git clone git@github.com:...` works.
+This config includes hooks for the 1Password SSH agent and SSH-based
+git commit signing (see `linked/gitconfig` and `linked/zshrc`). Both
+degrade gracefully when 1Password isn't installed:
+
+- `linked/zshrc` only sets `SSH_AUTH_SOCK` when 1Password's agent
+  socket actually exists.
+- `linked/gitconfig`'s SSH-signing block is inert unless 1Password is
+  running — you'll see "error: cannot spawn op-ssh-sign" on commit,
+  which is your cue to either install 1Password or remove the
+  `[commit] gpgsign = true` / `[gpg "ssh"]` blocks from
+  `linked/gitconfig` for your fork.
+
+If you use 1Password, install it **before** cloning so `git clone
+git@github.com:...` works via its agent:
 
 ```sh
 brew install --cask 1password 1password-cli
@@ -36,7 +47,14 @@ brew install --cask 1password 1password-cli
 Open 1Password → Settings → Developer → enable "Use the SSH agent". Add
 your GitHub SSH key as an Item if it isn't there yet.
 
-If you prefer HTTPS for cloning, skip this and use the HTTPS URL in step 4.
+If you don't use 1Password, generate a standard key instead:
+
+```sh
+ssh-keygen -t ed25519 -C "your@email"
+cat ~/.ssh/id_ed25519.pub  # add to github.com/settings/ssh-keys
+```
+
+Or skip SSH entirely and clone via HTTPS in the next step.
 
 ## 4. Clone the repo
 
