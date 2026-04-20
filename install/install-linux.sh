@@ -73,6 +73,14 @@ run_setup_symlinks
 # 4. oh-my-zsh + zsh-autosuggestions
 install_oh_my_zsh
 
+# 5. Optional: pick cloud-provider modules for the Starship prompt.
+step "Starship prompt customization (optional)"
+if prompt_yes_no "Pick which cloud modules (aws/azure/gcloud) show in the prompt?" N; then
+  bash "$DOTFILES_DIR/install/customize-starship.sh"
+else
+  ok "skipped (edit xdg/starship.toml or re-run install/customize-starship.sh anytime)"
+fi
+
 cat <<EOF
 
 ${c_green}Core automated steps complete.${c_reset}
