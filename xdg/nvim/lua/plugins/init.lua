@@ -147,24 +147,21 @@ return {
 
   {
     "nvim-treesitter/nvim-treesitter",
-    event = { "BufReadPre", "BufNewFile" },
-    build = ":TSUpdate",
-    main = "nvim-treesitter.configs",
-    opts = {
-      ensure_installed = {
-        -- Config / docs
+    branch = "main",
+    lazy = false,
+    build = function() require("nvim-treesitter").update() end,
+    config = function()
+      require("nvim-treesitter").install({
         "lua", "luadoc", "vim", "vimdoc", "markdown", "markdown_inline",
         "bash", "regex", "gitignore", "dockerfile",
-        -- Frontend
         "javascript", "typescript", "tsx", "vue", "html", "css", "scss",
-        -- Backend (embedded_template covers ERB)
         "ruby", "embedded_template", "rust", "go",
-        -- Data
         "json", "yaml", "toml", "sql",
-      },
-      highlight = { enable = true },
-      indent = { enable = true },
-    },
+      })
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function(ev) pcall(vim.treesitter.start, ev.buf) end,
+      })
+    end,
   },
   {
     "zaldih/themery.nvim",
