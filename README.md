@@ -158,7 +158,7 @@ Every file or directory here becomes `~/.<name>`:
 | `linked/zshrc`            | `~/.zshrc`                          |
 | `linked/zshenv`           | `~/.zshenv`                         |
 | `linked/zprofile`         | `~/.zprofile`                       |
-| `linked/gitconfig`        | `~/.gitconfig`                      |
+| `linked/gitconfig`        | `~/.gitconfig` (includes `~/.gitconfig.local` for identity) |
 | `linked/gitignore_global` | `~/.gitignore_global`               |
 | `linked/tigrc`            | `~/.tigrc`                          |
 | `linked/tmux.conf`        | `~/.tmux.conf`                      |
@@ -198,6 +198,24 @@ Current contents:
 - `shell/env` — sourced from `linked/zshrc`. Holds `PATH`, `EDITOR`,
   locale, `GOPATH`, `RIPGREP_CONFIG_PATH`, ulimit, keybindings, and
   `typeset -U path` for auto-dedupe.
+
+### Per-machine git identity
+
+`linked/gitconfig` is shared across machines and intentionally **does not**
+contain `[user]`, `[github]`, or the 1Password SSH-signing program path.
+Those live in `~/.gitconfig.local`, layered in via:
+
+```gitconfig
+[include]
+    path = ~/.gitconfig.local
+```
+
+On first run, `./setup` copies
+[`install/gitconfig.local.example`](./install/gitconfig.local.example)
+to `~/.gitconfig.local` if it doesn't already exist. Edit it to set
+name, email, signing key, and (on macOS/Linux respectively) the
+`gpg.ssh.program` path. Existing files are never overwritten. Git
+silently ignores the include if the file is absent.
 
 ### Adding a new config
 

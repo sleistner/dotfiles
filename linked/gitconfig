@@ -1,13 +1,5 @@
-[user]
-	name = Steffen Leistner
-	email = sleistner@gmail.com
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJsNoN1W7eaBAzhcSvrfI0wmr8MrysEGBq0fhrA4soUk
-
-[github]
-	user = sleistner
-
 [core]
-	excludesfile = /Users/sleistner/.gitignore_global
+	excludesfile = ~/.gitignore_global
 	editor = nvim
 	pager = delta
 
@@ -27,9 +19,6 @@
 
 [gpg]
 	format = ssh
-
-[gpg "ssh"]
-	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
 
 [apply]
 	whitespace = nowarn
@@ -119,3 +108,9 @@
 	line-graphics = "utf-8"
 [difftool "difftastic"]
 	cmd = difft \"$LOCAL\" \"$REMOTE\"
+
+# Per-machine overrides: identity, signing key, and OS-specific programs.
+# Seeded from install/gitconfig.local.example on first run of ./setup.
+# Silently ignored if the file doesn't exist.
+[include]
+	path = ~/.gitconfig.local

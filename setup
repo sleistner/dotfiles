@@ -60,3 +60,13 @@ for entry in "$DOTFILES_DIR"/xdg/*; do
     link_files "$entry" "$target"
   fi
 done
+
+# Seed ~/.gitconfig.local from the template on first run so new machines
+# have a place to drop identity (name/email/signingkey) without committing
+# it to the repo. Existing files are never overwritten.
+gitconfig_local="${HOME}/.gitconfig.local"
+gitconfig_template="${DOTFILES_DIR}/install/gitconfig.local.example"
+if [ ! -e "$gitconfig_local" ] && [ -f "$gitconfig_template" ]; then
+  run_cmd "cp $gitconfig_template $gitconfig_local"
+  echo "→ edit $gitconfig_local to set your git identity."
+fi
