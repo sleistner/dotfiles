@@ -9,10 +9,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
 CONFIG="$(cd "$SCRIPT_DIR/.." && pwd)/xdg/starship.toml"
-[ -f "$CONFIG" ] || {
-  echo "starship.toml not found at $CONFIG" >&2
-  exit 1
-}
+[ -f "$CONFIG" ] || { echo "starship.toml not found at $CONFIG" >&2; exit 1; }
 
 MODULES=(aws azure gcloud)
 
@@ -25,57 +22,22 @@ currently_enabled() {
   ' "$CONFIG"
 }
 
-enabled_before_list="$(currently_enabled)"
-enabled_before="$(printf '%s' "$enabled_before_list" | paste -sd, - || true)"
-
-is_enabled() { printf '%s\n' "$enabled_before_list" | grep -qxF "$1"; }
-
-mark_for() { is_enabled "$1" && printf '[x]' || printf '[ ]'; }
-
-# Build list with a visible checkbox so current state is obvious.
-#   [x] aws
-#   [ ] azure
-list=""
-for m in "${MODULES[@]}"; do
-  list+="$(mark_for "$m") $m"$'\n'
-done
+enabled_before="$(currently_enabled | paste -sd, - || true)"
 
 if command -v fzf >/dev/null 2>&1; then
-  # Pre-select currently-enabled rows so "Enter with no changes" is a no-op.
-  # fzf 0.44+ supports pos(N)+select via the `start` binding.
-  preselect=""
-  for i in "${!MODULES[@]}"; do
-    if is_enabled "${MODULES[$i]}"; then
-      preselect+="pos($((i + 1)))+select+"
-    fi
-  done
-  preselect="${preselect%+}"
-
-  bind_args=()
-  [ -n "$preselect" ] && bind_args=(--bind "start:$preselect")
-
   chosen="$(
-    printf '%s' "$list" | fzf \
+    printf '%s\n' "${MODULES[@]}" | fzf \
       --multi --height='~30%' --reverse \
       --prompt='Enable cloud modules> ' \
-      --header=$'Tab: toggle · Enter: confirm · [x] = currently enabled' \
-      "${bind_args[@]}" ||
-      true
+      --header=$'Tab: toggle · Enter: confirm · currently enabled: '"${enabled_before:-none}" \
+      || true
   )"
-  # Strip the "[x] "/"[ ] " prefix to get bare module names.
-  chosen="$(printf '%s' "$chosen" | sed -E 's/^\[.\] //')"
 else
   echo "fzf not installed — falling back to y/n prompts."
   chosen=""
   for m in "${MODULES[@]}"; do
-    if is_enabled "$m"; then
-      mark="[x]"
-      default="y"
-    else
-      mark="[ ]"
-      default="n"
-    fi
-    read -r -p "$mark $m — enable? [y/n] (default: $default) " reply </dev/tty || reply=""
+    default="n"; currently_enabled | grep -qxF "$m" && default="y"
+    read -r -p "Enable $m? [y/n] (current: $default) " reply </dev/tty || reply=""
     reply="${reply:-$default}"
     case "$reply" in [Yy]*) chosen+="$m"$'\n' ;; esac
   done
@@ -104,13 +66,9 @@ for m in "${MODULES[@]}"; do
 done
 
 echo
-echo "Starship cloud modules:"
-enabled_now_list="$(currently_enabled)"
-for m in "${MODULES[@]}"; do
-  if printf '%s\n' "$enabled_now_list" | grep -qxF "$m"; then mark="[x]"; else mark="[ ]"; fi
-  printf '  %s %s\n' "$mark" "$m"
-done
-enabled_now="$(printf '%s' "$enabled_now_list" | paste -sd, - || true)"
+echo "Starship cloud modules now enabled:"
+enabled_now="$(currently_enabled | paste -sd, - || true)"
+echo "  ${enabled_now:-none}"
 if [ "$enabled_before" != "$enabled_now" ]; then
   echo
   echo "xdg/starship.toml was modified. Review with: git -C \"$(cd "$SCRIPT_DIR/.." && pwd)\" diff xdg/starship.toml"
