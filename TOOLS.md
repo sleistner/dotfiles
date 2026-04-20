@@ -73,13 +73,18 @@ are omitted.
 
 ## Containers & orchestration
 
+Primary runtime: **OrbStack**. The `docker` CLI on PATH is served by OrbStack
+(`/usr/local/bin/docker` → `/Applications/OrbStack.app/Contents/MacOS/xbin/docker`),
+and the active docker context is `orbstack`. Confirm anytime with
+`docker context show` or `docker info | grep Name`.
+
 | Tool | What it does |
 | --- | --- |
-| **orbstack** (cask) | Fast Docker runtime + GUI for macOS (Docker Desktop alternative). |
-| **docker-compose** | Multi-container orchestration (`docker compose up`). |
-| **dive** | Interactively explore layers of a Docker image. |
+| **orbstack** (cask) | Primary runtime. Fast Docker-compatible engine + GUI for macOS. Also runs full Linux VMs. CLI: `orb`, `orbctl`. |
+| **docker-compose** | Multi-container orchestration (`docker compose up`). Talks to whichever runtime owns the active context. |
+| **dive** | Interactively explore the layers of a Docker image. |
 | **lazydocker** | TUI for docker/compose (containers, logs, stats). |
-| **podman**, **podman-compose**, **podman-tui**, **podman-desktop** | Alternative container runtime + tooling. |
+| **podman**, **podman-compose**, **podman-tui**, **podman-desktop** | Installed but idle — alternative OSS runtime + tooling. Candidates for removal unless you use rootless/OSS containers specifically. |
 
 ## Cloud & devops
 
