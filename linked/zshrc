@@ -35,6 +35,14 @@ export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agen
 # Mise
 eval "$(mise activate zsh)"
 
+# fzf keybindings + completion (ctrl-R, ctrl-T, alt-C)
+# stderr redirect silences a harmless `can't change option: zle` from fzf's
+# option-restore loop in non-TTY contexts — keybindings still register.
+source <(fzf --zsh) 2>/dev/null
+
+# zoxide — smart cd (`z <partial-path>` jumps to frecent dirs)
+eval "$(zoxide init zsh)"
+
 # Starship
 eval "$(starship init zsh)"
 

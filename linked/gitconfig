@@ -9,6 +9,15 @@
 [core]
 	excludesfile = /Users/sleistner/.gitignore_global
 	editor = nvim
+	pager = delta
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate = true
+	line-numbers = true
+	side-by-side = false
 
 [init]
 	defaultBranch = main
@@ -60,6 +69,7 @@
 
 [merge]
 	tool = Kaleidoscope
+	conflictstyle = zdiff3
 
 [mergetool]
 	keepbackup = false
