@@ -1,7 +1,7 @@
 # Sourced for every zsh invocation (including non-interactive and scripts).
 # Keep this minimal — anything slow belongs in zshrc, not here.
 
-. "$HOME/.cargo/env"
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
 # Activate mise when running in Cursor
 if [[ -n "$CURSOR_AGENT" ]]; then

@@ -27,7 +27,7 @@ DISABLE_MAGIC_FUNCTIONS=true
 # Run zsh-autosuggestions history scan asynchronously (snappier prompt).
 ZSH_AUTOSUGGEST_USE_ASYNC=1
 
-source $ZSH/oh-my-zsh.sh
+[ -r "$ZSH/oh-my-zsh.sh" ] && source $ZSH/oh-my-zsh.sh
 
 # ---- shell env ----
 
