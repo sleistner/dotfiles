@@ -60,7 +60,92 @@ BREW_CASKS=(
 )
 
 VSCODE_EXTS=(
+  2ndshift.fresh-material
+  42crunch.vscode-openapi
+  af4jm.vscode-icalendar
+  ahmadalli.vscode-nginx-conf
+  akamud.vscode-theme-onedark
+  alexkrechik.cucumberautocomplete
+  amazonwebservices.codewhisperer-for-command-line-companion
+  antfu.goto-alias
+  antfu.iconify
+  anthropic.claude-code
+  azurite.azurite
+  bierner.markdown-mermaid
+  biomejs.biome
+  catppuccin.catppuccin-vsc
+  cipchk.cssrem
+  cloudflare.cloudflare-workers-bindings-extension
+  connor4312.esbuild-problem-matchers
+  connorshea.vscode-ruby-test-adapter
+  dbaeumer.vscode-eslint
+  docker.docker
+  editorconfig.editorconfig
+  emmanuelbeziat.vscode-great-icons
+  esbenp.prettier-vscode
+  fcrespo82.markdown-table-formatter
+  fill-labs.dependi
+  foxundermoon.shell-format
+  github.codespaces
+  github.copilot-chat
+  github.github-vscode-theme
+  github.vscode-github-actions
+  github.vscode-pull-request-github
+  gruntfuggly.todo-tree
+  hagent.zed-editor-dark-theme
+  hashicorp.terraform
+  hbenl.vscode-test-explorer
+  humao.rest-client
+  hverlin.mise-vscode
+  jonaduran.my-light-theme
+  kumar-harsh.graphql-for-vscode
   lkytal.coffeelinter
+  llvm-vs-code-extensions.lldb-dap
+  me-dutour-mathieu.vscode-github-actions
+  mermaidchart.vscode-mermaid-chart
+  ms-azuretools.vscode-azure-github-copilot
+  ms-azuretools.vscode-azure-mcp-server
+  ms-azuretools.vscode-azurefunctions
+  ms-azuretools.vscode-azureresourcegroups
+  ms-azuretools.vscode-azureterraform
+  ms-azuretools.vscode-bicep
+  ms-azuretools.vscode-containers
+  ms-azuretools.vscode-docker
+  ms-dotnettools.vscode-dotnet-runtime
+  ms-python.debugpy
+  ms-python.python
+  ms-python.vscode-pylance
+  ms-python.vscode-python-envs
+  ms-vscode-remote.remote-containers
+  ms-vscode-remote.vscode-remote-extensionpack
+  ms-vscode.remote-explorer
+  ms-vscode.remote-server
+  ms-vscode.test-adapter-converter
+  ms-vsliveshare.vsliveshare
+  ms-vsliveshare.vsliveshare-pack
+  naumovs.color-highlight
+  openai.chatgpt
+  openai.openai-chatgpt-adhoc
+  orta.vscode-jest
+  redhat.vscode-commons
+  redhat.vscode-yaml
+  redocly.openapi-vs-code
+  respectmathias.zed-icons-colored
+  rokoroku.vscode-theme-darcula
+  rosshamish.kuskus-kusto-syntax-highlighting
+  rust-lang.rust-analyzer
+  shopify.ruby-lsp
+  sleistner.vscode-fileutils
+  somewhatstationery.some-sass
+  sonarsource.sonarlint-vscode
+  tamasfe.even-better-toml
+  timonwong.shellcheck
+  tommasov.hosts
+  vitaliymaz.vscode-svg-previewer
+  vitest.explorer
+  vue.volar
+  webfreak.debug
+  zoellner.openapi-preview
 )
 
 section() { printf '\n== %s ==\n' "$1"; }
@@ -178,13 +263,17 @@ else
   done
   if [ ${#to_remove[@]} -eq 0 ]; then
     printf '  nothing to do.\n'
-  elif confirm "Uninstall: ${to_remove[*]}?"; then
-    for e in "${to_remove[@]}"; do
-      step "code --uninstall-extension $e"
-      code --uninstall-extension "$e" || true
-    done
   else
-    printf '  skipped.\n'
+    printf '  Installed (%d):\n' "${#to_remove[@]}"
+    for e in "${to_remove[@]}"; do printf '    - %s\n' "$e"; done
+    if confirm "  Uninstall all of the above?"; then
+      for e in "${to_remove[@]}"; do
+        step "code --uninstall-extension $e"
+        code --uninstall-extension "$e" || true
+      done
+    else
+      printf '  skipped.\n'
+    fi
   fi
 fi
 
