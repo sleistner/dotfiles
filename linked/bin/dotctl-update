@@ -129,8 +129,8 @@ else
   autosugg="$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
   if [ ! -d "$autosugg" ]; then
     step "clone zsh-autosuggestions"
-    git clone https://github.com/zsh-users/zsh-autosuggestions "$autosugg" \
-      || die "zsh-autosuggestions clone failed"
+    git clone https://github.com/zsh-users/zsh-autosuggestions "$autosugg" ||
+      die "zsh-autosuggestions clone failed"
   fi
 fi
 
