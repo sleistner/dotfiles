@@ -129,9 +129,29 @@ uninstall_via() {
 
 section "Pre-existing installs that would collide with brew bundle"
 
+# Tools the Brewfile explicitly installs via `cargo "..."` — a binary sitting
+# in ~/.cargo/bin is the intended state for these, not a conflict.
+cargo_entries=""
+if [ -f "$BREWFILE" ]; then
+  cargo_entries=$(sed -n 's/^cargo "\([^"]*\)".*/\1/p' "$BREWFILE")
+fi
+
+is_cargo_managed() {
+  local name="$1"
+  [ -n "$cargo_entries" ] || return 1
+  printf '%s\n' "$cargo_entries" | grep -qx "$name"
+}
+
 found_any=0
 for entry in "${CANDIDATES[@]}"; do
   IFS=':' read -r bin formula npm_pkg cargo_pkg <<<"$entry"
+
+  # Skip anything the Brewfile installs via `cargo`. The formula name and the
+  # cargo crate name can differ (sqlx-cli vs sqlx binary); check both.
+  if is_cargo_managed "$formula" || \
+     { [ "$cargo_pkg" != "-" ] && is_cargo_managed "$cargo_pkg"; }; then
+    continue
+  fi
 
   path=$(command -v "$bin" 2>/dev/null || true)
   [ -n "$path" ] || continue
