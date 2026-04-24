@@ -3,34 +3,42 @@
 #
 # Runs, in order:
 #   1. git pull         — fast-forward the repo.
-#   2. preflight        — fix conflicts / broken kegs before brew bundle.
-#   3. brew bundle      — install anything in the Brewfile that's missing.
-#   4. ./setup          — re-link any new entries in linked/ or xdg/.
-#   5. oh-my-zsh        — install if missing (zshrc sources it).
-#   6. brew upgrade     — (opt-in) upgrade outdated formulae/casks.
+#   2. uninstall        — (opt-in) purge packages dropped from the Brewfile.
+#   3. preflight        — fix conflicts / broken kegs before brew bundle.
+#   4. brew bundle      — install anything in the Brewfile that's missing.
+#   5. ./setup          — re-link any new entries in linked/ or xdg/.
+#   6. oh-my-zsh        — install if missing (zshrc sources it).
+#   7. brew upgrade     — (opt-in) upgrade outdated formulae/casks.
 #
 # Any failing step aborts and returns non-zero so the problem is visible.
 #
 # Usage:
-#   dotctl update            pull + bundle + setup
-#   dotctl update -u         also run `brew upgrade` at the end
-#   dotctl update --upgrade  same as -u
-#   dotctl update -h         this help
+#   dotctl update                pull + bundle + setup
+#   dotctl update -c             also run `dotctl uninstall` first
+#   dotctl update --clean        same as -c
+#   dotctl update -u             also run `brew upgrade` at the end
+#   dotctl update --upgrade      same as -u
+#   dotctl update -c -u          clean first, upgrade last
+#   dotctl update -h             this help
 
 set -u
 
 REPO="${DOTFILES_DIR:-$HOME/config/dotfiles}"
 BREWFILE="$REPO/Brewfile"
 RUN_UPGRADE=0
+RUN_CLEAN=0
 
 for arg in "$@"; do
   case "$arg" in
     -h | --help)
-      sed -n '2,17p' "$0" | sed 's/^# \{0,1\}//'
+      sed -n '2,21p' "$0" | sed 's/^# \{0,1\}//'
       exit 0
       ;;
     -u | --upgrade)
       RUN_UPGRADE=1
+      ;;
+    -c | --clean)
+      RUN_CLEAN=1
       ;;
     *)
       printf 'dotctl update: unknown option: %s\n' "$arg" >&2
@@ -64,7 +72,20 @@ else
   fi
 fi
 
-# ---- 2. preflight --------------------------------------------------------
+# ---- 2. uninstall (opt-in) ----------------------------------------------
+if [ "$RUN_CLEAN" -eq 1 ]; then
+  section "uninstall (dropped from earlier Brewfile)"
+
+  UNINSTALL=$(command -v dotctl-uninstall 2>/dev/null || true)
+  if [ -n "$UNINSTALL" ] && [ -x "$UNINSTALL" ]; then
+    step "$UNINSTALL"
+    "$UNINSTALL" || printf '  uninstall returned non-zero — continuing.\n'
+  else
+    printf '  [skip] dotctl-uninstall not on PATH.\n'
+  fi
+fi
+
+# ---- 3. preflight --------------------------------------------------------
 section "preflight (conflicts + broken kegs)"
 
 PREFLIGHT="$REPO/install/preflight-conflicts.sh"
@@ -75,7 +96,7 @@ else
   printf '  [skip] %s not found.\n' "$PREFLIGHT"
 fi
 
-# ---- 3. brew bundle ------------------------------------------------------
+# ---- 4. brew bundle ------------------------------------------------------
 section "brew bundle"
 
 if ! command -v brew >/dev/null 2>&1; then
@@ -85,14 +106,14 @@ else
   brew bundle install --file="$BREWFILE" || die "brew bundle failed"
 fi
 
-# ---- 4. setup ------------------------------------------------------------
+# ---- 5. setup ------------------------------------------------------------
 section "setup (symlinks)"
 
 [ -x "$REPO/setup" ] || die "no executable setup script at $REPO/setup"
 step "$REPO/setup"
 "$REPO/setup" || die "setup failed"
 
-# ---- 5. oh-my-zsh (bootstrap if missing) --------------------------------
+# ---- 6. oh-my-zsh (bootstrap if missing) --------------------------------
 # zshrc sources $ZSH/oh-my-zsh.sh — a missing install means every shell prints
 # an error. Install it here so `dotctl update` self-heals the zshrc env.
 section "oh-my-zsh"
@@ -113,7 +134,7 @@ else
   fi
 fi
 
-# ---- 6. brew upgrade (opt-in) -------------------------------------------
+# ---- 7. brew upgrade (opt-in) -------------------------------------------
 if [ "$RUN_UPGRADE" -eq 1 ]; then
   section "brew upgrade"
   if ! command -v brew >/dev/null 2>&1; then
