@@ -71,15 +71,19 @@ fi
 clone_repo
 run_setup_symlinks
 
-# 5. Brewfile
+# 5. Check for tools already installed outside brew (npm/cargo/pip) so
+#    `brew bundle` doesn't fail over pre-existing versions. Offers to replace.
+bash "$DOTFILES_DIR/install/preflight-conflicts.sh"
+
+# 6. Brewfile
 step "brew bundle (this takes 10–20 min on a fresh machine)"
 (cd "$DOTFILES_DIR" && brew bundle --file=Brewfile)
 ok "Brewfile installed"
 
-# 6. oh-my-zsh + zsh-autosuggestions
+# 7. oh-my-zsh + zsh-autosuggestions
 install_oh_my_zsh
 
-# 7. Optional: pick cloud-provider modules for the Starship prompt.
+# 8. Optional: pick cloud-provider modules for the Starship prompt.
 step "Starship prompt customization (optional)"
 if prompt_yes_no "Pick which cloud modules (aws/azure/gcloud) show in the prompt?" N; then
   bash "$DOTFILES_DIR/install/customize-starship.sh"

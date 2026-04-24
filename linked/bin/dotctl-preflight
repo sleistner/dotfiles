@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# dotctl preflight — clear up issues that make `brew bundle` fail:
+#   * formulae/casks installed outside brew that collide with Brewfile entries
+#   * broken Homebrew kegs (metadata says installed, Cellar dir missing)
+#
+# This is the same check install-macos.sh runs before `brew bundle`. Expose it
+# standalone so you can re-run it when `dotctl update` or `brew bundle` fails
+# with "No such keg", "Upgrading X has failed!", or an App Store / npm /
+# cargo binary in the way.
+#
+# Usage:
+#   dotctl preflight            interactive (per-item prompt)
+#   dotctl preflight -y         assume yes (replace all)
+#   dotctl preflight -n         report only, don't touch anything
+#   dotctl preflight -h         this help
+
+set -eu
+
+REPO="${DOTFILES_DIR:-$HOME/config/dotfiles}"
+SCRIPT="$REPO/install/preflight-conflicts.sh"
+
+if [ ! -x "$SCRIPT" ]; then
+  printf 'dotctl preflight: missing %s\n' "$SCRIPT" >&2
+  exit 1
+fi
+
+exec "$SCRIPT" "$@"
