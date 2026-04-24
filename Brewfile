@@ -23,7 +23,6 @@ brew "ripgrep"
 brew "sd"
 brew "codex"
 brew "node"
-brew "contentful-cli"
 brew "coreutils"
 brew "curl"
 brew "dasel"
@@ -89,10 +88,6 @@ brew "optipng"
 brew "oxipng"
 brew "pngcrush"
 brew "pngquant"
-brew "pnpm"
-brew "podman"
-brew "podman-compose"
-brew "podman-tui"
 brew "poppler"
 brew "postgresql@14", restart_service: :changed
 brew "proj"
@@ -138,22 +133,10 @@ cask "ghostty"
 cask "imageoptim"
 cask "multipass"
 cask "orbstack"
-cask "podman-desktop"
 cask "raycast"
 cask "rectangle"
 cask "sequel-ace"
 cask "zed"
-mas "1Password for Safari", id: 1569813296
-mas "AdBlock", id: 1402042596
-mas "Harvest", id: 506189836
-mas "Kindle", id: 302584613
-mas "Magnet", id: 441258766
-mas "MeetingBar", id: 1532419400
-mas "Microsoft Excel", id: 462058435
-mas "MindNode Classic", id: 1289197285
-mas "Numbers", id: 409203825
-mas "Slack", id: 803453959
-mas "Xcode", id: 497799835
 vscode "2ndshift.fresh-material"
 vscode "42crunch.vscode-openapi"
 vscode "af4jm.vscode-icalendar"
@@ -193,7 +176,6 @@ vscode "humao.rest-client"
 vscode "hverlin.mise-vscode"
 vscode "jonaduran.my-light-theme"
 vscode "kumar-harsh.graphql-for-vscode"
-vscode "lkytal.coffeelinter"
 vscode "llvm-vs-code-extensions.lldb-dap"
 vscode "me-dutour-mathieu.vscode-github-actions"
 vscode "mermaidchart.vscode-mermaid-chart"
