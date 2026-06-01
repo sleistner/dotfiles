@@ -77,14 +77,18 @@ are omitted.
 
 ## Containers & orchestration
 
-Primary runtime: **OrbStack**. The `docker` CLI on PATH is served by OrbStack
-(`/usr/local/bin/docker` → `/Applications/OrbStack.app/Contents/MacOS/xbin/docker`),
-and the active docker context is `orbstack`. Confirm anytime with
-`docker context show` or `docker info | grep Name`.
+Primary runtime: **Colima** (Containers on Lima). The `docker` CLI is the
+standalone Homebrew client (`brew "docker"`), and the engine runs in a Lima
+VM started with `colima start`. The `zprofile` points `DOCKER_HOST` at
+`~/.colima/default/docker.sock` once Colima has run at least once. Confirm
+anytime with `colima status`, `docker context show`, or `docker info | grep Name`.
 
 | Tool | What it does |
 | --- | --- |
-| **orbstack** (cask) | Primary runtime. Fast Docker-compatible engine + GUI for macOS. Also runs full Linux VMs. CLI: `orb`, `orbctl`. |
+| **colima** | Primary runtime. Docker-compatible engine in a Lima VM for macOS. Start/stop with `colima start` / `colima stop`; inspect with `colima status`. Autostarts at login via `brew services` (`restart_service: :changed` in the Brewfile); toggle with `colima-autostart` / `colima-autostart off`. |
+| **docker** | The docker CLI client. Talks to Colima's engine over `DOCKER_HOST`. |
+| **docker-buildx** | BuildKit-backed `docker buildx` builds (multi-platform, cache). |
+| **docker-credential-helper** | Provides `docker-credential-osxkeychain` so `docker login` stores registry creds in the macOS Keychain (OrbStack/Docker Desktop used to supply this). |
 | **docker-compose** | Multi-container orchestration (`docker compose up`). Talks to whichever runtime owns the active context. |
 | **dive** | Interactively explore the layers of a Docker image. |
 | **lazydocker** | TUI for docker/compose (containers, logs, stats). |

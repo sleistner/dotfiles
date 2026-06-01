@@ -3,7 +3,7 @@
 Debian/Ubuntu is the primary target; Fedora and Arch notes are inline
 where commands differ.
 
-The macOS-only parts of this repo (OrbStack, Ghostty, Raycast, Rectangle,
+The macOS-only parts of this repo (Colima, Ghostty, Raycast, Rectangle,
 Alt-tab, Sequel Ace) don't apply on Linux — use native alternatives. Shell
 config, nvim config, git config, and the modern CLIs all work identically.
 
@@ -246,7 +246,7 @@ Set your terminal to use the nerd font in its preferences.
 
 ## What's missing vs. macOS
 
-- OrbStack → native Docker engine (above)
+- Colima → native Docker engine (above)
 - Ghostty .app → Ghostty AppImage or distro build
 - Raycast → Ulauncher / Albert
 - Rectangle / alt-tab → distro's native window manager

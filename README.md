@@ -52,9 +52,9 @@ Read about what it does, and what it leaves for you to do, in
   is deliberately not versioned — use 1Password or a secret manager.
 - **No migration of state.** Shell history, `~/.zcompdump`, REPL histories,
   `~/Library`, and `~/.cache` stay put; this repo manages config only.
-- **No GUI auto-config.** Raycast/Ghostty/OrbStack need their one-time
-  accessibility perms and first-launch wizards — the install doc calls
-  these out explicitly.
+- **No GUI auto-config.** Raycast/Ghostty need their one-time
+  accessibility perms and first-launch wizards, and Colima needs a one-time
+  `colima start` — the install doc calls these out explicitly.
 - **Not a framework.** There's no plugin system or per-tool install
   script — `./setup` is a single ~50-line shell loop. Add a file under
   `linked/` or `xdg/`, re-run `./setup`, done.
