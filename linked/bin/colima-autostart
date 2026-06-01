@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+# Enable (or disable) Colima starting automatically at login — survives reboots.
+#
+# Uses Homebrew's `brew services`, which installs a launchd LaunchAgent at
+# ~/Library/LaunchAgents/homebrew.mxcl.colima.plist with RunAtLoad=true. On a
+# personal Mac, "at login" is what runs after a reboot. Homebrew regenerates
+# the plist on Colima upgrades, so paths never go stale.
+#
+#   colima-autostart            enable autostart (also starts Colima now)
+#   colima-autostart off        disable autostart (also stops Colima)
+#   colima-autostart status     show current service state
+#   colima-autostart -h         this help
+#
+# Idempotent — safe to re-run.
+
+set -euo pipefail
+
+usage() {
+  sed -n '2,15p' "$0" | sed 's/^# \{0,1\}//'
+}
+
+require_colima() {
+  if ! command -v colima >/dev/null 2>&1; then
+    echo "colima not found on PATH. Install it first: brew install colima" >&2
+    exit 1
+  fi
+}
+
+show_status() {
+  brew services list | awk 'NR==1 || $1=="colima"'
+}
+
+case "${1:-on}" in
+  -h | --help)
+    usage
+    ;;
+  on | start | enable)
+    require_colima
+    # `start` registers the LaunchAgent (RunAtLoad) and boots Colima now.
+    brew services start colima
+    echo
+    echo "Colima autostart enabled."
+    show_status
+    ;;
+  off | stop | disable)
+    require_colima
+    brew services stop colima
+    echo
+    echo "Colima autostart disabled."
+    show_status
+    ;;
+  status)
+    require_colima
+    show_status
+    ;;
+  *)
+    echo "unknown argument: $1" >&2
+    echo >&2
+    usage >&2
+    exit 1
+    ;;
+esac

@@ -94,8 +94,7 @@ brew bundle --file=Brewfile
 ```
 
 Installs ~115 formulae and ~15 casks: zsh plugins, CLIs, fonts, GUI apps
-(OrbStack, Ghostty, Raycast, Zed, etc.). Takes 10–20 minutes on first
-run.
+(Ghostty, Raycast, Zed, etc.). Takes 10–20 minutes on first run.
 
 ## 7. Open a fresh shell
 
@@ -119,8 +118,13 @@ git clone https://github.com/zsh-users/zsh-autosuggestions \
 
 One-time actions after the core install.
 
-- **OrbStack** — launch once; it sets up the docker socket and the
-  `orbstack` docker context. Verify with `docker context show`.
+- **Colima** — `brew bundle` already provisions the Lima VM, starts it, and
+  registers a Homebrew launchd agent (`restart_service: :changed` on the
+  `colima` formula), so Colima comes back up on every login/reboot. The docker
+  socket lands at `~/.colima/default/docker.sock` (the `zprofile` exports
+  `DOCKER_HOST` to point at it). Verify with `colima status` and
+  `docker info | grep Name`. Toggle autostart with `colima-autostart off` /
+  `colima-autostart`.
 - **Ghostty** — launch and grant accessibility perms. Brewfile fonts
   are already available.
 - **Raycast** — launch, run the setup wizard, grant accessibility

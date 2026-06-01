@@ -97,7 +97,10 @@ ${c_green}All automated steps complete.${c_reset}
 
 Next — the manual bits (see docs/install-macos.md §9):
   • Open a fresh terminal so ~/.zshrc reloads.
-  • Launch OrbStack, Ghostty, Raycast once; grant accessibility perms.
+  • Launch Ghostty, Raycast once; grant accessibility perms.
+  • Colima autostart is already enabled (brew bundle registered the launchd
+    agent and started it). Check with 'colima status'; toggle with
+    'colima-autostart off' / 'colima-autostart'.
   • atuin register -u <name> -e <email>   (or 'atuin login' if existing).
   • nvim   (lazy.nvim bootstraps plugins on first launch).
   • mise install   inside any project with a mise.toml.

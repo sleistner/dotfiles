@@ -1,5 +1,5 @@
 # Sourced once per login shell (before zshrc). Put login-only setup here:
-# Homebrew shellenv, OrbStack integration, and any vendor pre/post hooks.
+# Homebrew shellenv, Colima/Docker integration, and any vendor pre/post hooks.
 
 # Kiro CLI pre block. Keep at the top of this file.
 [[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zprofile.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zprofile.pre.zsh"
@@ -11,6 +11,9 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 # Kiro CLI post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zprofile.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zprofile.post.zsh"
 
-# Added by OrbStack: command-line tools and integration
-# This won't be added again if you remove it.
-source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+# Colima: point the docker CLI at Colima's socket when it isn't already set.
+# Colima writes the socket to ~/.colima/default/docker.sock once `colima start`
+# has run at least once.
+if [[ -z "${DOCKER_HOST:-}" && -S "${HOME}/.colima/default/docker.sock" ]]; then
+  export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
+fi
