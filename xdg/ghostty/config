@@ -2,3 +2,7 @@ working-directory = inherit
 font-size = 16
 theme = light:Catppuccin Latte,dark:Catppuccin Frappe
 
+unfocused-split-opacity = 0.96
+unfocused-split-fill = green
+split-divider-color = purple
+
