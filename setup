@@ -61,6 +61,15 @@ for entry in "$DOTFILES_DIR"/xdg/*; do
   fi
 done
 
+# Colima default-instance template -> ~/.colima/_templates/default.yaml
+# Sets CPU/memory for newly created instances (the launchd autostart agent
+# runs `colima start -f` with no flags, so resources can only come from here).
+# Colima never rewrites this file, so a symlink is safe.
+if [ -f "$DOTFILES_DIR/colima/default.yaml" ]; then
+  mkdir -p "${HOME}/.colima/_templates"
+  run_cmd "ln -sfn $DOTFILES_DIR/colima/default.yaml ${HOME}/.colima/_templates/default.yaml"
+fi
+
 # Seed ~/.gitconfig.local from the template on first run so new machines
 # have a place to drop identity (name/email/signingkey) without committing
 # it to the repo. Existing files are never overwritten.

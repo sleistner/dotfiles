@@ -1,0 +1,18 @@
+# Colima default-instance template.
+#
+# Applied by `colima start` when it CREATES a new instance (fresh machine).
+# Symlinked to ~/.colima/_templates/default.yaml by ./setup. Unlike the
+# materialized ~/.colima/default/colima.yaml, Colima treats this as read-only
+# input and never rewrites it, so tracking it in dotfiles is safe.
+#
+# Why the bump from Colima's 2 CPU / 2 GiB defaults: the VM has no swap, so a
+# MySQL bulk import (`thor db:import` of a real client DB) grows mysqld past
+# 2 GiB and the VM's kernel OOM-killer kills it mid-import ("Lost connection
+# to MySQL server during query"). 8 GiB clears it.
+#
+# NOTE: a template only affects NEWLY created instances. To resize an existing
+# instance in place: set cpu/memory in ~/.colima/default/colima.yaml, then
+# `colima stop && colima start` (the data volume is preserved).
+cpu: 4
+memory: 8
+disk: 100
