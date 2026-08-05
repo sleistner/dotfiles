@@ -1,3 +1,7 @@
 *~
 .DS_Store
 *.sublime-workspace
+
+# Personal scratch notes, never committed in any repo
+NOTES.md
+NOTES-*.md
