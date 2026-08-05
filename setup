@@ -79,3 +79,10 @@ if [ ! -e "$gitconfig_local" ] && [ -f "$gitconfig_template" ]; then
   run_cmd "cp $gitconfig_template $gitconfig_local"
   echo "→ edit $gitconfig_local to set your git identity."
 fi
+
+# Raycast keeps its extension and script-directory lists in an encrypted
+# database, so setup can't symlink the integration into place. Point at the
+# command that does as much of it as is scriptable.
+if [ "$(uname -s)" = "Darwin" ] && [ -d /Applications/Raycast.app ]; then
+  echo "→ run 'dotctl raycast' to set up the Raycast commands."
+fi

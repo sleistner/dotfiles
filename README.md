@@ -80,7 +80,8 @@ Graphviz's `dot`).
 dotctl              # list commands
 dotctl update       # pull + brew bundle + setup (add -u to brew upgrade too)
 dotctl doctor       # health-check Brewfile ↔ installed ↔ docs
-dotctl tools        # render the grouped TOOLS.md reference
+dotctl tools        # fuzzy-pick a tool from TOOLS.md
+dotctl raycast      # set up the Raycast integration (macOS)
 ```
 
 ### `dotctl update`
@@ -183,14 +184,29 @@ picks it up automatically — no edits to `dotctl` itself.
 [`raycast/`](./raycast) has two halves, because Raycast offers two very
 different extension points and `dotctl` needs both.
 
+```sh
+dotctl raycast
+```
+
+That installs the extension's dependencies, registers it with Raycast,
+copies the script-commands path, and opens the pane that takes it.
+
+`./setup` can't do this itself. Raycast keeps both its extension list
+and its script directories in an encrypted database — the prefs plist
+has no key for either, and the `ray` CLI has only `build`, `dev`, and
+`publish`, no import. `./setup` stays a pure symlinker and just prints a
+pointer to `dotctl raycast` on macOS.
+
+Adding the script directory is the one step that stays manual, because
+the plus button is the only route Raycast offers.
+
 ### `raycast/scripts/` — the action commands
 
 [Script commands](https://github.com/raycast/script-commands): plain
-bash, no build step. One-time setup — Raycast keeps script directories
-in its own database, so `./setup` can't symlink this in:
-
-**Raycast → Settings → Extensions → Script Commands → Add Directories** →
-pick `~/config/dotfiles/raycast/scripts`.
+bash, no build step. Add
+`~/config/dotfiles/raycast/scripts` under **Raycast → Settings →
+Extensions → + → Add Script Directory** (`dotctl raycast` opens this
+pane with the path already on your clipboard).
 
 | Command                      | Runs                  | Where               |
 | ---------------------------- | --------------------- | ------------------- |
@@ -219,12 +235,16 @@ Script commands can only emit text, so browsing tools is a real
 extension: a searchable list, grouped by section, with the entry in a
 detail pane.
 
+`dotctl raycast` sets this up. By hand it is:
+
 ```sh
 cd raycast/extension && npm install && npm run dev
 ```
 
-That registers **Browse Dotfiles Tools** under Raycast's *Development*
-section. Leave `npm run dev` running only while editing it.
+Either way it lands as **Browse Dotfiles Tools** under Raycast's
+*Development* section. Registration is a side effect of `ray develop`'s
+first build, so `dotctl raycast` runs it until that build lands and then
+stops it. Leave `npm run dev` running only while editing the extension.
 
 It shells out to `dotctl tools --json`, so TOOLS.md stays the single
 source of truth and the markdown parser is not reimplemented in
