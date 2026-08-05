@@ -1,8 +1,9 @@
 working-directory = inherit
-font-size = 16
-theme = light:Catppuccin Latte,dark:Catppuccin Frappe
+font-size = 18
+theme = Purplepeter
+# theme = light:Catppuccin Latte,dark:Catppuccin Frappe
+# theme = light:iterm2 Solarized Light,dark:Catppuccin Frappe
 
 unfocused-split-opacity = 0.96
 unfocused-split-fill = green
 split-divider-color = purple
-
