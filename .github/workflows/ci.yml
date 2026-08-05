@@ -18,7 +18,7 @@ jobs:
         run: |
           # Only lint bash scripts. zsh rc files (linked/zshrc etc.) use
           # zsh-specific syntax shellcheck can't fully parse.
-          shellcheck -S warning setup linked/bin/*
+          shellcheck -S warning setup linked/bin/* raycast/scripts/.lib.sh raycast/scripts/*.sh
 
   shfmt:
     name: shfmt
@@ -30,7 +30,7 @@ jobs:
           go install mvdan.cc/sh/v3/cmd/shfmt@latest
           echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
       - name: Check formatting
-        run: shfmt -d -i 2 -ci setup linked/bin/*
+        run: shfmt -d -i 2 -ci setup linked/bin/* raycast/scripts/.lib.sh raycast/scripts/*.sh
 
   doctor:
     name: doctor (docs ↔ Brewfile)

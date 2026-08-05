@@ -122,19 +122,133 @@ on any FAIL — CI stays green on outdated packages, red on genuine drift.
 
 ### `dotctl tools`
 
-Renders [TOOLS.md](./TOOLS.md) through `mdcat` for a terminal-friendly
-view. Pass a section heading to filter:
+An fzf picker over every tool in [TOOLS.md](./TOOLS.md), with the entry
+(and its `tldr` page, once `tldr --update` has populated the cache) in a
+preview pane:
 
 ```sh
-dotctl tools                   # full reference
-dotctl tools "rust clis"       # just that section
-dotctl tools -h                # list available sections
+dotctl tools                   # picker
+dotctl tools htop              # picker, pre-seeded with a query
+dotctl tools --all             # the full reference
+dotctl tools --info bottom     # one tool's entry
+dotctl tools --json            # every tool as JSON
+dotctl tools -h                # help + section list
 ```
+
+**Enter puts the command on your next prompt, unrun**, so you can add
+arguments before running it. Searching `top` and pressing Enter leaves
+you at `❯ btm`. That needs zsh's `print -z`, which only the parent shell
+can do, so `linked/zshrc` wraps `dotctl` the same way it wraps `yazi`
+as `y`. Without the wrapper the picker just prints the command.
+
+You get the command, not the formula name: `ripgrep` hands back `rg`,
+`tealdeer` hands back `tldr`.
+
+### How the search picks matches
+
+You can find a tool by what it replaces — `htop` finds `bottom`, `nvm`
+finds `mise`, `make` finds `just`. TOOLS.md already names predecessors
+in backticks, and those are indexed as the tool's aliases.
+
+Matching is on **word starts**, not fuzzy. fzf's own matcher accepts any
+scattered subsequence, so `top` matched `Auto-creates fixup!` and
+returned 48 of 110 tools; it now returns 1. Word starts also keep
+`desktop` and `Start/stop` out of that result while still letting a
+half-typed `monit` find `bottom`. Every word in a multi-word query has
+to match.
+
+Results come back in bands, best first:
+
+| Band | Matches                            | `top` hits          |
+| ---- | ---------------------------------- | ------------------- |
+| 0    | the name, whole word               | —                   |
+| 1    | an alias or a backticked tool       | `bottom` (``` `top`/`htop` ```) |
+| 2    | a word in either, starting with it  | —                   |
+| 3    | a description word starting with it | —                   |
+
+Sections are deliberately not matched. One string is shared by every
+tool in a group, so including it ranked `tmux` and `pv` above `bottom`
+for a search of `monitor`.
+
+Without a tty the picker is skipped and you get raw markdown, so
+`dotctl tools | grep` and `dotctl tools --json` stay scriptable.
 
 ### Adding a subcommand
 
 Drop an executable `dotctl-<name>` into `linked/bin/`. The dispatcher
 picks it up automatically — no edits to `dotctl` itself.
+
+## Run `dotctl` from Raycast
+
+[`raycast/`](./raycast) has two halves, because Raycast offers two very
+different extension points and `dotctl` needs both.
+
+### `raycast/scripts/` — the action commands
+
+[Script commands](https://github.com/raycast/script-commands): plain
+bash, no build step. One-time setup — Raycast keeps script directories
+in its own database, so `./setup` can't symlink this in:
+
+**Raycast → Settings → Extensions → Script Commands → Add Directories** →
+pick `~/config/dotfiles/raycast/scripts`.
+
+| Command                      | Runs                  | Where               |
+| ---------------------------- | --------------------- | ------------------- |
+| 🩺 Dotfiles Doctor           | `dotctl doctor`       | Raycast output view |
+| ✈️ Dotfiles Preflight        | `dotctl preflight -n` | Raycast output view |
+| 🧹 Dotfiles Preflight Fix    | `dotctl preflight`    | new Ghostty window  |
+| ⬆️ Dotfiles Update           | `dotctl update`       | new Ghostty window  |
+| ⏫ Dotfiles Update + Upgrade | `dotctl update -u`    | new Ghostty window  |
+
+The read-only commands render inside Raycast. The three that prompt per
+item, run long, or hit a sudo password for cask installs open a Ghostty
+window instead and hold it until you press a key — answering a prompt
+inside Raycast's output view isn't possible.
+
+Two details the scripts handle, both because Raycast launches them from
+launchd rather than a shell:
+
+- `raycast/scripts/.lib.sh` rebuilds `PATH` (`~/.bin`, Homebrew, cargo)
+  and holds the Ghostty launcher. Hidden, so Raycast's scan skips it.
+- Doctor exits non-zero on drift; its wrapper swallows that so Raycast
+  renders the report instead of an error. The CLI exit code is unchanged.
+
+### `raycast/extension/` — the tools browser
+
+Script commands can only emit text, so browsing tools is a real
+extension: a searchable list, grouped by section, with the entry in a
+detail pane.
+
+```sh
+cd raycast/extension && npm install && npm run dev
+```
+
+That registers **Browse Dotfiles Tools** under Raycast's *Development*
+section. Leave `npm run dev` running only while editing it.
+
+It shells out to `dotctl tools --json`, so TOOLS.md stays the single
+source of truth and the markdown parser is not reimplemented in
+TypeScript. Point the command's `Dotfiles Repo` preference elsewhere if
+the checkout isn't at `~/config/dotfiles`.
+
+Raycast's built-in list filtering is fuzzy in the same way fzf's is, so
+it's turned off (`filtering={false}`) and `src/search.ts` applies the
+band ranking above. Enter pastes the command into whatever app you came
+from — the Raycast equivalent of landing it on your prompt.
+
+`search.ts` and the awk in `dotctl-tools` are two implementations of one
+ranking, so they can drift. To check them:
+
+```sh
+cd raycast/extension
+npx esbuild src/search.ts --bundle --platform=node --format=cjs --outfile=/tmp/search.cjs
+# then diff search(q, tools) against `dotctl tools --search q` per query
+```
+
+`npm run lint` reports `Invalid author` — that check resolves the
+`author` field against the Raycast store's user API, which a local
+extension has no entry in. `npm run build` and `npm run dev` are
+unaffected.
 
 ---
 
@@ -147,6 +261,7 @@ linked/   -> ~/.<name>          Dotfiles that tools read straight from $HOME
 xdg/      -> ~/.config/<name>   XDG-aware tools that look in $XDG_CONFIG_HOME
 shell/    sourced by zshrc      Shared shell env (PATH, EDITOR, locale, etc.)
 install/  platform bootstrap    install-macos.sh, install-linux.sh, common.sh
+raycast/  added in Raycast UI   Script commands + tools-browser extension (macOS)
 ```
 
 #### linked/

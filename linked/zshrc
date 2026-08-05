@@ -63,6 +63,18 @@ function y() {
   rm -f -- "$tmp"
 }
 
+# dotctl tools — picker hands back a command; `print -z` puts it on the next
+# prompt, unrun, so you can add arguments. Anything else goes straight through.
+function dotctl() {
+  if [[ "$1" == tools && "$2" != -* && -t 1 ]]; then
+    local cmd
+    cmd=$(command dotctl tools --pick "$2") || return
+    [[ -n "$cmd" ]] && print -z -- "$cmd"
+  else
+    command dotctl "$@"
+  fi
+}
+
 # Starship
 eval "$(starship init zsh)"
 

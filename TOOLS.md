@@ -15,7 +15,7 @@ are omitted.
 | **zsh-syntax-highlighting** | Live colorizes command line (green = valid, red = not found). |
 | **atuin** | Sqlite-backed shell history with search UI. Owns `ctrl-R`. Optional cross-machine sync. |
 | **direnv** | Auto-loads per-directory `.envrc` files (env vars, PATH additions). |
-| **mise** | Version manager for node/terraform/etc. Config: `xdg/mise/config.toml`. |
+| **mise** | Version manager for node/terraform/etc — `asdf`/`nvm`/`rbenv` replacement. Config: `xdg/mise/config.toml`. |
 
 ## Search & filesystem navigation
 
@@ -25,7 +25,7 @@ are omitted.
 | **fd** | Fast `find` alternative with saner defaults. |
 | **fzf** | Fuzzy finder. Keybindings: `ctrl-T` (files), `alt-C` (cd), `**<tab>` (fuzzy). |
 | **zoxide** (`z`) | Smart `cd` that learns frequent dirs. `z foo` jumps to the best match. |
-| **yazi** (`y`) | TUI file manager. `y` wrapper cd's the shell to yazi's last directory. |
+| **yazi** (`y`) | Rust `ranger`-style TUI file manager. `y` wrapper cd's the shell to yazi's last directory. |
 | **lsd** | `ls` with icons and colors. |
 | **bat** | `cat` with syntax highlighting and git integration. |
 | **tree** | Directory tree view. |
@@ -137,11 +137,11 @@ anytime with `colima status`, `docker context show`, or `docker info | grep Name
 
 | Tool | What it does |
 | --- | --- |
-| **bottom** (`btm`) | Rust TUI system monitor — CPU/mem/net/disk/process graphs. |
+| **bottom** (`btm`) | Rust `top`/`htop` replacement — TUI system monitor with CPU/mem/net/disk/process graphs. |
 | **dust** | Rust `du` replacement — tree view with visual size bars. |
 | **coreutils** | GNU versions of core Unix tools (prefix with `g`: `gls`, `gdate`, …). |
 | **tmux** | Terminal multiplexer. |
-| **hyperfine** | Statistical CLI benchmarking. |
+| **hyperfine** | Statistical CLI benchmarking — `time` with warmup runs and variance. |
 | **tealdeer** (`tldr`) | Rust tldr client — fast cached man-page examples. |
 | **pv** | Pipe viewer — progress bar on pipes. |
 | **mdcat** | Rust markdown renderer — inline images in kitty/wezterm/ghostty. Used by `dotctl tools`. |

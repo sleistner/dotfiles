@@ -53,10 +53,15 @@ CANDIDATES=(
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)
 BREWFILE="${BREWFILE:-$SCRIPT_DIR/../Brewfile}"
 
-c_blue=$'\033[1;34m'
-c_green=$'\033[1;32m'
-c_yellow=$'\033[1;33m'
-c_reset=$'\033[0m'
+# Colour only on a tty, so pipes and Raycast get clean text.
+if [ -t 1 ] && [ -z "${NO_COLOR:-}" ]; then
+  c_blue=$'\033[1;34m'
+  c_green=$'\033[1;32m'
+  c_yellow=$'\033[1;33m'
+  c_reset=$'\033[0m'
+else
+  c_blue="" c_green="" c_yellow="" c_reset=""
+fi
 
 section() { printf '\n%s==>%s %s\n' "$c_blue" "$c_reset" "$1"; }
 ok()      { printf '%s✓%s %s\n'     "$c_green" "$c_reset" "$1"; }
