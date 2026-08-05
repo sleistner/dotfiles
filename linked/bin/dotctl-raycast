@@ -1,0 +1,124 @@
+#!/usr/bin/env bash
+# dotctl raycast — wire this repo's Raycast integration into Raycast.
+#
+# Automates what can be automated:
+#   1. extension — npm install, then register it with `ray develop`
+#   2. scripts   — copy the directory path and open the pane that takes it
+#
+# Adding a script directory stays manual. Raycast keeps that list in an
+# encrypted database, its prefs plist has no key for it, and the ray CLI
+# has no import command — the plus button is the only route.
+#
+# Usage:
+#   dotctl raycast          set up both halves
+#   dotctl raycast -n       report only, change nothing
+#   dotctl raycast -h       this help
+
+set -u
+
+REPO="${DOTFILES_DIR:-$HOME/config/dotfiles}"
+EXT="$REPO/raycast/extension"
+SCRIPTS="$REPO/raycast/scripts"
+REPORT_ONLY=0
+
+for arg in "$@"; do
+  case "$arg" in
+    -h | --help)
+      sed -n '2,16p' "$0" | sed 's/^# \{0,1\}//'
+      exit 0
+      ;;
+    -n | --report) REPORT_ONLY=1 ;;
+    *)
+      printf 'dotctl raycast: unknown option: %s\n' "$arg" >&2
+      exit 2
+      ;;
+  esac
+done
+
+section() { printf '\n== %s ==\n' "$1"; }
+step() { printf '$ %s\n' "$1"; }
+skip() { printf '  [skip] %s\n' "$1"; }
+ok() { printf '  [ok]   %s\n' "$1"; }
+die() {
+  printf '\ndotctl raycast: %s — aborting.\n' "$1" >&2
+  exit 1
+}
+
+[ "$(uname -s)" = "Darwin" ] || die "Raycast is macOS-only"
+[ -d /Applications/Raycast.app ] || die "Raycast is not installed (brew bundle installs it)"
+
+# ---- 1. extension --------------------------------------------------------
+section "extension ($EXT)"
+
+if [ ! -d "$EXT" ]; then
+  skip "no extension directory"
+elif ! command -v npm >/dev/null 2>&1; then
+  skip "npm not on PATH (mise provides node)"
+elif [ "$REPORT_ONLY" -eq 1 ]; then
+  skip "would npm install and register via ray develop"
+else
+  if [ -d "$EXT/node_modules" ]; then
+    ok "dependencies already installed"
+  else
+    step "npm install --prefix $EXT"
+    npm install --prefix "$EXT" --no-audit --no-fund >/dev/null || die "npm install failed"
+    ok "dependencies installed"
+  fi
+
+  # `ray develop` is a watcher, and registering the extension with Raycast is
+  # a side effect of its first build — so run it until that lands, then stop.
+  ray="$EXT/node_modules/.bin/ray"
+  if [ ! -x "$ray" ]; then
+    skip "ray CLI missing — run 'npm install' in $EXT"
+  else
+    step "ray develop (until first build, then stop)"
+    log=$(mktemp)
+    (cd "$EXT" && "$ray" develop >"$log" 2>&1) &
+    pid=$!
+    waited=0
+    while [ "$waited" -lt 90 ]; do
+      grep -q "built extension successfully" "$log" 2>/dev/null && break
+      kill -0 "$pid" 2>/dev/null || break
+      sleep 1
+      waited=$((waited + 1))
+    done
+    kill "$pid" 2>/dev/null
+    wait "$pid" 2>/dev/null
+
+    if grep -q "built extension successfully" "$log" 2>/dev/null; then
+      ok "registered — Raycast › Development › Browse Dotfiles Tools"
+    else
+      printf '  [FAIL] ray develop did not finish a build:\n'
+      sed 's/^/         /' "$log"
+      printf '         run it yourself: cd %s && npm run dev\n' "$EXT"
+    fi
+    rm -f "$log"
+  fi
+fi
+
+# ---- 2. script commands --------------------------------------------------
+section "script commands ($SCRIPTS)"
+
+if [ ! -d "$SCRIPTS" ]; then
+  skip "no scripts directory"
+elif [ "$REPORT_ONLY" -eq 1 ]; then
+  skip "would copy the path and open Raycast's Extensions pane"
+else
+  printf '%s' "$SCRIPTS" | pbcopy 2>/dev/null && ok "path copied to the clipboard"
+  step "open raycast://preferences/extensions"
+  open "raycast://preferences/extensions" 2>/dev/null ||
+    printf '  [warn] could not open Raycast — do it by hand.\n'
+  cat <<EOF
+
+  Raycast keeps script directories in an encrypted database, so this last
+  step is manual. In the pane that just opened:
+
+    +  ›  Add Script Directory  ›  paste the path (already copied)
+
+  Then five commands appear: Dotfiles Doctor, Preflight, Preflight Fix,
+  Update, and Update + Upgrade.
+EOF
+fi
+
+echo
+echo "Done."
