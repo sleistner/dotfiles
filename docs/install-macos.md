@@ -120,9 +120,10 @@ One-time actions after the core install.
 
 - **Colima** — `brew bundle` already provisions the Lima VM, starts it, and
   registers a Homebrew launchd agent (`restart_service: :changed` on the
-  `colima` formula), so Colima comes back up on every login/reboot. The docker
-  socket lands at `~/.colima/default/docker.sock` (the `zprofile` exports
-  `DOCKER_HOST` to point at it). Verify with `colima status` and
+  `colima` formula), so Colima comes back up on every login/reboot. Colima
+  registers itself as the active docker context, so the CLI finds the socket
+  at `~/.colima/default/docker.sock` without any env var. Verify with
+  `colima status` and
   `docker info | grep Name`. Toggle autostart with `colima-autostart off` /
   `colima-autostart`.
 - **Ghostty** — launch and grant accessibility perms. Brewfile fonts
