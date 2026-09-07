@@ -141,6 +141,7 @@ anytime with `colima status`, `docker context show`, or `docker info | grep Name
 | **dust** | Rust `du` replacement — tree view with visual size bars. |
 | **coreutils** | GNU versions of core Unix tools (prefix with `g`: `gls`, `gdate`, …). |
 | **tmux** | Terminal multiplexer. |
+| **herdr** | Agent multiplexer in the terminal — run and switch between coding agents; optional server via `brew services start herdr`. |
 | **hyperfine** | Statistical CLI benchmarking — `time` with warmup runs and variance. |
 | **tealdeer** (`tldr`) | Rust tldr client — fast cached man-page examples. |
 | **pv** | Pipe viewer — progress bar on pipes. |
