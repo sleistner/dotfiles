@@ -1,11 +1,4 @@
 # Sourced once per login shell (before zshrc). Put login-only setup here:
-# Homebrew shellenv, Colima/Docker integration, and any vendor pre/post hooks.
+# Homebrew shellenv and any vendor pre/post hooks.
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
-
-# Colima: point the docker CLI at Colima's socket when it isn't already set.
-# Colima writes the socket to ~/.colima/default/docker.sock once `colima start`
-# has run at least once.
-if [[ -z "${DOCKER_HOST:-}" && -S "${HOME}/.colima/default/docker.sock" ]]; then
-  export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
-fi
