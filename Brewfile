@@ -58,6 +58,7 @@ brew "gobject-introspection"
 brew "gopass"
 brew "bottom"
 brew "dust"
+brew "herdr"
 brew "hunspell"
 brew "hyperfine"
 brew "icu4c@76", link: true
