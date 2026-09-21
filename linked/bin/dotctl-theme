@@ -10,12 +10,18 @@
 #   dotctl theme <name>     apply a preset
 #   dotctl theme next       apply the next preset in the list
 #   dotctl theme -h         this help
+#
+# Font size (default: the preset's own; without a name, re-applies the current preset):
+#   --small | --medium | --large    15 | preset default | 19
+#   --size <n>                      explicit size
 
 set -u
 
 BIN_DIR=$(cd "$(dirname "$0")" && pwd -P)
 REPO="${DOTFILES_DIR:-$(cd "$BIN_DIR/../.." && pwd -P)}"
 THEMES_DIR="$REPO/themes"
+SIZE_SMALL=15
+SIZE_LARGE=19
 STATE_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/dotctl/theme"
 GHOSTTY_OUT="${XDG_CONFIG_HOME:-$HOME/.config}/ghostty/theme.conf"
 HERDR_CONFIG="${HERDR_CONFIG_PATH:-$HOME/.config/herdr/config.toml}"
@@ -79,7 +85,8 @@ CONF
 reload_ghostty() {
   [ "$(uname -s)" = Darwin ] || return 0
   osascript -e 'tell application "System Events"
-    if name of first application process whose frontmost is true is "Ghostty" then keystroke "," using {command down, shift down}
+    set frontApp to name of first application process whose frontmost is true
+    if frontApp is "ghostty" then keystroke "," using {command down, shift down}
   end tell' >/dev/null 2>&1 || echo "dotctl theme: press Cmd+Shift+, in Ghostty to reload"
 }
 
@@ -153,18 +160,36 @@ apply_herdr() {
   herdr server reload-config >/dev/null 2>&1 || true
 }
 
-case "${1:-}" in
-  -h | --help)
-    sed -n '2,13p' "$0" | sed 's/^# \{0,1\}//'
-    exit 0
-    ;;
-  "" | list)
+name=""
+size=""
+while [ $# -gt 0 ]; do
+  case "$1" in
+    -h | --help)
+      sed -n '2,17p' "$0" | sed 's/^# \{0,1\}//'
+      exit 0
+      ;;
+    list) ;;
+    --small) size=$SIZE_SMALL ;;
+    --medium) size="" ;;
+    --large) size=$SIZE_LARGE ;;
+    --size)
+      shift
+      [[ "${1:-}" =~ ^[0-9]+$ ]] || die "--size needs a number"
+      size=$1
+      ;;
+    -*) die "unknown option: $1" ;;
+    next) name=$(next_name) ;;
+    *) name=$1 ;;
+  esac
+  shift
+done
+
+if [ -z "$name" ]; then
+  if [ -n "$size" ]; then name=$(current); else
     list
     exit 0
-    ;;
-  next) name=$(next_name) ;;
-  *) name=$1 ;;
-esac
+  fi
+fi
 
 [ -n "$name" ] || die "no presets in $THEMES_DIR"
 file="$THEMES_DIR/$name.theme"
@@ -172,9 +197,10 @@ file="$THEMES_DIR/$name.theme"
 
 # shellcheck source=/dev/null
 . "$file"
+[ -n "$size" ] && GHOSTTY_FONT_SIZE=$size
 
 apply_ghostty
 apply_herdr
 mkdir -p "$(dirname "$STATE_FILE")"
 printf '%s\n' "$name" >"$STATE_FILE"
-printf 'theme: %s\n' "$name"
+printf 'theme: %s (font %s)\n' "$name" "$GHOSTTY_FONT_SIZE"

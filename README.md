@@ -82,7 +82,7 @@ dotctl update       # pull + brew bundle + setup (add -u to brew upgrade too)
 dotctl doctor       # health-check Brewfile ↔ installed ↔ docs
 dotctl tools        # fuzzy-pick a tool from TOOLS.md
 dotctl raycast      # set up the Raycast integration (macOS)
-dotctl theme        # flip Ghostty + Herdr between presets in themes/ (auto, light, dark, night, laptop, external)
+dotctl theme        # flip Ghostty + Herdr between presets in themes/ (auto, light, latte, dark, night; --small/--large for font size)
 ```
 
 ### `dotctl update`
