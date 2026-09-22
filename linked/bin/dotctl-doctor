@@ -5,6 +5,7 @@
 #   1. brew bundle check     — installed state matches Brewfile
 #   2. Brewfile ↔ TOOLS.md   — every user-facing formula is documented
 #   3. Brewfile ↔ install-linux.md — Rust CLIs present in the cargo block
+#   4. Herdr plugins        — installed commit vs. the repo's latest commit
 #
 # Check 1 distinguishes missing (fail) from outdated (warn): a formula
 # that's installed but needs `brew upgrade` is routine world drift, not
@@ -201,6 +202,33 @@ if [ ${#missing_linux[@]} -eq 0 ]; then
 else
   fail "install-linux.md cargo block missing: ${missing_linux[*]}"
   add_fix "\$EDITOR $LINUX_MD  # add to cargo block: ${missing_linux[*]}"
+fi
+
+# ---- Check 4: Herdr plugins ----------------------------------------------
+section "Herdr plugins"
+
+if ! command -v herdr >/dev/null 2>&1 || ! command -v gh >/dev/null 2>&1; then
+  ok "skipped (herdr or gh not installed)"
+else
+  plugins=$(herdr plugin list 2>/dev/null | grep -o 'github:[^]]*' || true)
+  if [ -z "$plugins" ]; then
+    ok "no GitHub plugins installed"
+  else
+    while IFS= read -r entry; do
+      slug=${entry#github:}
+      repo=${slug%@*}
+      installed=${slug#*@}
+      latest=$(gh api "repos/$repo/commits/HEAD" -q .sha 2>/dev/null || true)
+      if [ -z "$latest" ]; then
+        warn "$repo: could not reach GitHub"
+      elif [ "$latest" = "$installed" ]; then
+        ok "$repo is current (${installed:0:7})"
+      else
+        warn "$repo: update available (${installed:0:7} -> ${latest:0:7})"
+        add_fix "herdr plugin install $repo -y"
+      fi
+    done <<<"$plugins"
+  fi
 fi
 
 # ---- Summary -------------------------------------------------------------
