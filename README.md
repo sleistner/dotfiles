@@ -328,6 +328,17 @@ Current contents:
 | `xdg/ghostty/config`    | file-walk | `~/.config/ghostty/config`    |
 | `xdg/mise/config.toml`  | file-walk | `~/.config/mise/config.toml`  |
 | `xdg/zed/settings.json` | file-walk | `~/.config/zed/settings.json` |
+| `xdg/herdr/`            | file-walk | `~/.config/herdr/config.toml` and the Radar plugin settings |
+
+Herdr keeps sockets, logs and sessions in `~/.config/herdr/`, so only its two
+config files are linked. Herdr Radar (the sidebar plugin) and `dotctl theme`
+rewrite both files; they write through the link, so edits land here. Herdr's
+own writes (the Agents-panel grouped/priority toggle) replace the link with a
+plain file — re-run `./setup` if `~/.config/herdr/config.toml` stops being a link.
+
+`./setup` also clones the Radar fork (https://github.com/sleistner/herdr-radar,
+branch `owner-groups`) to `~/Projects/herdr-radar` and registers it with
+`herdr plugin link`. Set `HERDR_RADAR_DIR` to clone elsewhere.
 
 #### shell/
 

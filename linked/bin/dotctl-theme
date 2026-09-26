@@ -99,14 +99,22 @@ set_radar_colors() {
   local key
   for key in active_row_bg_light active_row_bg_dark; do
     if grep -q "^$key" "$RADAR_CONFIG"; then
-      sed -i.bak "s|^$key.*|$key = \"$row_bg\"|" "$RADAR_CONFIG"
+      sed_in_place "s|^$key.*|$key = \"$row_bg\"|" "$RADAR_CONFIG"
     else
-      sed -i.bak "/^\[colors\]/a\\
+      sed_in_place "/^\[colors\]/a\\
 $key = \"$row_bg\"
 " "$RADAR_CONFIG"
     fi
   done
-  rm -f "$RADAR_CONFIG.bak"
+}
+
+# `sed -i` for a file that may be a symlink: writes through the link instead of
+# replacing it, so a config kept in the dotfiles stays linked.
+sed_in_place() {
+  local expr=$1 file=$2 tmp
+  tmp=$(mktemp)
+  sed "$expr" "$file" >"$tmp" && cat "$tmp" >"$file"
+  rm -f "$tmp"
 }
 
 # Set `key = value` inside [section] of a TOML file, inserting it when absent.
@@ -126,9 +134,13 @@ toml_set() {
 BLOCK_BEGIN="# >>> dotctl theme block"
 BLOCK_END="# <<< dotctl theme block"
 
+# Rewrites the file in place (cat into it, never mv over it), so a symlinked
+# config stays linked to the dotfiles copy.
 drop_block() {
-  sed -i.bak "/^$BLOCK_BEGIN/,/^$BLOCK_END/d" "$HERDR_CONFIG"
-  rm -f "$HERDR_CONFIG.bak"
+  local tmp
+  tmp=$(mktemp)
+  sed "/^$BLOCK_BEGIN/,/^$BLOCK_END/d" "$HERDR_CONFIG" >"$tmp" && cat "$tmp" >"$HERDR_CONFIG"
+  rm -f "$tmp"
 }
 
 apply_herdr() {

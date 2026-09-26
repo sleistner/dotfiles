@@ -1,0 +1,14 @@
+group_gap = true
+group_indent = 0
+follow_appearance = false
+activity_stale_minutes = 480
+variant = "auto"
+show_tab = true
+trim_group_prefix = true
+reorder_workspaces = false
+group_headers = false
+row_label = "title"
+
+[colors]
+active_row_bg_light = "#4a3a72"
+active_row_bg_dark = "#4a3a72"

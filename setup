@@ -80,6 +80,22 @@ if [ ! -e "$gitconfig_local" ] && [ -f "$gitconfig_template" ]; then
   echo "→ edit $gitconfig_local to set your git identity."
 fi
 
+# Herdr's sidebar runs a fork of the Herdr Radar plugin. Its config lives in
+# xdg/herdr/ (linked above); the plugin code is a git checkout Herdr loads by
+# path, so clone it and register it once. Herdr writes the registry itself when
+# no server is running, and loads the plugin on its next start.
+HERDR_RADAR_DIR="${HERDR_RADAR_DIR:-$HOME/Projects/herdr-radar}"
+HERDR_RADAR_REPO="https://github.com/sleistner/herdr-radar.git"
+HERDR_RADAR_BRANCH="owner-groups"
+if command -v herdr >/dev/null 2>&1; then
+  if [ ! -d "$HERDR_RADAR_DIR/.git" ]; then
+    run_cmd "git clone --branch $HERDR_RADAR_BRANCH $HERDR_RADAR_REPO $HERDR_RADAR_DIR"
+  fi
+  if ! herdr plugin list 2>/dev/null | grep -q "local:$HERDR_RADAR_DIR"; then
+    run_cmd "herdr plugin link $HERDR_RADAR_DIR >/dev/null"
+  fi
+fi
+
 # Raycast keeps its extension and script-directory lists in an encrypted
 # database, so setup can't symlink the integration into place. Point at the
 # command that does as much of it as is scriptable.
