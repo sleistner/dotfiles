@@ -5,7 +5,7 @@
 #   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/sleistner/dotfiles/HEAD/install/install-linux.sh)"
 #
 # Handles only the parts with clean cross-distro automation: prerequisites,
-# clone, ./setup symlinks, zsh-autosuggestions. The modern-CLI toolchain, Docker, and
+# clone, ./setup symlinks, zsh plugins. The modern-CLI toolchain, Docker, and
 # terminal/font install are interactive/opinionated enough that they stay in
 # docs/install-linux.md §6–8.
 
@@ -70,8 +70,8 @@ fi
 clone_repo
 run_setup_symlinks
 
-# 4. zsh-autosuggestions
-install_zsh_autosuggestions
+# 4. zsh plugins
+install_zsh_plugins
 
 # 5. Optional: pick cloud-provider modules for the Starship prompt.
 step "Starship prompt customization (optional)"

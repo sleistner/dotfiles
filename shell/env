@@ -1,11 +1,10 @@
 # vim: set syntax=bash :
 #
-# Shared shell env — PATH, editor, locale, ulimit, keybindings.
+# Shared shell env — PATH, editor, locale, ulimit.
 # Sourced from linked/zshrc on every interactive shell.
 
 export EDITOR=nvim
 export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
 export GOPATH="$HOME/go"
 export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/ripgreprc"
 
@@ -16,15 +15,15 @@ PATH="/usr/local/bin:/usr/local/sbin:/usr/bin/vendor_perl:$PATH"
 PATH="$PATH:$GOPATH/bin"
 PATH="$HOME/.bin:$PATH"
 PATH="$HOME/.local/bin:$PATH"
-PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
-PATH="/opt/homebrew/opt/openssl@3/bin:$PATH"
+for _p in mysql-client openssl@3; do
+  [[ -d "/opt/homebrew/opt/$_p/bin" ]] && PATH="/opt/homebrew/opt/$_p/bin:$PATH"
+done
+unset _p
 PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 PATH="$HOME/.cargo/bin:$PATH"
+PATH="$HOME/.antigravity/antigravity/bin:$PATH"
 
 export PATH
 
 ulimit -n 4095
-
-# Oh my ZSH
-bindkey '^ ' forward-word
 

@@ -35,8 +35,8 @@ Read about what it does, and what it leaves for you to do, in
 - Clones itself to `~/config/dotfiles` and symlinks every entry under
   [`linked/`](./linked) into `~/.<name>` and every entry under [`xdg/`](./xdg)
   into `~/.config/<name>`.
-- Uses Homebrew's `zsh-autosuggestions` when available, otherwise clones it
-  to `~/.zsh/plugins` (no zsh framework).
+- Uses Homebrew's `zsh-autosuggestions` and `zsh-syntax-highlighting` when
+  available, otherwise clones them to `~/.zsh/plugins` (no zsh framework).
 - Optionally installs **1Password + 1Password CLI** so SSH agent and git
   commit signing Just Work.
 - Opts you into a ~130ms zsh startup with Starship prompt, sensible
@@ -386,6 +386,8 @@ Interactive zsh startup is ~130ms. Key tricks in `linked/zshrc` and
   security check and the dump is rebuilt at most once a day.
 - No zsh framework: options, history, key bindings and the handful of git/ls
   aliases in use live directly in `linked/zshrc`.
+- Init output of direnv, fzf, atuin, zoxide and starship is cached in
+  `~/.cache/zsh` and regenerated when the binary changes (`_cached_init`).
 - `typeset -U path PATH` and `typeset -U fpath FPATH` dedupe executable
   and completion paths, including in nested shells.
 - Homebrew's `zsh-completions` directory is included before `compinit`.
