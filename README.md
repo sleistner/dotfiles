@@ -6,7 +6,6 @@
 ![macOS](https://img.shields.io/badge/macOS-000000?logo=apple&logoColor=white)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black)
 ![zsh](https://img.shields.io/badge/shell-zsh-1A5E2A)
-![oh-my-zsh](https://img.shields.io/badge/oh--my--zsh-C25B5B?logo=ohdear)
 ![Starship](https://img.shields.io/badge/prompt-Starship-DD0B78?logo=starship&logoColor=white)
 ![Neovim](https://img.shields.io/badge/editor-Neovim-57A143?logo=neovim&logoColor=white)
 ![Ghostty](https://img.shields.io/badge/terminal-Ghostty-222222)
@@ -36,9 +35,8 @@ Read about what it does, and what it leaves for you to do, in
 - Clones itself to `~/config/dotfiles` and symlinks every entry under
   [`linked/`](./linked) into `~/.<name>` and every entry under [`xdg/`](./xdg)
   into `~/.config/<name>`.
-- Installs **oh-my-zsh** with `--keep-zshrc` (leaves the symlinked `.zshrc`
-  untouched). Uses Homebrew's `zsh-autosuggestions` when available, otherwise
-  installs the OMZ plugin.
+- Uses Homebrew's `zsh-autosuggestions` when available, otherwise clones it
+  to `~/.zsh/plugins` (no zsh framework).
 - Optionally installs **1Password + 1Password CLI** so SSH agent and git
   commit signing Just Work.
 - Opts you into a ~130ms zsh startup with Starship prompt, sensible
@@ -281,7 +279,7 @@ unaffected.
 ```
 linked/   -> ~/.<name>          Dotfiles that tools read straight from $HOME
 xdg/      -> ~/.config/<name>   XDG-aware tools that look in $XDG_CONFIG_HOME
-shell/    sourced by zshrc      Shared shell env (PATH, EDITOR, locale, etc.)
+shell/    sourced by zshrc      Shared shell env and aliases
 install/  platform bootstrap    install-macos.sh, install-linux.sh, common.sh
 raycast/  added in Raycast UI   Script commands + tools-browser extension (macOS)
 ```
@@ -346,6 +344,8 @@ branch `owner-groups`) to `~/Projects/herdr-radar` and registers it with
 - `shell/env` — sourced from `linked/zshrc`. Holds `PATH`, `EDITOR`,
   locale, `GOPATH`, `RIPGREP_CONFIG_PATH`, ulimit, keybindings, and
   `typeset -U path` for auto-dedupe.
+- `shell/aliases` — sourced from `linked/zshrc`. Holds the aliases and the
+  `gcm` helper.
 
 ### Per-machine git identity
 
@@ -382,12 +382,10 @@ No per-tool edits to the setup script.
 Interactive zsh startup is ~130ms. Key tricks in `linked/zshrc` and
 `shell/env`:
 
-- Single `compinit` call (oh-my-zsh handles it; no other source should).
-- `ZSH_DISABLE_COMPFIX=true` skips the compaudit security check.
-- `ZSH_THEME=""` — starship renders the prompt, so oh-my-zsh doesn't
-  need to load a theme only to have it overwritten.
-- OMZ plugins kept minimal: `git`, plus `zsh-autosuggestions` only when
-  the standalone Homebrew copy is unavailable.
+- Single `compinit` call in `linked/zshrc`; `-C`/`-u` skip the compaudit
+  security check and the dump is rebuilt at most once a day.
+- No zsh framework: options, history, key bindings and the handful of git/ls
+  aliases in use live directly in `linked/zshrc`.
 - `typeset -U path PATH` and `typeset -U fpath FPATH` dedupe executable
   and completion paths, including in nested shells.
 - Homebrew's `zsh-completions` directory is included before `compinit`.
