@@ -80,8 +80,8 @@ step "brew bundle (this takes 10–20 min on a fresh machine)"
 (cd "$DOTFILES_DIR" && brew bundle --file=Brewfile)
 ok "Brewfile installed"
 
-# 7. oh-my-zsh + zsh-autosuggestions
-install_oh_my_zsh
+# 7. zsh-autosuggestions
+install_zsh_autosuggestions
 
 # 8. Optional: pick cloud-provider modules for the Starship prompt.
 step "Starship prompt customization (optional)"

@@ -51,24 +51,15 @@ run_setup_symlinks() {
   ok "symlinks in place"
 }
 
-install_oh_my_zsh() {
-  step "oh-my-zsh"
-  if [ -d "$HOME/.oh-my-zsh" ]; then
+install_zsh_autosuggestions() {
+  step "zsh-autosuggestions"
+  local dest="$HOME/.zsh/plugins/zsh-autosuggestions"
+  if [ -r /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+    ok "provided by Homebrew"
+  elif [ -d "$dest" ]; then
     ok "already installed"
   else
-    RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh -c \
-      "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/HEAD/tools/install.sh)" \
-      "" --unattended --keep-zshrc
+    git clone https://github.com/zsh-users/zsh-autosuggestions "$dest"
     ok "installed"
-  fi
-
-  local autosugg="$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
-  if [ -r /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
-    ok "zsh-autosuggestions provided by Homebrew"
-  elif [ -d "$autosugg" ]; then
-    ok "zsh-autosuggestions already installed"
-  else
-    git clone https://github.com/zsh-users/zsh-autosuggestions "$autosugg"
-    ok "zsh-autosuggestions installed"
   fi
 }

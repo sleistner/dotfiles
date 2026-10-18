@@ -6,7 +6,7 @@
 #   2. preflight        — fix conflicts / broken kegs before brew bundle.
 #   3. brew bundle      — install anything in the Brewfile that's missing.
 #   4. ./setup          — re-link any new entries in linked/ or xdg/.
-#   5. oh-my-zsh        — install if missing (zshrc sources it).
+#   5. autosuggestions  — clone zsh-autosuggestions if Homebrew lacks it.
 #   6. brew upgrade     — (opt-in) upgrade outdated formulae/casks.
 #
 # Any failing step aborts and returns non-zero so the problem is visible.
@@ -92,25 +92,17 @@ section "setup (symlinks)"
 step "$REPO/setup"
 "$REPO/setup" || die "setup failed"
 
-# ---- 5. oh-my-zsh (bootstrap if missing) --------------------------------
-# zshrc sources $ZSH/oh-my-zsh.sh — a missing install means every shell prints
-# an error. Install it here so `dotctl update` self-heals the zshrc env.
-section "oh-my-zsh"
+# ---- 5. zsh-autosuggestions (bootstrap if missing) ----------------------
+# zshrc sources the Homebrew copy, falling back to ~/.zsh/plugins (Linux).
+section "zsh-autosuggestions"
 
-if [ -d "$HOME/.oh-my-zsh" ]; then
+autosugg="$HOME/.zsh/plugins/zsh-autosuggestions"
+if [ -r /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ] || [ -d "$autosugg" ]; then
   printf '  already installed.\n'
 else
-  step "install oh-my-zsh"
-  RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh -c \
-    "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/HEAD/tools/install.sh)" \
-    "" --unattended --keep-zshrc || die "oh-my-zsh install failed"
-
-  autosugg="$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
-  if [ ! -d "$autosugg" ]; then
-    step "clone zsh-autosuggestions"
-    git clone https://github.com/zsh-users/zsh-autosuggestions "$autosugg" ||
-      die "zsh-autosuggestions clone failed"
-  fi
+  step "clone zsh-autosuggestions"
+  git clone https://github.com/zsh-users/zsh-autosuggestions "$autosugg" ||
+    die "zsh-autosuggestions clone failed"
 fi
 
 # ---- 6. brew upgrade (opt-in) -------------------------------------------
