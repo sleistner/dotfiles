@@ -51,15 +51,18 @@ run_setup_symlinks() {
   ok "symlinks in place"
 }
 
-install_zsh_autosuggestions() {
-  step "zsh-autosuggestions"
-  local dest="$HOME/.zsh/plugins/zsh-autosuggestions"
-  if [ -r /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
-    ok "provided by Homebrew"
-  elif [ -d "$dest" ]; then
-    ok "already installed"
-  else
-    git clone https://github.com/zsh-users/zsh-autosuggestions "$dest"
-    ok "installed"
-  fi
+install_zsh_plugins() {
+  step "zsh plugins"
+  local name dest
+  for name in zsh-autosuggestions zsh-syntax-highlighting; do
+    dest="$HOME/.zsh/plugins/$name"
+    if [ -r "/opt/homebrew/share/$name/$name.zsh" ]; then
+      ok "$name provided by Homebrew"
+    elif [ -d "$dest" ]; then
+      ok "$name already installed"
+    else
+      git clone "https://github.com/zsh-users/$name" "$dest"
+      ok "$name installed"
+    fi
+  done
 }
