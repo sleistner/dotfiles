@@ -29,6 +29,7 @@ fpath=(
 autoload -Uz compinit
 _zcompdump=${ZDOTDIR:-$HOME}/.zcompdump
 if [[ -n $_zcompdump(#qN.mh+24) ]]; then compinit -u -d "$_zcompdump"; else compinit -C -d "$_zcompdump"; fi
+[[ -s $_zcompdump && ( ! -s $_zcompdump.zwc || $_zcompdump -nt $_zcompdump.zwc ) ]] && zcompile "$_zcompdump"
 unset _zcompdump
 zstyle ':completion:*' menu select
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
@@ -50,6 +51,7 @@ bindkey '^[[1;5D' backward-word
 bindkey '^[[1;3C' forward-word
 bindkey '^[[1;3D' backward-word
 bindkey '^[[Z' reverse-menu-complete
+bindkey '^ ' forward-word
 
 # Run zsh-autosuggestions history scan asynchronously (snappier prompt).
 ZSH_AUTOSUGGEST_USE_ASYNC=1
@@ -67,7 +69,20 @@ source "$_dotfiles/shell/env"
 
 # ---- shell integrations ----
 
-eval "$(direnv hook zsh)"
+# Cache `<tool> <init args>` output in ~/.cache/zsh and source it; regenerated
+# when the tool's binary is newer than the cache (i.e. after an upgrade).
+_zsh_cache=${XDG_CACHE_HOME:-$HOME/.cache}/zsh
+[[ -d $_zsh_cache ]] || mkdir -p "$_zsh_cache"
+function _cached_init() {
+  local name=$1 bin=${commands[$1]} file=$_zsh_cache/$1.zsh
+  [[ -n $bin ]] || return 0
+  if [[ ! -s $file || $bin -nt $file ]]; then
+    "$@" >| "$file" 2>/dev/null || { rm -f "$file"; return 1; }
+  fi
+  source "$file"
+}
+
+_cached_init direnv hook zsh
 
 # 1Password SSH agent (optional; only takes effect when 1Password is running).
 _1p_sock=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
@@ -75,19 +90,19 @@ _1p_sock=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
 unset _1p_sock
 
 # Mise
-eval "$(mise activate zsh)"
+_cached_init mise activate zsh
 
 # fzf keybindings + completion (ctrl-T files, alt-C dirs; ctrl-R is atuin below)
 # stderr redirect silences a harmless `can't change option: zle` from fzf's
 # option-restore loop in non-TTY contexts — keybindings still register.
-FZF_CTRL_R_COMMAND='' source <(fzf --zsh) 2>/dev/null
+FZF_CTRL_R_COMMAND='' _cached_init fzf --zsh 2>/dev/null
 
 # atuin — sqlite-backed shell history (binds ctrl-R; overrides fzf's).
 # --disable-up-arrow keeps plain ↑ for prefix-search via zsh history.
-eval "$(atuin init zsh --disable-up-arrow)"
+_cached_init atuin init zsh --disable-up-arrow
 
 # zoxide — smart cd (`z <partial-path>` jumps to frecent dirs)
-eval "$(zoxide init zsh)"
+_cached_init zoxide init zsh
 
 # yazi — TUI file manager. `y` wrapper cd's the shell to yazi's last dir.
 function y() {
@@ -111,14 +126,15 @@ function dotctl() {
 }
 
 # Starship
-eval "$(starship init zsh)"
+_cached_init starship init zsh
 
 # Aliases and git helpers
 source "$_dotfiles/shell/aliases"
-unset _dotfiles
+unset _dotfiles _zsh_cache
 
 # zsh-syntax-highlighting — MUST be near the end, after all other widgets.
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# Added by Antigravity
-export PATH="/Users/sleistner/.antigravity/antigravity/bin:$PATH"
+for _zsh_hl in /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh \
+               $HOME/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh; do
+  [[ -r $_zsh_hl ]] && { source "$_zsh_hl"; break; }
+done
+unset _zsh_hl
