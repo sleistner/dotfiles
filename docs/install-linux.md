@@ -16,7 +16,7 @@ config, nvim config, git config, and the modern CLIs all work identically.
 The dispatcher detects Linux and runs `install/install-linux.sh`, which
 automates the parts with clean cross-distro behavior: system
 prerequisites (§1), optional `chsh` to zsh, clone (§3), `./setup` (§4),
-and `zsh-autosuggestions` (§5). Idempotent.
+and the zsh plugins (§5). Idempotent.
 
 What's **not** automated, because it's opinionated per-distro / per-desktop:
 
@@ -85,11 +85,12 @@ cd ~/config/dotfiles
 
 Links `linked/*` into `~/.*` and `xdg/*` into `~/.config/*`. Idempotent.
 
-## 5. Install zsh-autosuggestions
+## 5. Install zsh plugins
 
 ```sh
-git clone https://github.com/zsh-users/zsh-autosuggestions \
-  ~/.zsh/plugins/zsh-autosuggestions
+for p in zsh-autosuggestions zsh-syntax-highlighting; do
+  git clone https://github.com/zsh-users/$p ~/.zsh/plugins/$p
+done
 ```
 
 <a id="6-install-the-cli-toolchain"></a>
