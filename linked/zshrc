@@ -100,7 +100,8 @@ _1p_sock=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
 unset _1p_sock
 
 # Mise
-_cached_init mise activate zsh
+# Not cached: the generated output embeds the current PATH.
+eval "$(mise activate zsh)"
 
 # fzf keybindings + completion (ctrl-T files, alt-C dirs; ctrl-R is atuin below)
 # stderr redirect silences a harmless `can't change option: zle` from fzf's
