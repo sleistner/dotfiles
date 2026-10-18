@@ -8,8 +8,7 @@ are omitted.
 
 | Tool | What it does |
 | --- | --- |
-| **zsh** | Shell (configured via oh-my-zsh). |
-| **oh-my-zsh** | Plugin framework for zsh. Loads `git`; also loads `zsh-autosuggestions` when the standalone Homebrew copy is unavailable. |
+| **zsh** | Shell (plain zsh config, no framework). |
 | **starship** | Cross-shell prompt. Config: `xdg/starship.toml`. |
 | **zsh-autosuggestions** | Greys out history-based completion as you type; `→` to accept. |
 | **zsh-syntax-highlighting** | Live colorizes command line (green = valid, red = not found). |

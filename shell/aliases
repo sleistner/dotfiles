@@ -1,0 +1,23 @@
+# Interactive aliases and small helper functions — sourced from linked/zshrc.
+
+function gcm() {
+  local main b
+  main=$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null) && main=${main#origin/}
+  if [[ -z $main ]]; then
+    for b in main trunk mainline default stable master; do
+      git show-ref -q --verify "refs/heads/$b" && { main=$b; break; }
+    done
+  fi
+  git checkout "${main:-main}" "$@"
+}
+alias jq=jaq
+alias -- -='cd -'
+if [[ $OSTYPE == darwin* ]]; then alias ls='ls -G'; else alias ls='ls --color=auto'; fi
+alias l='ls -lah'
+alias ll='ls -lh'
+alias gst='git status'
+alias ggpull='git pull origin "$(git branch --show-current)"'
+alias ggpush='git push origin "$(git branch --show-current)"'
+alias gcmsg='git commit --message'
+alias gc='git commit --verbose'
+alias gcp='git cherry-pick'

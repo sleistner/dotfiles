@@ -1,22 +1,22 @@
-# Interactive zsh config — loads oh-my-zsh, shell env, shell integrations
-# (direnv, mise, fzf, atuin, zoxide, yazi, starship, syntax-highlighting).
+# Interactive zsh config — native zsh setup, shell env, shell integrations
+# (direnv, mise, fzf, atuin, zoxide, yazi, starship, autosuggestions,
+# syntax-highlighting).
 # Kept minimal for startup speed (~170ms warm). See README.md § Startup perf.
 
-# ---- oh-my-zsh ----
+# ---- shell options, history, completion, keys ----
+# Native replacements for what oh-my-zsh used to provide.
 
-export ZSH=$HOME/.oh-my-zsh
+setopt auto_cd auto_pushd pushd_ignore_dups pushdminus
+setopt always_to_end auto_menu complete_in_word interactive_comments long_list_jobs
+unsetopt flowcontrol menu_complete
 
-# Starship renders the prompt — skip oh-my-zsh theme loading.
-ZSH_THEME=""
-CASE_SENSITIVE="true"
+HISTFILE=${HISTFILE:-$HOME/.zsh_history}
+HISTSIZE=50000
+SAVEHIST=50000
+setopt extended_history share_history hist_expire_dups_first hist_ignore_dups \
+  hist_ignore_space hist_verify
 
-plugins=(git)
-_zsh_autosuggestions=/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-if [[ ! -r "$_zsh_autosuggestions" ]]; then
-  plugins+=(zsh-autosuggestions)
-fi
-
-# Configure completion paths before oh-my-zsh runs compinit.
+# Configure completion paths before compinit.
 typeset -U fpath FPATH
 fpath=(
   /opt/homebrew/share/zsh/site-functions
@@ -24,25 +24,46 @@ fpath=(
   $fpath
 )
 
-# Skip compinit security audit (saves ~50ms). Safe on a single-user mac.
-ZSH_DISABLE_COMPFIX=true
+# Single compinit; -u/-C skip the security audit (safe on a single-user box);
+# the dump is rebuilt at most once a day.
+autoload -Uz compinit
+_zcompdump=${ZDOTDIR:-$HOME}/.zcompdump
+if [[ -n $_zcompdump(#qN.mh+24) ]]; then compinit -u -d "$_zcompdump"; else compinit -C -d "$_zcompdump"; fi
+unset _zcompdump
+zstyle ':completion:*' menu select
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
-# Skip OMZ's URL/brace auto-quoting on paste — saves a few ms.
-DISABLE_MAGIC_FUNCTIONS=true
+# Key bindings (emacs mode, plus the common terminal escapes).
+bindkey -e
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey '^[[A' up-line-or-beginning-search
+bindkey '^[[B' down-line-or-beginning-search
+bindkey '^[OA' up-line-or-beginning-search
+bindkey '^[OB' down-line-or-beginning-search
+bindkey '^[[H' beginning-of-line
+bindkey '^[[F' end-of-line
+bindkey '^[[3~' delete-char
+bindkey '^[[1;5C' forward-word
+bindkey '^[[1;5D' backward-word
+bindkey '^[[1;3C' forward-word
+bindkey '^[[1;3D' backward-word
+bindkey '^[[Z' reverse-menu-complete
 
 # Run zsh-autosuggestions history scan asynchronously (snappier prompt).
 ZSH_AUTOSUGGEST_USE_ASYNC=1
-
-[ -r "$ZSH/oh-my-zsh.sh" ] && source $ZSH/oh-my-zsh.sh
-
-if [[ -r "$_zsh_autosuggestions" ]]; then
-  source "$_zsh_autosuggestions"
-fi
-unset _zsh_autosuggestions
+for _zas in /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh \
+            $HOME/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh; do
+  [[ -r $_zas ]] && { source "$_zas"; break; }
+done
+unset _zas
 
 # ---- shell env ----
 
-source ~/config/dotfiles/shell/env
+# Resolve the repo from this file's symlink target so any clone location works.
+_dotfiles=${${(%):-%x}:A:h:h}
+source "$_dotfiles/shell/env"
 
 # ---- shell integrations ----
 
@@ -92,8 +113,9 @@ function dotctl() {
 # Starship
 eval "$(starship init zsh)"
 
-# Aliases
-alias jq=jaq
+# Aliases and git helpers
+source "$_dotfiles/shell/aliases"
+unset _dotfiles
 
 # zsh-syntax-highlighting — MUST be near the end, after all other widgets.
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

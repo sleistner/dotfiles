@@ -101,16 +101,11 @@ Installs ~115 formulae and ~15 casks: zsh plugins, CLIs, fonts, GUI apps
 Quit your terminal and reopen it so `~/.zshrc` runs from scratch with
 the new symlinks and every brew-installed tool on `PATH`.
 
-## 8. Install oh-my-zsh
+## 8. zsh plugins
 
-```sh
-# oh-my-zsh — installer will notice ~/.zshrc exists; --keep-zshrc keeps
-#             the symlinked rc untouched.
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/HEAD/tools/install.sh)" "" --unattended --keep-zshrc
-```
-
-`zsh-autosuggestions` is installed by the Brewfile and sourced directly
-from Homebrew; no separate plugin clone is needed.
+`zsh-autosuggestions` and `zsh-syntax-highlighting` are installed by the
+Brewfile and sourced directly from Homebrew; no framework or plugin clone is
+needed.
 
 <a id="9-first-run-housekeeping"></a>
 ## 9. First-run housekeeping
