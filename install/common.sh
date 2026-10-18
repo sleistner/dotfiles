@@ -63,7 +63,9 @@ install_oh_my_zsh() {
   fi
 
   local autosugg="$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
-  if [ -d "$autosugg" ]; then
+  if [ -r /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+    ok "zsh-autosuggestions provided by Homebrew"
+  elif [ -d "$autosugg" ]; then
     ok "zsh-autosuggestions already installed"
   else
     git clone https://github.com/zsh-users/zsh-autosuggestions "$autosugg"

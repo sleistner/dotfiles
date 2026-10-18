@@ -3,7 +3,8 @@
 
 [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
-# Activate mise when running in Cursor
+# Give Cursor's noninteractive shells tools without installing interactive hooks.
 if [[ -n "$CURSOR_AGENT" ]]; then
-  eval "$(mise activate)"
+  typeset -U path PATH
+  path=("${MISE_DATA_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/mise}/shims" $path)
 fi

@@ -37,7 +37,8 @@ Read about what it does, and what it leaves for you to do, in
   [`linked/`](./linked) into `~/.<name>` and every entry under [`xdg/`](./xdg)
   into `~/.config/<name>`.
 - Installs **oh-my-zsh** with `--keep-zshrc` (leaves the symlinked `.zshrc`
-  untouched) and the `zsh-autosuggestions` plugin.
+  untouched). Uses Homebrew's `zsh-autosuggestions` when available, otherwise
+  installs the OMZ plugin.
 - Optionally installs **1Password + 1Password CLI** so SSH agent and git
   commit signing Just Work.
 - Opts you into a ~130ms zsh startup with Starship prompt, sensible
@@ -385,7 +386,14 @@ Interactive zsh startup is ~130ms. Key tricks in `linked/zshrc` and
 - `ZSH_DISABLE_COMPFIX=true` skips the compaudit security check.
 - `ZSH_THEME=""` — starship renders the prompt, so oh-my-zsh doesn't
   need to load a theme only to have it overwritten.
-- Plugins kept minimal: `git`, `zsh-autosuggestions`.
-- `typeset -U path` auto-dedupes PATH entries across nested sourcings.
+- OMZ plugins kept minimal: `git`, plus `zsh-autosuggestions` only when
+  the standalone Homebrew copy is unavailable.
+- `typeset -U path PATH` and `typeset -U fpath FPATH` dedupe executable
+  and completion paths, including in nested shells.
+- Homebrew's `zsh-completions` directory is included before `compinit`.
+- Cursor's noninteractive shells use mise shims; full mise activation
+  runs only in interactive shells. Shims select tool versions but do not
+  load mise environment variables or hooks.
+- fzf's Ctrl-R binding is disabled; Atuin owns history search.
 - Homebrew paths hard-coded (`/opt/homebrew/opt/<pkg>/bin`) — no
   `brew --prefix` subshells on startup.
