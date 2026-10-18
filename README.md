@@ -387,7 +387,7 @@ Interactive zsh startup is ~130ms. Key tricks in `linked/zshrc` and
 - No zsh framework: options, history, key bindings and the handful of git/ls
   aliases in use live directly in `linked/zshrc`.
 - Init output of direnv, mise, fzf, atuin, zoxide and starship is cached in
-  `~/.cache/zsh` and regenerated when the binary is newer (`_cached_init`).
+  `~/.cache/zsh` and regenerated when the binary changes (`_cached_init`).
 - `typeset -U path PATH` and `typeset -U fpath FPATH` dedupe executable
   and completion paths, including in nested shells.
 - Homebrew's `zsh-completions` directory is included before `compinit`.
