@@ -1,8 +1,13 @@
 # Interactive aliases and small helper functions — sourced from linked/zshrc.
 
 function gcm() {
-  local main
+  local main b
   main=$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null) && main=${main#origin/}
+  if [[ -z $main ]]; then
+    for b in main trunk mainline default stable master; do
+      git show-ref -q --verify "refs/heads/$b" && { main=$b; break; }
+    done
+  fi
   git checkout "${main:-main}" "$@"
 }
 alias jq=jaq
