@@ -335,10 +335,6 @@ rewrite both files; they write through the link, so edits land here. Herdr's
 own writes (the Agents-panel grouped/priority toggle) replace the link with a
 plain file — re-run `./setup` if `~/.config/herdr/config.toml` stops being a link.
 
-`./setup` also clones the Radar fork (https://github.com/sleistner/herdr-radar,
-branch `owner-groups`) to `~/Projects/herdr-radar` and registers it with
-`herdr plugin link`. Set `HERDR_RADAR_DIR` to clone elsewhere.
-
 #### shell/
 
 - `shell/env` — sourced from `linked/zshrc`. Holds `PATH`, `EDITOR`,
