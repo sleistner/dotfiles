@@ -64,8 +64,8 @@ else
 fi
 
 section() { printf '\n%s==>%s %s\n' "$c_blue" "$c_reset" "$1"; }
-ok()      { printf '%s✓%s %s\n'     "$c_green" "$c_reset" "$1"; }
-warn()    { printf '%s!%s %s\n'     "$c_yellow" "$c_reset" "$1"; }
+ok() { printf '%s✓%s %s\n' "$c_green" "$c_reset" "$1"; }
+warn() { printf '%s!%s %s\n' "$c_yellow" "$c_reset" "$1"; }
 
 BREW_PREFIX=""
 if command -v brew >/dev/null 2>&1; then
@@ -106,7 +106,7 @@ uninstall_via() {
         cargo uninstall "$cargo_pkg" && return 0
       fi
       ;;
-    */node_modules/*|*/.npm/*|*/.nvm/*|*/n/versions/*)
+    */node_modules/* | */.npm/* | */.nvm/* | */n/versions/*)
       if [ "$npm_pkg" != "-" ] && command -v npm >/dev/null 2>&1; then
         printf '  $ npm uninstall -g %s\n' "$npm_pkg"
         npm uninstall -g "$npm_pkg" && return 0
@@ -153,8 +153,8 @@ for entry in "${CANDIDATES[@]}"; do
 
   # Skip anything the Brewfile installs via `cargo`. The formula name and the
   # cargo crate name can differ (sqlx-cli vs sqlx binary); check both.
-  if is_cargo_managed "$formula" || \
-     { [ "$cargo_pkg" != "-" ] && is_cargo_managed "$cargo_pkg"; }; then
+  if is_cargo_managed "$formula" ||
+    { [ "$cargo_pkg" != "-" ] && is_cargo_managed "$cargo_pkg"; }; then
     continue
   fi
 
@@ -191,9 +191,9 @@ if command -v brew >/dev/null 2>&1 && [ -f "$BREWFILE" ]; then
     brew list --cask "$cask" >/dev/null 2>&1 && continue
 
     # Parse "==> Artifacts" block for lines like "SomeApp.app (App)".
-    app_names=$(brew info --cask "$cask" 2>/dev/null \
-      | sed -n 's/ (App)$//p' \
-      | grep '\.app$' || true)
+    app_names=$(brew info --cask "$cask" 2>/dev/null |
+      sed -n 's/ (App)$//p' |
+      grep '\.app$' || true)
     [ -n "$app_names" ] || continue
 
     # IFS change scoped via while-read so app names with spaces stay intact.

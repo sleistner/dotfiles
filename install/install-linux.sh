@@ -13,7 +13,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" 2>/dev/null && pwd || true)"
 if [ -n "$SCRIPT_DIR" ] && [ -f "$SCRIPT_DIR/common.sh" ]; then
-  # shellcheck source=./common.sh
+  # shellcheck source=install/common.sh
   . "$SCRIPT_DIR/common.sh"
 else
   eval "$(curl -fsSL https://raw.githubusercontent.com/sleistner/dotfiles/HEAD/install/common.sh)"
@@ -25,10 +25,14 @@ if [ "$(uname -s)" != "Linux" ]; then
 fi
 
 detect_pm() {
-  if command -v apt-get >/dev/null 2>&1; then echo apt
-  elif command -v dnf >/dev/null 2>&1; then echo dnf
-  elif command -v pacman >/dev/null 2>&1; then echo pacman
-  else echo unknown
+  if command -v apt-get >/dev/null 2>&1; then
+    echo apt
+  elif command -v dnf >/dev/null 2>&1; then
+    echo dnf
+  elif command -v pacman >/dev/null 2>&1; then
+    echo pacman
+  else
+    echo unknown
   fi
 }
 PM="$(detect_pm)"

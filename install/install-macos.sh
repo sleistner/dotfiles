@@ -12,7 +12,7 @@ set -euo pipefail
 # checkout, source it directly.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" 2>/dev/null && pwd || true)"
 if [ -n "$SCRIPT_DIR" ] && [ -f "$SCRIPT_DIR/common.sh" ]; then
-  # shellcheck source=./common.sh
+  # shellcheck source=install/common.sh
   . "$SCRIPT_DIR/common.sh"
 else
   eval "$(curl -fsSL https://raw.githubusercontent.com/sleistner/dotfiles/HEAD/install/common.sh)"

@@ -9,7 +9,10 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
 CONFIG="$(cd "$SCRIPT_DIR/.." && pwd)/xdg/starship.toml"
-[ -f "$CONFIG" ] || { echo "starship.toml not found at $CONFIG" >&2; exit 1; }
+[ -f "$CONFIG" ] || {
+  echo "starship.toml not found at $CONFIG" >&2
+  exit 1
+}
 
 MODULES=(aws azure gcloud)
 
@@ -29,14 +32,15 @@ if command -v fzf >/dev/null 2>&1; then
     printf '%s\n' "${MODULES[@]}" | fzf \
       --multi --height='~30%' --reverse \
       --prompt='Enable cloud modules> ' \
-      --header=$'Tab: toggle · Enter: confirm · currently enabled: '"${enabled_before:-none}" \
-      || true
+      --header=$'Tab: toggle · Enter: confirm · currently enabled: '"${enabled_before:-none}" ||
+      true
   )"
 else
   echo "fzf not installed — falling back to y/n prompts."
   chosen=""
   for m in "${MODULES[@]}"; do
-    default="n"; currently_enabled | grep -qxF "$m" && default="y"
+    default="n"
+    currently_enabled | grep -qxF "$m" && default="y"
     read -r -p "Enable $m? [y/n] (current: $default) " reply </dev/tty || reply=""
     reply="${reply:-$default}"
     case "$reply" in [Yy]*) chosen+="$m"$'\n' ;; esac
