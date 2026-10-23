@@ -92,3 +92,11 @@ rows = [
   ]
 ]
 # <<< herdr-radar sidebar block
+
+# >>> ai-agent-orchestration to-do key (managed by install.sh; edits inside are replaced)
+[[keys.command]]
+key = "prefix+t"
+type = "plugin_action"
+command = "combinaut.todo.open"
+description = "to-do list"
+# <<< ai-agent-orchestration to-do key
