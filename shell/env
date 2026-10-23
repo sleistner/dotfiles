@@ -8,6 +8,17 @@ export LANG=en_US.UTF-8
 export GOPATH="$HOME/go"
 export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/ripgreprc"
 
+# Login shells get this from brew shellenv; non-login shells find the installation.
+if [[ -z $HOMEBREW_PREFIX ]]; then
+  for _brew_prefix in /opt/homebrew /usr/local /home/linuxbrew/.linuxbrew; do
+    if [[ -x $_brew_prefix/bin/brew ]]; then
+      export HOMEBREW_PREFIX=$_brew_prefix
+      break
+    fi
+  done
+  unset _brew_prefix
+fi
+
 # Auto-dedupe PATH entries (zsh keeps only the first occurrence).
 typeset -U path PATH
 
@@ -16,7 +27,8 @@ PATH="$PATH:$GOPATH/bin"
 PATH="$HOME/.bin:$PATH"
 PATH="$HOME/.local/bin:$PATH"
 for _p in mysql-client openssl@3; do
-  [[ -d "/opt/homebrew/opt/$_p/bin" ]] && PATH="/opt/homebrew/opt/$_p/bin:$PATH"
+  [[ -n $HOMEBREW_PREFIX && -d "$HOMEBREW_PREFIX/opt/$_p/bin" ]] &&
+    PATH="$HOMEBREW_PREFIX/opt/$_p/bin:$PATH"
 done
 unset _p
 PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
@@ -26,4 +38,3 @@ PATH="$HOME/.antigravity/antigravity/bin:$PATH"
 export PATH
 
 ulimit -n 4095
-

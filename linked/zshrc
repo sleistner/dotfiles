@@ -6,6 +6,10 @@
 # ---- shell options, history, completion, keys ----
 # Native replacements for what oh-my-zsh used to provide.
 
+# Resolve the repo from this file's symlink target so any clone location works.
+_dotfiles=${${(%):-%x}:A:h:h}
+source "$_dotfiles/shell/env"
+
 setopt auto_cd auto_pushd pushd_ignore_dups pushdminus
 setopt always_to_end auto_menu complete_in_word interactive_comments long_list_jobs
 unsetopt flowcontrol menu_complete
@@ -19,8 +23,8 @@ setopt extended_history share_history hist_expire_dups_first hist_ignore_dups \
 # Configure completion paths before compinit.
 typeset -U fpath FPATH
 fpath=(
-  /opt/homebrew/share/zsh/site-functions
-  /opt/homebrew/share/zsh-completions
+  ${HOMEBREW_PREFIX:+"$HOMEBREW_PREFIX/share/zsh/site-functions"}
+  ${HOMEBREW_PREFIX:+"$HOMEBREW_PREFIX/share/zsh-completions"}
   $fpath
 )
 
@@ -55,17 +59,11 @@ bindkey '^ ' forward-word
 
 # Run zsh-autosuggestions history scan asynchronously (snappier prompt).
 ZSH_AUTOSUGGEST_USE_ASYNC=1
-for _zas in /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh \
-            $HOME/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh; do
+for _zas in ${HOMEBREW_PREFIX:+"$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"} \
+            "$HOME/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"; do
   [[ -r $_zas ]] && { source "$_zas"; break; }
 done
 unset _zas
-
-# ---- shell env ----
-
-# Resolve the repo from this file's symlink target so any clone location works.
-_dotfiles=${${(%):-%x}:A:h:h}
-source "$_dotfiles/shell/env"
 
 # ---- shell integrations ----
 
@@ -110,7 +108,8 @@ FZF_CTRL_R_COMMAND='' _cached_init fzf --zsh 2>/dev/null
 
 # atuin — sqlite-backed shell history (binds ctrl-R; overrides fzf's).
 # --disable-up-arrow keeps plain ↑ for prefix-search via zsh history.
-_cached_init atuin init zsh --disable-up-arrow
+# Atuin's generated bindings depend on ATUIN_NOBIND, so they are per-shell.
+eval "$(atuin init zsh --disable-up-arrow)"
 
 # zoxide — smart cd (`z <partial-path>` jumps to frecent dirs)
 _cached_init zoxide init zsh
@@ -144,8 +143,8 @@ source "$_dotfiles/shell/aliases"
 unset _dotfiles _zsh_cache
 
 # zsh-syntax-highlighting — MUST be near the end, after all other widgets.
-for _zsh_hl in /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh \
-               $HOME/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh; do
+for _zsh_hl in ${HOMEBREW_PREFIX:+"$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"} \
+               "$HOME/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"; do
   [[ -r $_zsh_hl ]] && { source "$_zsh_hl"; break; }
 done
 unset _zsh_hl

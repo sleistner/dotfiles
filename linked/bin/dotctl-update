@@ -96,9 +96,13 @@ step "$REPO/setup"
 # zshrc sources the Homebrew copies, falling back to ~/.zsh/plugins (Linux).
 section "zsh plugins"
 
+brew_share=""
+if command -v brew >/dev/null 2>&1; then
+  brew_share="$(brew --prefix)/share" || die "brew --prefix failed"
+fi
 for name in zsh-autosuggestions zsh-syntax-highlighting; do
   dest="$HOME/.zsh/plugins/$name"
-  if [ -r "/opt/homebrew/share/$name/$name.zsh" ] || [ -d "$dest" ]; then
+  if { [ -n "$brew_share" ] && [ -r "$brew_share/$name/$name.zsh" ]; } || [ -d "$dest" ]; then
     printf '  %s already installed.\n' "$name"
   else
     step "clone $name"

@@ -382,7 +382,7 @@ Interactive zsh startup is ~130ms. Key tricks in `linked/zshrc` and
   security check and the dump is rebuilt at most once a day.
 - No zsh framework: options, history, key bindings and the handful of git/ls
   aliases in use live directly in `linked/zshrc`.
-- Init output of direnv, fzf, atuin, zoxide and starship is cached in
+- Init output of direnv, fzf, zoxide and starship is cached in
   `~/.cache/zsh` and regenerated when the binary changes (`_cached_init`).
 - `typeset -U path PATH` and `typeset -U fpath FPATH` dedupe executable
   and completion paths, including in nested shells.
@@ -391,5 +391,5 @@ Interactive zsh startup is ~130ms. Key tricks in `linked/zshrc` and
   runs only in interactive shells. Shims select tool versions but do not
   load mise environment variables or hooks.
 - fzf's Ctrl-R binding is disabled; Atuin owns history search.
-- Homebrew paths hard-coded (`/opt/homebrew/opt/<pkg>/bin`) — no
-  `brew --prefix` subshells on startup.
+- Homebrew's prefix is detected in the login shell (or from standard install
+  paths in non-login shells); no `brew --prefix` subshells on startup.

@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Shared helpers for install/install-{macos,linux}.sh. Sourced, not run.
 
 REPO_URL_SSH="git@github.com:sleistner/dotfiles.git"
@@ -10,7 +11,7 @@ c_yellow=$'\033[1;33m'
 c_reset=$'\033[0m'
 
 step() { printf "\n%s==>%s %s\n" "$c_blue" "$c_reset" "$1"; }
-ok()   { printf "%s✓%s %s\n" "$c_green" "$c_reset" "$1"; }
+ok() { printf "%s✓%s %s\n" "$c_green" "$c_reset" "$1"; }
 warn() { printf "%s!%s %s\n" "$c_yellow" "$c_reset" "$1"; }
 
 prompt_yes_no() {
@@ -25,7 +26,7 @@ prompt_yes_no() {
   [ -z "$reply" ] && reply="$default"
   case "$reply" in
     [Yy]*) return 0 ;;
-    *)     return 1 ;;
+    *) return 1 ;;
   esac
 }
 
@@ -53,10 +54,13 @@ run_setup_symlinks() {
 
 install_zsh_plugins() {
   step "zsh plugins"
-  local name dest
+  local name dest brew_share=""
+  if command -v brew >/dev/null 2>&1; then
+    brew_share="$(brew --prefix)/share"
+  fi
   for name in zsh-autosuggestions zsh-syntax-highlighting; do
     dest="$HOME/.zsh/plugins/$name"
-    if [ -r "/opt/homebrew/share/$name/$name.zsh" ]; then
+    if [ -n "$brew_share" ] && [ -r "$brew_share/$name/$name.zsh" ]; then
       ok "$name provided by Homebrew"
     elif [ -d "$dest" ]; then
       ok "$name already installed"
