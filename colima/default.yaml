@@ -17,3 +17,7 @@ cpu: 4
 memory: 8
 disk: 100
 runtime: docker
+
+# No bind mount needs host file events, and watching all of $HOME grows
+# fseventsd without bound.
+mountInotify: false
