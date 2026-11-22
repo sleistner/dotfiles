@@ -1,6 +1,12 @@
 {
-  "markdown_preview_font_size": 16.0,
-  "theme": "One Dark",
+  "markdown_preview": {
+    "font_size": 16.0
+  },
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "One Dark"
+  },
   "terminal": { "font_size": 14.0 },
   "cli_default_open_behavior": "existing_window",
   "project_panel": { "dock": "left" },
@@ -17,7 +23,11 @@
     "claude-acp": { "type": "registry" },
   },
   "which_key": { "enabled": false },
-  "icon_theme": "Zed (Default)",
+  "icon_theme": {
+    "mode": "light",
+    "light": "Zed (Default)",
+    "dark": "Zed (Default)"
+  },
   "edit_predictions": { "provider": "copilot" },
   "agent": {
     "dock": "right",
