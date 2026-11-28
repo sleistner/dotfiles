@@ -93,6 +93,9 @@ rows = [
 ]
 # <<< herdr-radar sidebar block
 
+[experimental]
+kitty_graphics = true
+
 # >>> ai-agent-orchestration to-do key (managed by install.sh; edits inside are replaced)
 [[keys.command]]
 key = "prefix+t"

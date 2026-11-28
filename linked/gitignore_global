@@ -5,3 +5,5 @@
 # Personal scratch notes, never committed in any repo
 NOTES.md
 NOTES-*.md
+
+**/.claude/settings.local.json
