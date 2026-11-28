@@ -15,7 +15,7 @@
 # `colima stop && colima start` (the data volume is preserved).
 cpu: 4
 memory: 8
-disk: 100
+disk: 300
 runtime: docker
 
 # No bind mount needs host file events, and watching all of $HOME grows
